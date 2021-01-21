@@ -13,10 +13,6 @@ export default function FaceMorpher() {
   const [image2, setImage2] = useState(null);
   const [morphResponse, setMorphResponse] = useState(null);
 
-  // True if first face button is clicked.
-  // False if second face button is clicked.
-  const [isFirstFace, setIsFirstFace] = useState(false)
- 
   // Effect Hook
   // Allows side effects in function components.
   useEffect(() => {
@@ -43,8 +39,6 @@ export default function FaceMorpher() {
     console.log(result);
 
     if (!result.cancelled) {
-      // Can't change first picture after selecting
-      // Fix later.
         if (image1 == null) {
           setImage1(result.uri)
         }
