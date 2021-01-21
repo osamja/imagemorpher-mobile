@@ -10,3 +10,6 @@ MVP
 - Clicking morph (make API requests to sammyjaved.com), show link to morphed halfway image
 - Show a button that allows user to morph again
 - Publish to App Store (make improvements until accepted)
+
+Before going live
+ - Reenable cors and turn debug to false
