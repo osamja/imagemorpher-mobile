@@ -1,12 +1,11 @@
 // https://docs.expo.io/versions/latest/sdk/imagepicker/
 
 import React, { useState, useEffect } from 'react';
-import { Button, Image, Text, View, Platform } from 'react-native';
+import { Button, Image, Text, View, Platform, StyleSheet, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 
 export default function FaceMorpher() {
-
   // State Hook
   // Allows to use state and features w/o making classes.
   const [image1, setImage1] = useState(null);
@@ -51,7 +50,6 @@ export default function FaceMorpher() {
   async function getMorph(image1, image2) {
     try {
       let data = new FormData();
-
       data.append('Image-1', image1);
       data.append('Image-2', image2);
       data.append('isSequence', 'True');
@@ -72,13 +70,59 @@ export default function FaceMorpher() {
   }
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Button title="Pick the first face from camera roll" onPress={pickImage} />
-      {image1 && <Image source={{ uri: image1 }} style={{ width: 200, height: 200 }} />}
-      <Button title="Pick the second face from camera roll" onPress={pickImage} />
-      {image2 && <Image source={{ uri: image2 }} style={{ width: 200, height: 200 }} />}
-      <Button title="MORPH" onPress={() => getMorph(image1, image2)} />
-      {morphResponse && <Text>{morphResponse}</Text> }
+    <View style={{flex: 1}}>
+      <Text style={styles.title}>Face Morpher</Text>
+      <View style={styles.container}>
+        <TouchableOpacity style={styles.button} onPress={pickImage}>
+          <Text style={styles.mainText}>Pick the first face from camera roll</Text>
+          {image1 && <Image source={{ uri: image1 }} style={styles.img} />}
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={pickImage}>
+          <Text style={styles.mainText}>Pick the second face from camera roll</Text>
+          {image2 && <Image source={{ uri: image2 }} style={styles.img} />}
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.morphBtn} onPress={() => getMorph(image1, image2)}>
+          <Text style={styles.mainText}>MORPH</Text>
+        </TouchableOpacity>
+        {morphResponse && <Text>{morphResponse}</Text> }
+      </View>
     </View>
+
   );
 }
+
+const styles = StyleSheet.create({
+  title: {
+    marginTop: 30,
+    fontSize: 30,
+    textAlign: 'center',
+  },
+  container: {
+    marginTop: 50,
+    flexDirection: 'column',
+    flex: 1,
+  },
+  button:  {
+    backgroundColor: 'black',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+    borderBottomColor: 'white',
+    borderBottomWidth: 5,
+  },
+  mainText: {
+    fontSize: 20,
+    color: 'white',
+    marginBottom: 20,
+  },  
+  img: {
+    width: 300,
+    height: 200,
+  },
+  morphBtn: {
+    backgroundColor: 'black',
+    bottom: 0,
+    justifyContent: 'center',
+    textAlign: 'center',
+  }
+});
