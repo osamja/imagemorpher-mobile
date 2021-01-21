@@ -52,13 +52,17 @@ export default function FaceMorpher() {
       }
   }
 
+  const uploadImage = async (image1, image2) => {
+    console.log('uploadImage called')
+  };
+
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Button title="Pick the first face from camera roll" onPress={pickImage} />
       {image1 && <Image source={{ uri: image1 }} style={{ width: 200, height: 200 }} />}
       <Button title="Pick the second face from camera roll" onPress={pickImage} />
       {image2 && <Image source={{ uri: image2 }} style={{ width: 200, height: 200 }} />}
-      <Button title="MORPH" />
+      <Button title="MORPH" onPress={uploadImage} />
     </View>
   );
 }
