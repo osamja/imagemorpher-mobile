@@ -56,7 +56,7 @@ export default function FaceMorpher() {
       data.append('stepSize', '20');
 
       let response = await fetch(
-        'https://sammyjaved.com/morph', {
+        'http://sammyjaved.com:8090/morph', {
           method: 'POST',
           headers: {
             'Authorization': 'ImageMorpherV1'
