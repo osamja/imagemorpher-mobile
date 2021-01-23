@@ -1,13 +1,14 @@
 // https://docs.expo.io/versions/latest/sdk/imagepicker/
 
 import React, { useState, useEffect } from 'react';
-import { Button, Image, Text, View, Platform, StyleSheet, TouchableOpacity, Linking } from 'react-native';
+import {  Text, Image, View, Platform, StyleSheet, TouchableOpacity, ActivityIndicator, Linking } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 
 export default function FaceMorpher() {
   const [image1, setImage1] = useState(null);
   const [image2, setImage2] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [morphResponse, setMorphResponse] = useState(null);
 
   useEffect(() => {
@@ -31,8 +32,6 @@ export default function FaceMorpher() {
       base64: false,
     });
 
-    console.log(result);
-
     if (!result.cancelled) {
         if (image1 == null) {
           setImage1(result.uri)
@@ -48,9 +47,9 @@ export default function FaceMorpher() {
       let data = new FormData();
       data.append('Image-1', image1);
       data.append('Image-2', image2);
-      data.append('isSequence', 'True');
+      data.append('isSequence', 'False');
       data.append('stepSize', '20');
-
+      setIsLoading(true);
       let response = await fetch(
         'http://sammyjaved.com:8090/morph', {
           method: 'POST',
@@ -60,7 +59,11 @@ export default function FaceMorpher() {
           body: data,
         }
       );
-      setMorphResponse(await response.text());
+      setIsLoading(false)
+      const text = await response.text();
+      setMorphResponse(text)
+      console.log(text)
+      //text && Linking.openURL(text);
     } catch (error) {
       console.error(error);
     }
@@ -80,6 +83,7 @@ export default function FaceMorpher() {
         </TouchableOpacity>
         <TouchableOpacity style={styles.morphBtn} onPress={() => getMorph(image1, image2)}>
           <Text style={styles.mainText}>MORPH</Text>
+          {isLoading && <ActivityIndicator size="large"/>}
         </TouchableOpacity>
       </View>
     </View>
@@ -120,5 +124,8 @@ const styles = StyleSheet.create({
     bottom: 0,
     justifyContent: 'center',
     textAlign: 'center',
-  }
+  },
+  hide: {
+    display: 'none',
+  },
 });
