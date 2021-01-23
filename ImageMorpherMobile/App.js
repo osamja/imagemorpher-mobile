@@ -5,10 +5,45 @@ import {  Text, Image, View, Platform, StyleSheet, TouchableOpacity, ActivityInd
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 
-export default function FaceMorpher() {
+function MorphStateButton({
+  isLoading,
+  isSuccess,
+  isFailure,
+  morphResponse
+}) {
+  if (isLoading) {
+    return (
+      <Fragment>
+        <Text style={styles.mainText}>MORPH <ActivityIndicator size="large"/></Text>
+      </Fragment>
+    )
+  }
+
+  if (isSuccess && morphResponse) {
+    return (
+      <Fragment>
+        <Text style={styles.mainText}>
+          {morphResponse}
+        </Text>
+      </Fragment>
+    )
+  }
+
+  if (isFailure) {
+    return <Text style={styles.mainText}>MORPH FAILED</Text>
+  }
+
+  return <Text style={styles.mainText}>MORPH</Text>
+}
+
+export default function FaceMorpher({
+
+}) {
   const [image1, setImage1] = useState(null);
   const [image2, setImage2] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isFailure, setIsFailure] = useState(false);
   const [morphResponse, setMorphResponse] = useState(null);
 
   useEffect(() => {
@@ -49,7 +84,11 @@ export default function FaceMorpher() {
       data.append('Image-2', image2);
       data.append('isSequence', 'False');
       data.append('stepSize', '20');
+      // Correct
       setIsLoading(true);
+      setIsSuccess(false);
+      setIsFailure(false);
+      setMorphResponse(null);
       let response = await 
         fetch(
           'http://sammyjaved.com:8090/morph', {
@@ -70,35 +109,29 @@ export default function FaceMorpher() {
           }
           catch (err) {
             console.log(err.message)
+            setIsLoading(false);
+            setIsSuccess(false);
+            setIsFailure(true);
+            setMorphResponse(null);
             return 'WHATEVER_YOU_WANT_TO_RETURN'
           }
         })
         .then (resJson => {
           // On success, hide the loading spinner
           setIsLoading(false);
+          setIsSuccess(true);
+          setIsFailure(false);
+          setMorphResponse(resJson);
           return resJson.data
         })
         .catch(err => console.log(err))
       // const text = await response.text();
       // await response.text() && 
-      setMorphResponse(text)
-      console.log(text)
+      
       //text && Linking.openURL(text);
     } catch (error) {
       console.error(error);
     }
-  }
-
-  function MorphStateButton({isLoading}) {
-    if (isLoading) {
-      return (
-        <Fragment>
-          <Text style={styles.mainText}>MORPH <ActivityIndicator size="large"/></Text>
-        </Fragment>
-      )
-    }
-
-    return <Text style={styles.mainText}>MORPH</Text>
   }
 
   return (
@@ -114,11 +147,15 @@ export default function FaceMorpher() {
           {image2 && <Image source={{ uri: image2 }} style={styles.img} />}
         </TouchableOpacity>
         <TouchableOpacity style={styles.morphBtn} onPress={() => getMorph(image1, image2)}>
-          <MorphStateButton isLoading={isLoading} />
+          <MorphStateButton 
+            isLoading={isLoading}
+            isSuccess={isSuccess}
+            isFailure={isFailure} 
+            morphResponse={morphResponse}
+          />
         </TouchableOpacity>
       </View>
     </View>
-
   );
 }
 
