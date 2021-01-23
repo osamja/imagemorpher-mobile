@@ -1,19 +1,15 @@
 // https://docs.expo.io/versions/latest/sdk/imagepicker/
 
 import React, { useState, useEffect } from 'react';
-import { Button, Image, Text, View, Platform, StyleSheet, TouchableOpacity } from 'react-native';
+import { Button, Image, Text, View, Platform, StyleSheet, TouchableOpacity, Linking } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 
 export default function FaceMorpher() {
-  // State Hook
-  // Allows to use state and features w/o making classes.
   const [image1, setImage1] = useState(null);
   const [image2, setImage2] = useState(null);
   const [morphResponse, setMorphResponse] = useState(null);
 
-  // Effect Hook
-  // Allows side effects in function components.
   useEffect(() => {
     (async () => {
       if (Platform.OS !== 'web') {
@@ -64,6 +60,7 @@ export default function FaceMorpher() {
           body: data,
         }
       );
+      setMorphResponse(await response.text());
     } catch (error) {
       console.error(error);
     }
@@ -84,7 +81,6 @@ export default function FaceMorpher() {
         <TouchableOpacity style={styles.morphBtn} onPress={() => getMorph(image1, image2)}>
           <Text style={styles.mainText}>MORPH</Text>
         </TouchableOpacity>
-        {morphResponse && <Text>{morphResponse}</Text> }
       </View>
     </View>
 
