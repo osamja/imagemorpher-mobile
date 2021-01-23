@@ -1,6 +1,6 @@
 // https://docs.expo.io/versions/latest/sdk/imagepicker/
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import {  Text, Image, View, Platform, StyleSheet, TouchableOpacity, ActivityIndicator, Linking } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
@@ -50,23 +50,55 @@ export default function FaceMorpher() {
       data.append('isSequence', 'False');
       data.append('stepSize', '20');
       setIsLoading(true);
-      let response = await fetch(
-        'http://sammyjaved.com:8090/morph', {
-          method: 'POST',
-          headers: {
-            'Authorization': 'ImageMorpherV1'
-          },
-          body: data,
-        }
-      );
-      setIsLoading(false)
-      const text = await response.text();
+      let response = await 
+        fetch(
+          'http://sammyjaved.com:8090/morph', {
+            method: 'POST',
+            headers: {
+              'Authorization': 'ImageMorpherV1'
+            },
+            body: data,
+          } 
+        )
+        .then(res => {
+          try {
+            if (res.ok) {
+              return res.json()
+            } else {
+              throw new Error(res)
+            }
+          }
+          catch (err) {
+            console.log(err.message)
+            return 'WHATEVER_YOU_WANT_TO_RETURN'
+          }
+        })
+        .then (resJson => {
+          // On success, hide the loading spinner
+          setIsLoading(false);
+          return resJson.data
+        })
+        .catch(err => console.log(err))
+      // const text = await response.text();
+      // await response.text() && 
       setMorphResponse(text)
       console.log(text)
       //text && Linking.openURL(text);
     } catch (error) {
       console.error(error);
     }
+  }
+
+  function MorphStateButton({isLoading}) {
+    if (isLoading) {
+      return (
+        <Fragment>
+          <Text style={styles.mainText}>MORPH <ActivityIndicator size="large"/></Text>
+        </Fragment>
+      )
+    }
+
+    return <Text style={styles.mainText}>MORPH</Text>
   }
 
   return (
@@ -82,8 +114,7 @@ export default function FaceMorpher() {
           {image2 && <Image source={{ uri: image2 }} style={styles.img} />}
         </TouchableOpacity>
         <TouchableOpacity style={styles.morphBtn} onPress={() => getMorph(image1, image2)}>
-          <Text style={styles.mainText}>MORPH</Text>
-          {isLoading && <ActivityIndicator size="large"/>}
+          <MorphStateButton isLoading={isLoading} />
         </TouchableOpacity>
       </View>
     </View>
