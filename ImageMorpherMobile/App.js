@@ -3,7 +3,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import {  Text, Image, View, Platform, StyleSheet, TouchableOpacity, ActivityIndicator, Linking } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import Constants from 'expo-constants';
 
 function MorphStateButton({
   isLoading,
@@ -14,7 +13,7 @@ function MorphStateButton({
   if (isLoading) {
     return (
       <Fragment>
-        <Text style={styles.mainText}>MORPH <ActivityIndicator size="large"/></Text>
+        <Text style={styles.mainText}>MORPHING IMAGES <ActivityIndicator size="large"/></Text>
       </Fragment>
     )
   }
@@ -22,7 +21,8 @@ function MorphStateButton({
   if (isSuccess && morphResponse) {
     return (
       <Fragment>
-        <Text style={styles.mainText}>
+        <Text style={styles.mainText}
+          onPress={() => Linking.openURL(morphResponse.toString())}>
           {morphResponse}
         </Text>
       </Fragment>
@@ -113,7 +113,7 @@ export default function FaceMorpher({
             setIsSuccess(false);
             setIsFailure(true);
             setMorphResponse(null);
-            return 'WHATEVER_YOU_WANT_TO_RETURN'
+            return 'MORPH FAILED'
           }
         })
         .then (resJson => {
@@ -192,8 +192,5 @@ const styles = StyleSheet.create({
     bottom: 0,
     justifyContent: 'center',
     textAlign: 'center',
-  },
-  hide: {
-    display: 'none',
   },
 });
