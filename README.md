@@ -27,21 +27,6 @@ MVP
 - text set to "MORPH FAILED"
 - after ~3s delay, reset to default state. 
 
-
-
-- Clicking morph button will
- - If default state
-  - run the getMorph function
-  - set text to "OPEN MORPHED" or "MORPH FAILED"
-  - change onClick to open linked image.
- - If loading state
-  - disable onClick
-  - set text to "LOADING"
- - If success state
-  - set text to "MORPH"
-  
-- 
-
 Before going live
  - Reenable cors and turn debug to false
 
