@@ -15,15 +15,15 @@ MVP
 - onPress runs getMorph function 
 - onPress set to open linked image.
 
-** Loading state **
+**Loading state**
 - text set to "LOADING"
 - onPress disabled
 
-** Success state **
+**Success state**
 - text set to "GET MORPHED IMAGE"
 - onPress set to open linked image & resets to default state.
 
-** Failure state **
+**Failure state**
 - text set to "MORPH FAILED"
 - after ~3s delay, reset to default state. 
 
