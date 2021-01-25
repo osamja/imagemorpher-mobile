@@ -4,11 +4,13 @@ import React, { useState, useEffect, Fragment } from 'react';
 import {  Text, Image, View, Platform, StyleSheet, TouchableOpacity, ActivityIndicator, Linking } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 
+
+
 function MorphStateButton({
   isLoading,
   isSuccess,
   isFailure,
-  morphResponse
+  morphResponse,
 }) {
   if (isLoading) {
     return (
@@ -30,10 +32,17 @@ function MorphStateButton({
   }
 
   if (isFailure) {
+    if (image1 == null) {
+
+    }
     return <Text style={styles.mainText}>MORPH FAILED</Text>
   }
 
-  return <Text style={styles.mainText}>MORPH</Text>
+  return (
+  <Text style={styles.mainText}>
+    MORPH
+  </Text>
+  )
 }
 
 export default function FaceMorpher({
@@ -75,6 +84,26 @@ export default function FaceMorpher({
           setImage2(result.uri)
         }
       }
+  }
+
+  function MorphStateButton2({
+    isLoading,
+    isSuccess,
+    isFailure,
+    morphResponse,
+    image1,
+    image2,
+  }) {
+    return (
+      <Fragment>
+        <Text style={styles.mainText}>
+          {isLoading && <Text>MORPHING IMAGES</Text> && <ActivityIndicator size="large"/>}
+          {isSuccess && morphResponse && <Text onPress={() => Linking.openURL(morphResponse.toString())}>GET MORPHED IMAGE</Text>}
+          {isFailure && <Text>MORPH FAILED</Text>}
+          {image1 && image2 && !morphResponse && <Text onPress={() => getMorph(image1, image2)}>MORPH</Text>}
+        </Text>   
+      </Fragment>
+    )
   }
 
   async function getMorph(image1, image2) {
@@ -146,12 +175,14 @@ export default function FaceMorpher({
           <Text style={styles.mainText}>Pick the second face from camera roll</Text>
           {image2 && <Image source={{ uri: image2 }} style={styles.img} />}
         </TouchableOpacity>
-        <TouchableOpacity style={styles.morphBtn} onPress={() => getMorph(image1, image2)}>
-          <MorphStateButton 
+        <TouchableOpacity style={styles.morphBtn}>
+          <MorphStateButton2 
             isLoading={isLoading}
             isSuccess={isSuccess}
             isFailure={isFailure} 
             morphResponse={morphResponse}
+            image1={image1}
+            image2={image2}
           />
         </TouchableOpacity>
       </View>
