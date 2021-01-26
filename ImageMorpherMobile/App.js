@@ -53,13 +53,31 @@ export default function FaceMorpher({
     image1,
     image2,
   }) {
+    if (isLoading) {
+      return (
+        <Fragment>
+          <Text style={styles.mainText}>
+            MORPHING IMAGES
+            <ActivityIndicator size="small"/>
+          </Text>
+        </Fragment>
+      )
+    }
+
+    if (isSuccess && morphResponse) {
+      return (
+        <Text onPress={() => Linking.openURL(morphResponse.toString())}>GET MORPHED IMAGE</Text>
+      )
+    }
+
+    if (isFailure) {
+      return <Text>MORPH FAILED</Text>
+    }
+
     return (
       <Fragment>
         <Text style={styles.mainText}>
-          {isLoading && <Text>MORPHING IMAGES</Text> && <ActivityIndicator size="large"/>}
-          {isSuccess && morphResponse && <Text onPress={() => Linking.openURL(morphResponse.toString())}>GET MORPHED IMAGE</Text>}
-          {isFailure && <Text>MORPH FAILED</Text>}
-          {image1 && image2 && !morphResponse && <Text onPress={() => getMorph(image1, image2)}>MORPH</Text>}
+          {!morphResponse && <Text onPress={() => getMorph(image1, image2)}>MORPH</Text>}
         </Text>   
       </Fragment>
     )
