@@ -4,47 +4,6 @@ import React, { useState, useEffect, Fragment } from 'react';
 import {  Text, Image, View, Platform, StyleSheet, TouchableOpacity, ActivityIndicator, Linking } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 
-
-
-function MorphStateButton({
-  isLoading,
-  isSuccess,
-  isFailure,
-  morphResponse,
-}) {
-  if (isLoading) {
-    return (
-      <Fragment>
-        <Text style={styles.mainText}>MORPHING IMAGES <ActivityIndicator size="large"/></Text>
-      </Fragment>
-    )
-  }
-
-  if (isSuccess && morphResponse) {
-    return (
-      <Fragment>
-        <Text style={styles.mainText}
-          onPress={() => Linking.openURL(morphResponse.toString())}>
-          {morphResponse}
-        </Text>
-      </Fragment>
-    )
-  }
-
-  if (isFailure) {
-    if (image1 == null) {
-
-    }
-    return <Text style={styles.mainText}>MORPH FAILED</Text>
-  }
-
-  return (
-  <Text style={styles.mainText}>
-    MORPH
-  </Text>
-  )
-}
-
 export default function FaceMorpher({
 
 }) {
