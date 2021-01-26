@@ -127,11 +127,11 @@ export default function FaceMorpher({
       <Text style={styles.title}>Face Morpher</Text>
       <View style={styles.container}>
         <TouchableOpacity style={styles.button} onPress={pickImage}>
-          <Text style={styles.mainText}>Pick the first face from camera roll</Text>
+          {!image1 && <Image source={require('./test-images/camera.svg')} style={styles.camera} />}
           {image1 && <Image source={{ uri: image1 }} style={styles.img} />}
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={pickImage}>
-          <Text style={styles.mainText}>Pick the second face from camera roll</Text>
+          {!image2 && <Image source={require('./test-images/camera.svg')} style={styles.camera} />}
           {image2 && <Image source={{ uri: image2 }} style={styles.img} />}
         </TouchableOpacity>
         <TouchableOpacity style={styles.morphBtn}>
@@ -161,7 +161,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   button:  {
-    backgroundColor: 'black',
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
@@ -170,15 +169,17 @@ const styles = StyleSheet.create({
   },
   mainText: {
     fontSize: 20,
-    color: 'white',
     marginBottom: 20,
   },  
   img: {
-    width: 300,
+    width: 200,
     height: 200,
   },
+  camera: {
+    width: 200,
+    height: 150,
+  },
   morphBtn: {
-    backgroundColor: 'black',
     bottom: 0,
     justifyContent: 'center',
     textAlign: 'center',
