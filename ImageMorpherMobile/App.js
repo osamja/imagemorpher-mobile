@@ -45,7 +45,7 @@ export default function FaceMorpher({
       }
   }
 
-  function MorphStateButton2({
+  function getMorphButton({
     isLoading,
     isSuccess,
     isFailure,
@@ -55,18 +55,20 @@ export default function FaceMorpher({
   }) {
     if (isLoading) {
       return (
-        <Fragment>
+        <TouchableOpacity style={styles.morphBtn}>
           <Text style={styles.mainText}>
             MORPHING IMAGES
             <ActivityIndicator size="small"/>
           </Text>
-        </Fragment>
+        </TouchableOpacity>
       )
     }
 
     if (isSuccess && morphResponse) {
       return (
-        <Text onPress={() => Linking.openURL(morphResponse.toString())}>GET MORPHED IMAGE</Text>
+        <TouchableOpacity onPress={() => Linking.openURL(morphResponse.toString()) } style={styles.morphBtn}>
+        <Text >GET MORPHED IMAGE</Text>
+        </TouchableOpacity>
       )
     }
 
@@ -75,11 +77,11 @@ export default function FaceMorpher({
     }
 
     return (
-      <Fragment>
+      <TouchableOpacity onPress={() => getMorph(image1, image2)} style={styles.morphBtn}>
         <Text style={styles.mainText}>
-          {!morphResponse && <Text onPress={() => getMorph(image1, image2)}>MORPH</Text>}
+          {!morphResponse && <Text >MORPH</Text>}
         </Text>   
-      </Fragment>
+      </TouchableOpacity>
     )
   }
 
@@ -152,16 +154,14 @@ export default function FaceMorpher({
           {!image2 && <Image source={require('./test-images/camera.svg')} style={styles.camera} />}
           {image2 && <Image source={{ uri: image2 }} style={styles.img} />}
         </TouchableOpacity>
-        <TouchableOpacity style={styles.morphBtn}>
-          <MorphStateButton2 
-            isLoading={isLoading}
-            isSuccess={isSuccess}
-            isFailure={isFailure} 
-            morphResponse={morphResponse}
-            image1={image1}
-            image2={image2}
-          />
-        </TouchableOpacity>
+        <getMorphButton 
+          isLoading={isLoading}
+          isSuccess={isSuccess}
+          isFailure={isFailure} 
+          morphResponse={morphResponse}
+          image1={image1}
+          image2={image2}
+        />
       </View>
     </View>
   );
