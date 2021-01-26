@@ -3,6 +3,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import {  Text, Image, View, Platform, StyleSheet, TouchableOpacity, ActivityIndicator, Linking } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import * as WebBrowser from 'expo-web-browser';
 
 export default function FaceMorpher({
 
@@ -45,7 +46,7 @@ export default function FaceMorpher({
       }
   }
 
-  function getMorphButton({
+  function MorphStateButton({
     isLoading,
     isSuccess,
     isFailure,
@@ -66,7 +67,7 @@ export default function FaceMorpher({
 
     if (isSuccess && morphResponse) {
       return (
-        <TouchableOpacity onPress={() => Linking.openURL(morphResponse.toString()) } style={styles.morphBtn}>
+        <TouchableOpacity onPress={() => WebBrowser.openBrowserAsync(morphResponse.toString()) } style={styles.morphBtn}>
         <Text >GET MORPHED IMAGE</Text>
         </TouchableOpacity>
       )
@@ -154,7 +155,7 @@ export default function FaceMorpher({
           {!image2 && <Image source={require('./test-images/camera.svg')} style={styles.camera} />}
           {image2 && <Image source={{ uri: image2 }} style={styles.img} />}
         </TouchableOpacity>
-        <getMorphButton 
+        <MorphStateButton 
           isLoading={isLoading}
           isSuccess={isSuccess}
           isFailure={isFailure} 
