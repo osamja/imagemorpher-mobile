@@ -144,17 +144,25 @@ export default function FaceMorpher({
     }
   }
 
+
+  const camera = <Image source={require('./test-images/camera.png')} style={styles.camera} />;
+  const check_mark = <Image source={require('./test-images/success-green-check-mark.png')} style={styles.checkMark} />
+
   return (
     <View style={{flex: 1}}>
       <Text style={styles.title}>Face Morpher</Text>
       <View style={styles.container}>
         <TouchableOpacity style={styles.uploadBtn} onPress={pickImage}>
-          {!image1 && <Image source={require('./test-images/camera.png')} style={styles.camera} />}
-          {image1 && <Image source={{ uri: image1 }} style={styles.img} />}
+          <View style={{flexDirection:'row', alignItems:'center'}}>
+            {camera}
+            {image1 && check_mark}
+          </View>
         </TouchableOpacity>
         <TouchableOpacity style={styles.uploadBtn} onPress={pickImage}>
-          {!image2 && <Image source={require('./test-images/camera.png')} style={styles.camera} />}
-          {image2 && <Image source={{ uri: image2 }} style={styles.img} />}
+        <View style={{flexDirection:'row', alignItems:'center'}}>
+            {camera}
+            {image2 && check_mark}
+          </View>
         </TouchableOpacity>
         <MorphStateButton 
           isLoading={isLoading}
@@ -198,7 +206,12 @@ const styles = StyleSheet.create({
   camera: {
     width: 75,
     height: 50,
+    marginRight: 50,
   },
+  checkMark: {
+    width: 30,
+    height: 30,
+  },  
   morphBtn: {
     bottom: 0,
     justifyContent: 'center',
