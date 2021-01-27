@@ -4,6 +4,8 @@ import React, { useState, useEffect, Fragment } from 'react';
 import {  Text, Image, View, Platform, StyleSheet, TouchableOpacity, ActivityIndicator, Linking } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as WebBrowser from 'expo-web-browser';
+import { ImageManipulator } from 'expo';
+
 
 export default function FaceMorpher({
 
@@ -38,10 +40,12 @@ export default function FaceMorpher({
 
     if (!result.cancelled) {
         if (image1 == null) {
-          setImage1(result.uri)
+          setImage1(result.uri);
+          console.log(result.uri);
         }
         else {
-          setImage2(result.uri)
+          setImage2(result.uri);
+          console.log(result.uri);
         }
       }
   }
@@ -54,6 +58,8 @@ export default function FaceMorpher({
     image1,
     image2,
   }) {
+
+
     if (isLoading) {
       return (
         <TouchableOpacity style={styles.morphBtn}>
@@ -66,9 +72,11 @@ export default function FaceMorpher({
     }
 
     if (isSuccess && morphResponse) {
+      morphResponse = morphResponse.toString();
       return (
-        <TouchableOpacity onPress={() => WebBrowser.openBrowserAsync(morphResponse.toString()) } style={styles.morphBtn}>
-        <Text style={styles.morphBtnTxt}>GET MORPHED IMAGE</Text>
+        <TouchableOpacity onPress={() => async() => await WebBrowser.openBrowserAsync(res) } style={styles.morphBtn}>
+          <Text style={styles.morphBtnTxt}>{morphResponse}</Text>
+          <Text style={styles.morphBtnTxt}>GET MORPHED IMAGE</Text>
         </TouchableOpacity>
       )
     }
@@ -132,10 +140,6 @@ export default function FaceMorpher({
           return resJson.data
         })
         .catch(err => console.log(err))
-      // const text = await response.text();
-      // await response.text() && 
-      
-      //text && Linking.openURL(text);
     } catch (error) {
       console.error(error);
     }
@@ -169,7 +173,7 @@ export default function FaceMorpher({
 const styles = StyleSheet.create({
   title: {
     marginTop: 30,
-    fontSize: 30,
+    fontSize: 35,
     textAlign: 'center',
   },
   container: {
@@ -185,17 +189,16 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   morphBtnTxt: {
-    fontSize: 30,
-    marginBottom: 20,
+    fontSize: 25,
     textAlign: 'center',
   },  
   img: {
-    width: 200,
-    height: 200,
+    width: 100,
+    height: 100,
   },
   camera: {
-    width: 100,
-    height: 75,
+    width: 75,
+    height: 50,
   },
   morphBtn: {
     bottom: 0,
