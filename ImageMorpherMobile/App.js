@@ -57,7 +57,7 @@ export default function FaceMorpher({
     if (isLoading) {
       return (
         <TouchableOpacity style={styles.morphBtn}>
-          <Text style={styles.mainText}>
+          <Text style={styles.morphBtnTxt}>
             MORPHING IMAGES
             <ActivityIndicator size="small"/>
           </Text>
@@ -68,7 +68,7 @@ export default function FaceMorpher({
     if (isSuccess && morphResponse) {
       return (
         <TouchableOpacity onPress={() => WebBrowser.openBrowserAsync(morphResponse.toString()) } style={styles.morphBtn}>
-        <Text >GET MORPHED IMAGE</Text>
+        <Text style={styles.morphBtnTxt}>GET MORPHED IMAGE</Text>
         </TouchableOpacity>
       )
     }
@@ -79,9 +79,7 @@ export default function FaceMorpher({
 
     return (
       <TouchableOpacity onPress={() => getMorph(image1, image2)} style={styles.morphBtn}>
-        <Text style={styles.mainText}>
-          {!morphResponse && <Text >MORPH</Text>}
-        </Text>   
+          {!morphResponse && <Text style={styles.morphBtnTxt}>MORPH</Text>}
       </TouchableOpacity>
     )
   }
@@ -147,11 +145,11 @@ export default function FaceMorpher({
     <View style={{flex: 1}}>
       <Text style={styles.title}>Face Morpher</Text>
       <View style={styles.container}>
-        <TouchableOpacity style={styles.button} onPress={pickImage}>
+        <TouchableOpacity style={styles.uploadBtn} onPress={pickImage}>
           {!image1 && <Image source={require('./test-images/camera.svg')} style={styles.camera} />}
           {image1 && <Image source={{ uri: image1 }} style={styles.img} />}
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={pickImage}>
+        <TouchableOpacity style={styles.uploadBtn} onPress={pickImage}>
           {!image2 && <Image source={require('./test-images/camera.svg')} style={styles.camera} />}
           {image2 && <Image source={{ uri: image2 }} style={styles.img} />}
         </TouchableOpacity>
@@ -179,15 +177,15 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     flex: 1,
   },
-  button:  {
+  uploadBtn:  {
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
-    borderBottomColor: 'white',
-    borderBottomWidth: 5,
+    borderColor: 'black',
+    borderWidth: 1,
   },
-  mainText: {
-    fontSize: 20,
+  morphBtnTxt: {
+    fontSize: 30,
     marginBottom: 20,
   },  
   img: {
@@ -195,12 +193,13 @@ const styles = StyleSheet.create({
     height: 200,
   },
   camera: {
-    width: 200,
-    height: 150,
+    width: 150,
+    height: 100,
   },
   morphBtn: {
     bottom: 0,
     justifyContent: 'center',
     textAlign: 'center',
+    flex: 1,
   },
 });
