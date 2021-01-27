@@ -72,9 +72,8 @@ export default function FaceMorpher({
     }
 
     if (isSuccess && morphResponse) {
-      morphResponse = morphResponse.toString();
       return (
-        <TouchableOpacity onPress={() => async() => await WebBrowser.openBrowserAsync(res) } style={styles.morphBtn}>
+        <TouchableOpacity onPress={() => WebBrowser.openBrowserAsync(morphResponse.toString()) } style={styles.morphBtn}>
           <Text style={styles.morphBtnTxt}>{morphResponse}</Text>
           <Text style={styles.morphBtnTxt}>GET MORPHED IMAGE</Text>
         </TouchableOpacity>
