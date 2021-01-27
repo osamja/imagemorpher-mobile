@@ -146,11 +146,11 @@ export default function FaceMorpher({
       <Text style={styles.title}>Face Morpher</Text>
       <View style={styles.container}>
         <TouchableOpacity style={styles.uploadBtn} onPress={pickImage}>
-          {!image1 && <Image source={require('./test-images/camera.svg')} style={styles.camera} />}
+          {!image1 && <Image source={require('./test-images/camera.png')} style={styles.camera} />}
           {image1 && <Image source={{ uri: image1 }} style={styles.img} />}
         </TouchableOpacity>
         <TouchableOpacity style={styles.uploadBtn} onPress={pickImage}>
-          {!image2 && <Image source={require('./test-images/camera.svg')} style={styles.camera} />}
+          {!image2 && <Image source={require('./test-images/camera.png')} style={styles.camera} />}
           {image2 && <Image source={{ uri: image2 }} style={styles.img} />}
         </TouchableOpacity>
         <MorphStateButton 
@@ -187,19 +187,19 @@ const styles = StyleSheet.create({
   morphBtnTxt: {
     fontSize: 30,
     marginBottom: 20,
+    textAlign: 'center',
   },  
   img: {
     width: 200,
     height: 200,
   },
   camera: {
-    width: 150,
-    height: 100,
+    width: 100,
+    height: 75,
   },
   morphBtn: {
     bottom: 0,
     justifyContent: 'center',
-    textAlign: 'center',
     flex: 1,
   },
 });
