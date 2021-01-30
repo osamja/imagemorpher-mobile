@@ -35,17 +35,25 @@ export default function FaceMorpher({
       aspect: [4, 3],
       // Quality of compression. (0 - 1.0).
       quality: 1,
-      base64: false,
+      base64: true,
     });
 
     if (!result.cancelled) {
         if (image1 == null) {
-          setImage1(result.uri);
-          console.log(result.uri);
+          if (result.base64) {
+            setImage1(result.base64)
+          } else {
+            setImage1(result.uri);
+            console.log(result.uri);
+          }
         }
         else {
-          setImage2(result.uri);
-          console.log(result.uri);
+          if (result.base64) {
+            setImage2(result.base64)
+          } else {
+            setImage2(result.uri);
+            console.log(result.uri);
+          }
         }
       }
   }
