@@ -96,14 +96,20 @@ export default function FaceMorpher({
     if (isSuccess && morphResponse) {
       return (
         <TouchableOpacity onPress={() => morphPressed()} style={styles.morphBtn}>
-          <Text style={styles.morphBtnTxt}>{morphResponse}</Text>
           <Text style={styles.morphBtnTxt}>GET MORPHED IMAGE</Text>
         </TouchableOpacity>
       ) 
     }
 
     if (isFailure) {
-      return <Text>MORPH FAILED</Text>
+      return (
+        <TouchableOpacity onPress={() => setInitialStates()} style={styles.morphBtn}> 
+          <Text style={styles.morphBtnTxt}>MORPH FAILED
+            <Image source={require('./test-images/reset-update.png')} style={styles.reset}></Image>
+          </Text>
+      </TouchableOpacity>
+      )
+
     }
 
     return (
@@ -153,11 +159,14 @@ export default function FaceMorpher({
           }
         })
         .then (resJson => {
-          // On success, hide the loading spinner
-          setIsLoading(false);
-          setIsSuccess(true);
-          setIsFailure(false);
-          setMorphResponse(resJson);
+          if (resJson != 'MORPH FAILED') {
+            // On success, hide the loading spinner
+            setIsLoading(false);
+            setIsSuccess(true);
+            setIsFailure(false);
+            setMorphResponse(resJson);
+            return resJson.data
+          }
           return resJson.data
         })
         .catch(err => console.log(err))
@@ -225,14 +234,18 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
   },
+  reset: {
+    width: 30,
+    height: 30,
+  },
   camera: {
     width: 75,
     height: 50,
-    marginRight: 50,
   },
   checkMark: {
     width: 30,
     height: 30,
+    marginLeft: 20,
   },  
   morphBtn: {
     bottom: 0,
