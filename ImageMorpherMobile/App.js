@@ -44,7 +44,7 @@ export default function FaceMorpher({
             setImage1(result.base64)
           } else {
             setImage1(result.uri);
-            console.log(result.uri);
+            // console.log(result.uri);
           }
         }
         else {
@@ -52,7 +52,7 @@ export default function FaceMorpher({
             setImage2(result.base64)
           } else {
             setImage2(result.uri);
-            console.log(result.uri);
+            // console.log(result.uri);
           }
         }
       }
@@ -120,6 +120,10 @@ export default function FaceMorpher({
   }
 
   async function getMorph(image1, image2) {
+    if (!image1 || !image2) {
+      return;
+    }
+
     try {
       let data = new FormData();
       data.append('Image-1', image1);
@@ -155,18 +159,15 @@ export default function FaceMorpher({
             setIsSuccess(false);
             setIsFailure(true);
             setMorphResponse(null);
-            return 'MORPH FAILED'
+            throw err;
           }
         })
         .then (resJson => {
-          if (resJson != 'MORPH FAILED') {
-            // On success, hide the loading spinner
-            setIsLoading(false);
-            setIsSuccess(true);
-            setIsFailure(false);
-            setMorphResponse(resJson);
-            return resJson.data
-          }
+          // On success, hide the loading spinner
+          setIsLoading(false);
+          setIsSuccess(true);
+          setIsFailure(false);
+          setMorphResponse(resJson);
           return resJson.data
         })
         .catch(err => console.log(err))
