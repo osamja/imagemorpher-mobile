@@ -58,6 +58,15 @@ export default function FaceMorpher({
       }
   }
 
+  function setInitialStates() {
+    setImage1(null)
+    setImage2(null)
+    setMorphResponse(null)
+    setIsFailure(false)
+    setIsLoading(false)
+    setIsSuccess(false)
+  }
+
   function MorphStateButton({
     isLoading,
     isSuccess,
@@ -79,13 +88,18 @@ export default function FaceMorpher({
       )
     }
 
+    function morphPressed() {
+      setInitialStates()
+      WebBrowser.openBrowserAsync(morphResponse.toString())
+    }
+
     if (isSuccess && morphResponse) {
       return (
-        <TouchableOpacity onPress={() => WebBrowser.openBrowserAsync(morphResponse.toString()) } style={styles.morphBtn}>
+        <TouchableOpacity onPress={() => morphPressed()} style={styles.morphBtn}>
           <Text style={styles.morphBtnTxt}>{morphResponse}</Text>
           <Text style={styles.morphBtnTxt}>GET MORPHED IMAGE</Text>
         </TouchableOpacity>
-      )
+      ) 
     }
 
     if (isFailure) {
