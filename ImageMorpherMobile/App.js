@@ -88,15 +88,10 @@ export default function FaceMorpher({
       )
     }
 
-    function morphPressed() {
-      setInitialStates()
-      WebBrowser.openBrowserAsync(morphResponse.toString())
-    }
-
     if (isSuccess && morphResponse) {
       return (
-        <TouchableOpacity onPress={() => morphPressed()} style={styles.morphBtn}>
-          <Text style={styles.morphBtnTxt}>GET MORPHED IMAGE</Text>
+        <TouchableOpacity onPress={() => setInitialStates()} style={styles.morphBtn}>
+            <Image source={require('./test-images/reset-update.png')} style={styles.reset}></Image>
         </TouchableOpacity>
       ) 
     }
@@ -179,23 +174,36 @@ export default function FaceMorpher({
 
   const camera = <Image source={require('./test-images/camera.png')} style={styles.camera} />;
   const check_mark = <Image source={require('./test-images/success-green-check-mark.png')} style={styles.checkMark} />
+  const defaultView = 
+    <Fragment>
+      <TouchableOpacity style={styles.uploadBtn} onPress={pickImage}>
+        <View style={{flexDirection:'row', alignItems:'center'}}>
+          {camera}
+          {image1 && check_mark}
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.uploadBtn} onPress={pickImage}>
+      <View style={{flexDirection:'row', alignItems:'center'}}>
+          {camera}
+          {image2 && check_mark}
+        </View>
+      </TouchableOpacity>
+    </Fragment>
+
+  function getMorphedImg(morphResponse) {
+    return (
+      <View style={styles.morphImgBox}>
+      <Image source={{uri: morphResponse.toString()}} style={styles.morphedImg}></Image>
+    </View>
+    )
+  } 
 
   return (
     <View style={{flex: 1}}>
       <Text style={styles.title}>Face Morpher</Text>
       <View style={styles.container}>
-        <TouchableOpacity style={styles.uploadBtn} onPress={pickImage}>
-          <View style={{flexDirection:'row', alignItems:'center'}}>
-            {camera}
-            {image1 && check_mark}
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.uploadBtn} onPress={pickImage}>
-        <View style={{flexDirection:'row', alignItems:'center'}}>
-            {camera}
-            {image2 && check_mark}
-          </View>
-        </TouchableOpacity>
+        {!morphResponse && defaultView}
+        {morphResponse && getMorphedImg(morphResponse)}
         <MorphStateButton 
           isLoading={isLoading}
           isSuccess={isSuccess}
@@ -236,8 +244,8 @@ const styles = StyleSheet.create({
     height: 100,
   },
   reset: {
-    width: 30,
-    height: 30,
+    width: 40,
+    height: 40,
   },
   camera: {
     width: 75,
@@ -251,6 +259,18 @@ const styles = StyleSheet.create({
   morphBtn: {
     bottom: 0,
     justifyContent: 'center',
+    alignItems: 'center',
     flex: 1,
+  },
+  morphImgBox: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 2,
+    borderColor: 'black',
+    borderWidth: 1,
+  },
+  morphedImg: {
+    width: 300,
+    height: 300,
   },
 });
