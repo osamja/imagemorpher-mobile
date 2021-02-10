@@ -4,6 +4,7 @@ import React, { useState, useEffect, Fragment } from 'react';
 import {  Text, Image, View, Platform, StyleSheet, TouchableOpacity, ActivityIndicator, Linking } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as WebBrowser from 'expo-web-browser';
+import * as Sharing from 'expo-sharing'
 import { ImageManipulator } from 'expo';
 
 
@@ -27,6 +28,15 @@ export default function FaceMorpher({
       }
     })();
   }, []);
+
+  let openShareDialogAsync = async() => {
+    if (!(await Sharing.isAvailableAsync())) {
+      alert("Uh oh sharing isn't available on your platform");
+      return;
+    }
+
+    await Sharing.shareAsync({morphResponse})
+  };
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -90,9 +100,9 @@ export default function FaceMorpher({
 
     if (isSuccess && morphResponse) {
       return (
-        <TouchableOpacity onPress={() => setInitialStates()} style={styles.morphBtn}>
-            <Image source={require('./test-images/reset-update.png')} style={styles.reset}></Image>
-        </TouchableOpacity>
+          <TouchableOpacity onPress={() => setInitialStates()} style={styles.morphBtn}>
+              <Image source={require('./test-images/reset-update.png')} style={styles.reset}></Image>
+          </TouchableOpacity>
       ) 
     }
 
@@ -194,6 +204,9 @@ export default function FaceMorpher({
     return (
       <View style={styles.morphImgBox}>
       <Image source={{uri: morphResponse.toString()}} style={styles.morphedImg}></Image>
+      <TouchableOpacity onPress={openShareDialogAsync} style={styles.shareBtn}>
+          <Text style={styles.morphBtnTxt}>SHARE</Text>
+      </TouchableOpacity>
     </View>
     )
   } 
@@ -273,4 +286,7 @@ const styles = StyleSheet.create({
     width: 300,
     height: 300,
   },
+  shareBtn: {
+    marginTop: 20,
+  }
 });
