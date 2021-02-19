@@ -34,7 +34,7 @@ export default function FaceMorpher({
       allowsEditing: true,
       aspect: [4, 3],
       // Quality of compression. (0 - 1.0).
-      quality: 1,
+      quality: 0.2,
       base64: true,
     });
 
