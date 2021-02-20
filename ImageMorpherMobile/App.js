@@ -76,6 +76,67 @@ export default function FaceMorpher({
     image2,
   }) {
 
+    useEffect((image1, image2) => {
+      async function getMorphImg(image1, image2) {
+        if (!image1 || !image2) {
+          return;
+        }
+    
+        try {
+          let data = new FormData();
+          data.append('Image-1', image1);
+          data.append('Image-2', image2);
+          data.append('isSequence', 'False');
+          data.append('stepSize', '20');
+          // Correct
+          setIsLoading(true);
+          setIsSuccess(false);
+          setIsFailure(false);
+          setMorphResponse(null);
+          let response = await 
+            fetch(
+              'http://sammyjaved.com:8090/morph', {
+                method: 'POST',
+                headers: {
+                  'Authorization': 'ImageMorpherV1'
+                },
+                body: data,
+              } 
+            )
+            .then(res => {
+              try {
+                if (res.ok) {
+                  return res.json()
+                } else {
+                  throw new Error(res)
+                }
+              }
+              catch (err) {
+                console.log(err.message)
+                setIsLoading(false);
+                setIsSuccess(false);
+                setIsFailure(true);
+                setMorphResponse(null);
+                throw err;
+              }
+            })
+            .then (resJson => {
+              // On success, hide the loading spinner
+              setIsLoading(false);
+              setIsSuccess(true);
+              setIsFailure(false);
+              setMorphResponse(resJson);
+              return resJson.data
+            })
+            .catch(err => console.log(err))
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      getMorphImg(image1, image2);
+    }, [isFailure, isLoading, isSuccess]);
+
 
     if (isLoading) {
       return (
@@ -108,67 +169,10 @@ export default function FaceMorpher({
     }
 
     return (
-      <TouchableOpacity onPress={() => getMorph(image1, image2)} style={styles.morphBtn}>
+      <TouchableOpacity onPress={() => setIsLoading(true)} style={styles.morphBtn}>
           {!morphResponse && <Text style={styles.morphBtnTxt}>MORPH</Text>}
       </TouchableOpacity>
     )
-  }
-
-  async function getMorph(image1, image2) {
-    if (!image1 || !image2) {
-      return;
-    }
-
-    try {
-      let data = new FormData();
-      data.append('Image-1', image1);
-      data.append('Image-2', image2);
-      data.append('isSequence', 'False');
-      data.append('stepSize', '20');
-      // Correct
-      setIsLoading(true);
-      setIsSuccess(false);
-      setIsFailure(false);
-      setMorphResponse(null);
-      let response = await 
-        fetch(
-          'http://sammyjaved.com:8090/morph', {
-            method: 'POST',
-            headers: {
-              'Authorization': 'ImageMorpherV1'
-            },
-            body: data,
-          } 
-        )
-        .then(res => {
-          try {
-            if (res.ok) {
-              return res.json()
-            } else {
-              throw new Error(res)
-            }
-          }
-          catch (err) {
-            console.log(err.message)
-            setIsLoading(false);
-            setIsSuccess(false);
-            setIsFailure(true);
-            setMorphResponse(null);
-            throw err;
-          }
-        })
-        .then (resJson => {
-          // On success, hide the loading spinner
-          setIsLoading(false);
-          setIsSuccess(true);
-          setIsFailure(false);
-          setMorphResponse(resJson);
-          return resJson.data
-        })
-        .catch(err => console.log(err))
-    } catch (error) {
-      console.error(error);
-    }
   }
 
 
