@@ -17,6 +17,7 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.sammyjaved.imagemorpher",
       "supportsTablet": true
     },
     "android": {
