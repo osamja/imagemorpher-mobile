@@ -194,7 +194,7 @@ export default function FaceMorpher({
   return (
       <LinearGradient
         // Background Linear Gradient
-        colors={['#09203f', '#537895']}
+        colors={['#fbc2eb', '#a6c1ee']}
         style={styles.background}>
       <Text style={styles.title}>Face Morpher</Text>
       <View style={styles.container}>
