@@ -2893,7 +2893,7 @@
   "resolved" "https://registry.npmjs.org/expo-keep-awake/-/expo-keep-awake-8.4.0.tgz"
   "version" "8.4.0"
 
-"expo-linear-gradient@~8.4.0":
+"expo-linear-gradient@^8.4.0", "expo-linear-gradient@~8.4.0":
   "integrity" "sha512-f9JOXaIl0MR8RBYRIud5UAsEi52oz81XhQs73VUpujemHjOyHmrZa6dqwf399YOwI/WBwbpcINcUIw/mCYE1mA=="
   "resolved" "https://registry.npmjs.org/expo-linear-gradient/-/expo-linear-gradient-8.4.0.tgz"
   "version" "8.4.0"

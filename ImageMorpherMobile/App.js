@@ -4,6 +4,8 @@ import React, { useState, useEffect, Fragment } from 'react';
 import {  Text, Image, View, Platform, StyleSheet, TouchableOpacity, ActivityIndicator, Linking, Button } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as WebBrowser from 'expo-web-browser';
+import { LinearGradient } from 'expo-linear-gradient';
+
 // import { ImageManipulator } from 'expo';
 
 
@@ -204,20 +206,26 @@ export default function FaceMorpher({
   } 
 
   return (
-    <View style={{flex: 1}}>
-      <Text style={styles.title}>Face Morpher</Text>
-      <View style={styles.container}>
-        {!morphResponse && defaultView}
-        {morphResponse && getMorphedImg(morphResponse)}
-        <MorphStateButton 
-          isLoading={isLoading}
-          isSuccess={isSuccess}
-          isFailure={isFailure} 
-          morphResponse={morphResponse}
-          image1={image1}
-          image2={image2}
-        />
-      </View>
+    <View style={styles.container}>
+      {/* <LinearGradient
+        // Button Linear Gradient
+        colors={['rgba(0,0,0,0.8)', 'transparent']}
+        // style={styles.background}
+      > */}
+          <Text style={styles.title}>Face Morphers</Text>
+          <View>
+            {!morphResponse && defaultView}
+            {morphResponse && getMorphedImg(morphResponse)}
+            <MorphStateButton 
+              isLoading={isLoading}
+              isSuccess={isSuccess}
+              isFailure={isFailure} 
+              morphResponse={morphResponse}
+              image1={image1}
+              image2={image2}
+            />
+          </View>
+      {/* </LinearGradient> */}
     </View>
   );
 }
