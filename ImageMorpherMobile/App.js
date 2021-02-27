@@ -3,7 +3,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import {  Text, Image, View, Platform, StyleSheet, TouchableOpacity, ActivityIndicator, Linking } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-// import * as WebBrowser from 'expo-web-browser';
+import * as WebBrowser from 'expo-web-browser';
 // import { ImageManipulator } from 'expo';
 
 
@@ -191,11 +191,8 @@ export default function FaceMorpher({
     </Fragment>
 
   function getMorphedImg(morphResponse) {
-    return (
-      <View style={styles.morphImgBox}>
-      <Image source={{uri: morphResponse.toString()}} style={styles.morphedImg}></Image>
-    </View>
-    )
+      setInitialStates()
+      WebBrowser.openBrowserAsync(morphResponse.toString())
   } 
 
   return (
