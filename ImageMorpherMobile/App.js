@@ -80,8 +80,8 @@ export default function FaceMorpher({
 
     if (isLoading) {
       return (
-        <TouchableOpacity style={styles.morphBtn}>
-          <Text style={styles.morphBtnTxt}>
+        <TouchableOpacity style={styles.morphArea}>
+          <Text style={styles.morphBtn}>
             MORPHING IMAGES
             <ActivityIndicator size="small"/>
           </Text>
@@ -91,7 +91,7 @@ export default function FaceMorpher({
 
     if (isSuccess && morphResponse) {
       return (
-        <TouchableOpacity onPress={() => setInitialStates()} style={styles.morphBtn}>
+        <TouchableOpacity onPress={() => setInitialStates()} style={styles.morphArea}>
             <Image source={require('./test-images/reset-update.png')} style={styles.reset}></Image>
         </TouchableOpacity>
       ) 
@@ -99,8 +99,8 @@ export default function FaceMorpher({
 
     if (isFailure) {
       return (
-        <TouchableOpacity onPress={() => setInitialStates()} style={styles.morphBtn}> 
-          <Text style={styles.morphBtnTxt}>MORPH FAILED
+        <TouchableOpacity onPress={() => setInitialStates()} style={styles.morphArea}> 
+          <Text style={styles.morphAreaTxt}>MORPH FAILED
             <Image source={require('./test-images/reset-update.png')} style={styles.reset}></Image>
           </Text>
       </TouchableOpacity>
@@ -110,15 +110,15 @@ export default function FaceMorpher({
 
     if (!image1 || !image2) {
       return (
-        <TouchableOpacity style={styles.morphBtn}>
-          {!morphResponse && <Button disabled onPress={() => getMorph(image1, image2)} style={styles.morphBtnTxt} title="MORPH" />}
+        <TouchableOpacity style={styles.morphArea}>
+          {!morphResponse && <TouchableOpacity style={styles.morphBtn} disabled>MORPH</TouchableOpacity>}
         </TouchableOpacity>
       )
     }
 
     return (
-      <TouchableOpacity style={styles.morphBtn}>
-        {!morphResponse && <Button onPress={() => getMorph(image1, image2)} style={styles.morphBtnTxt} title="MORPH" />}
+      <TouchableOpacity style={styles.morphArea}>
+        {!morphResponse && <TouchableOpacity style={styles.morphBtn}  onPress={() => getMorph(image1, image2)}>MORPH</TouchableOpacity>}
       </TouchableOpacity>
     )
   }
@@ -185,13 +185,13 @@ export default function FaceMorpher({
   const check_mark = <Image source={require('./test-images/success-green-check-mark.png')} style={styles.checkMark} />
   const defaultView = 
     <Fragment>
-      <TouchableOpacity style={styles.uploadBtn} onPress={pickImage}>
+      <TouchableOpacity style={styles.uploadArea} onPress={pickImage}>
         <View style={{flexDirection:'row', alignItems:'center'}}>
           {camera}
           {image1 && check_mark}
         </View>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.uploadBtn} onPress={pickImage}>
+      <TouchableOpacity style={styles.uploadArea} onPress={pickImage}>
       <View style={{flexDirection:'row', alignItems:'center'}}>
           {camera}
           {image2 && check_mark}
@@ -234,24 +234,18 @@ const styles = StyleSheet.create({
     marginTop: 30,
     fontSize: 35,
     textAlign: 'center',
-    fontFamily: 'System',
-    color: 'rgba(28, 28, 30)'
+    color: 'rgba(28, 28, 30)',
   },
   container: {
     marginTop: 50,
     flexDirection: 'column',
     flex: 1,
   },
-  uploadBtn:  {
+  uploadArea:  {
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
-    borderColor: 'black',
   },
-  morphBtnTxt: {
-    fontSize: 25,
-    textAlign: 'center',
-  },  
   img: {
     width: 100,
     height: 100,
@@ -269,13 +263,14 @@ const styles = StyleSheet.create({
     height: 30,
     marginLeft: 20,
   },  
-  morphBtn: {
+  morphArea: {
     bottom: 0,
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
   },
-  morphBtnTxt: {
-    fontSize: 30,
+  morphBtn: {
+    fontSize: 25,
+    textAlign: 'center',
   }
 });
