@@ -5,8 +5,6 @@ import {  Text, Image, View, Platform, StyleSheet, TouchableOpacity, ActivityInd
 import * as ImagePicker from 'expo-image-picker';
 import * as WebBrowser from 'expo-web-browser';
 import {LinearGradient} from 'expo-linear-gradient'
-// import { ImageManipulator } from 'expo';
-
 
 export default function FaceMorpher({
 
@@ -17,17 +15,6 @@ export default function FaceMorpher({
   const [isSuccess, setIsSuccess] = useState(false);
   const [isFailure, setIsFailure] = useState(false);
   const [morphResponse, setMorphResponse] = useState(null);
-
-  useEffect(() => {
-    (async () => {
-      if (Platform.OS !== 'web') {
-        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (status !== 'granted') {
-          alert('Sorry, we need camera roll permissions to make this work!');
-        }
-      }
-    })();
-  }, []);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -185,18 +172,18 @@ export default function FaceMorpher({
   const check_mark = <Image source={require('./test-images/success-green-check-mark.png')} style={styles.checkMark} />
   const defaultView = 
     <Fragment>
-      <TouchableOpacity style={styles.uploadArea} onPress={pickImage}>
-        <View style={{flexDirection:'row', alignItems:'center'}}>
+      <View style={styles.uploadArea} >
+        <TouchableOpacity style={styles.uploadBtn} onPress={pickImage}>
           {camera}
           {image1 && check_mark}
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.uploadArea} onPress={pickImage}>
-      <View style={{flexDirection:'row', alignItems:'center'}}>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.uploadArea} >
+        <TouchableOpacity style={styles.uploadBtn} onPress={pickImage}>
           {camera}
           {image2 && check_mark}
-        </View>
-      </TouchableOpacity>
+        </TouchableOpacity>
+      </View>
     </Fragment>
 
   function getMorphedImg(morphResponse) {
@@ -207,7 +194,7 @@ export default function FaceMorpher({
   return (
       <LinearGradient
         // Background Linear Gradient
-        colors={['#fbc2eb', '#a6c1ee', 'transparent']}
+        colors={['#09203f', '#537895']}
         style={styles.background}>
       <Text style={styles.title}>Face Morpher</Text>
       <View style={styles.container}>
@@ -234,7 +221,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
     fontSize: 35,
     textAlign: 'center',
-    color: 'rgba(28, 28, 30)',
+    color: 'white',
   },
   container: {
     marginTop: 50,
@@ -246,9 +233,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
   },
-  img: {
-    width: 100,
-    height: 100,
+  uploadBtn: {
+    flexDirection:'row', 
+    backgroundColor: 'white',
+    width: 200,
+    height: 200,
   },
   reset: {
     width: 40,
@@ -270,7 +259,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   morphBtn: {
-    fontSize: 25,
+    fontSize: 30,
     textAlign: 'center',
+    color: 'white',
+    fontFamily: 'System',
   }
 });
