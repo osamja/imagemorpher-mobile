@@ -1,7 +1,7 @@
 // https://docs.expo.io/versions/latest/sdk/imagepicker/
 
 import React, { useState, useEffect, Fragment } from 'react';
-import {  Text, Image, View, Platform, StyleSheet, TouchableOpacity, ActivityIndicator, Linking } from 'react-native';
+import {  Text, Image, View, Platform, StyleSheet, TouchableOpacity, ActivityIndicator, Linking, Button } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as WebBrowser from 'expo-web-browser';
 // import { ImageManipulator } from 'expo';
@@ -107,9 +107,17 @@ export default function FaceMorpher({
 
     }
 
+    if (!image1 || !image2) {
+      return (
+        <TouchableOpacity style={styles.morphBtn}>
+          {!morphResponse && <Button disabled onPress={() => getMorph(image1, image2)} style={styles.morphBtnTxt} title="MORPH" />}
+        </TouchableOpacity>
+      )
+    }
+
     return (
-      <TouchableOpacity onPress={() => getMorph(image1, image2)} style={styles.morphBtn}>
-          {!morphResponse && <Text style={styles.morphBtnTxt}>MORPH</Text>}
+      <TouchableOpacity style={styles.morphBtn}>
+        {!morphResponse && <Button onPress={() => getMorph(image1, image2)} style={styles.morphBtnTxt} title="MORPH" />}
       </TouchableOpacity>
     )
   }
