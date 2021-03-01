@@ -95,19 +95,27 @@ export default function FaceMorpher({
 
     }
 
-    if (!image1 || !image2) {
+    if (!image1 || !image2 && !morphResponse) {
       return (
         <TouchableOpacity style={styles.morphArea}>
-          {!morphResponse && <TouchableOpacity style={styles.morphBtn} disabled>MORPH</TouchableOpacity>}
+            <TouchableOpacity style={styles.morphBtn} disabled>
+              <Text>MORPH</Text>
+            </TouchableOpacity>
         </TouchableOpacity>
       )
     }
 
-    return (
-      <TouchableOpacity style={styles.morphArea}>
-        {!morphResponse && <TouchableOpacity style={styles.morphBtn}  onPress={() => getMorph(image1, image2)}>MORPH</TouchableOpacity>}
-      </TouchableOpacity>
-    )
+    if (!morphResponse) {
+      return (
+        <TouchableOpacity style={styles.morphArea}>
+          <TouchableOpacity style={styles.morphBtn}  onPress={() => getMorph(image1, image2)}>
+            <Text>MORPH</Text>
+          </TouchableOpacity>
+        </TouchableOpacity>
+      )
+    }
+
+    return (null);
   }
 
   async function getMorph(image1, image2) {
@@ -195,21 +203,23 @@ export default function FaceMorpher({
       <LinearGradient
         // Background Linear Gradient
         colors={['#fbc2eb', '#a6c1ee']}
-        style={styles.background}>
-      <Text style={styles.title}>Face Morpher</Text>
-      <View style={styles.container}>
-        {!morphResponse && defaultView}
-        {morphResponse && getMorphedImg(morphResponse)}
-        <MorphStateButton 
-          isLoading={isLoading}
-          isSuccess={isSuccess}
-          isFailure={isFailure} 
-          morphResponse={morphResponse}
-          image1={image1}
-          image2={image2}
-        />
+        style={styles.background}
+      >
+        <Text style={styles.title}>Face Morpher</Text>
+        <View style={styles.container}>
+          {!morphResponse && defaultView}
+          {morphResponse && 
+            <Text>getMorphedImg(morphResponse)</Text>}
+          <MorphStateButton 
+            isLoading={isLoading}
+            isSuccess={isSuccess}
+            isFailure={isFailure} 
+            morphResponse={morphResponse}
+            image1={image1}
+            image2={image2}
+          />
         </View>
-        </LinearGradient>
+    </LinearGradient>
   );
 }
 
