@@ -4,17 +4,13 @@ import React, { useState, useEffect, Fragment } from 'react';
 import {  Text, Image, View, Platform, StyleSheet, TouchableOpacity, ActivityIndicator, Linking, Button } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as WebBrowser from 'expo-web-browser';
-import {LinearGradient} from 'expo-linear-gradient'
+import {LinearGradient} from 'expo-linear-gradient';
+import { MorphStateButton } from './src/components/MorphStateButton';
 
-export default function FaceMorpher({
-
-}) {
+export default function FaceMorpher() {
   const [image1, setImage1] = useState(null);
   const [image2, setImage2] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [isFailure, setIsFailure] = useState(false);
-  const [morphResponse, setMorphResponse] = useState(null);
+
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -46,135 +42,10 @@ export default function FaceMorpher({
       }
   }
 
-  function setInitialStates() {
-    setImage1(null)
-    setImage2(null)
-    setMorphResponse(null)
-    setIsFailure(false)
-    setIsLoading(false)
-    setIsSuccess(false)
+  function setInitialImageState() {
+    setImage1(null);
+    setImage2(null);
   }
-
-  function MorphStateButton({
-    isLoading,
-    isSuccess,
-    isFailure,
-    morphResponse,
-    image1,
-    image2,
-  }) {
-
-
-    if (isLoading) {
-      return (
-        <TouchableOpacity style={styles.morphArea}>
-          <Text style={styles.morphBtn}>
-            MORPHING IMAGES
-            <ActivityIndicator size="small"/>
-          </Text>
-        </TouchableOpacity>
-      )
-    }
-
-    if (isSuccess && morphResponse) {
-      return (
-        <TouchableOpacity onPress={() => setInitialStates()} style={styles.morphArea}>
-            <Image source={require('./test-images/reset-update.png')} style={styles.reset}></Image>
-        </TouchableOpacity>
-      ) 
-    }
-
-    if (isFailure) {
-      return (
-        <TouchableOpacity onPress={() => setInitialStates()} style={styles.morphArea}> 
-          <Text style={styles.morphAreaTxt}>MORPH FAILED
-            <Image source={require('./test-images/reset-update.png')} style={styles.reset}></Image>
-          </Text>
-      </TouchableOpacity>
-      )
-
-    }
-
-    if (!image1 || !image2 && !morphResponse) {
-      return (
-        <TouchableOpacity style={styles.morphArea}>
-            <TouchableOpacity style={styles.morphBtn} disabled>
-              <Text>MORPH</Text>
-            </TouchableOpacity>
-        </TouchableOpacity>
-      )
-    }
-
-    if (!morphResponse) {
-      return (
-        <TouchableOpacity style={styles.morphArea}>
-          <TouchableOpacity style={styles.morphBtn}  onPress={() => getMorph(image1, image2)}>
-            <Text>MORPH</Text>
-          </TouchableOpacity>
-        </TouchableOpacity>
-      )
-    }
-
-    return (null);
-  }
-
-  async function getMorph(image1, image2) {
-    if (!image1 || !image2) {
-      return;
-    }
-
-    try {
-      let data = new FormData();
-      data.append('Image-1', image1);
-      data.append('Image-2', image2);
-      data.append('isSequence', 'False');
-      data.append('stepSize', '20');
-      // Correct
-      setIsLoading(true);
-      setIsSuccess(false);
-      setIsFailure(false);
-      setMorphResponse(null);
-      let response = await 
-        fetch(
-          'http://sammyjaved.com:8090/morph', {
-            method: 'POST',
-            headers: {
-              'Authorization': 'ImageMorpherV1'
-            },
-            body: data,
-          } 
-        )
-        .then(res => {
-          try {
-            if (res.ok) {
-              return res.json()
-            } else {
-              throw new Error(res)
-            }
-          }
-          catch (err) {
-            console.log(err.message)
-            setIsLoading(false);
-            setIsSuccess(false);
-            setIsFailure(true);
-            setMorphResponse(null);
-            throw err;
-          }
-        })
-        .then (resJson => {
-          // On success, hide the loading spinner
-          setIsLoading(false);
-          setIsSuccess(true);
-          setIsFailure(false);
-          setMorphResponse(resJson);
-          return resJson.data
-        })
-        .catch(err => console.log(err))
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
 
   const camera = <Image source={require('./test-images/camera.png')} style={styles.camera} />;
   const check_mark = <Image source={require('./test-images/success-green-check-mark.png')} style={styles.checkMark} />
@@ -194,11 +65,6 @@ export default function FaceMorpher({
       </View>
     </Fragment>
 
-  function getMorphedImg(morphResponse) {
-      setInitialStates()
-      WebBrowser.openBrowserAsync(morphResponse.toString())
-  } 
-
   return (
       <LinearGradient
         // Background Linear Gradient
@@ -207,16 +73,11 @@ export default function FaceMorpher({
       >
         <Text style={styles.title}>Face Morpher</Text>
         <View style={styles.container}>
-          {!morphResponse && defaultView}
-          {morphResponse && 
-            <Text>getMorphedImg(morphResponse)</Text>}
+          {defaultView}
           <MorphStateButton 
-            isLoading={isLoading}
-            isSuccess={isSuccess}
-            isFailure={isFailure} 
-            morphResponse={morphResponse}
             image1={image1}
             image2={image2}
+            setInitialImageState={setInitialImageState}
           />
         </View>
     </LinearGradient>
