@@ -118,21 +118,21 @@ export function MorphStateButton({
 
     if (!image1 && !image2) {
       return (
-        <TouchableOpacity style={styles.morphArea} >
+        <View style={styles.morphArea} >
           <TouchableOpacity style={styles.morphBtn}>
               <Text style={styles.morphTxt}>Upload 2 images to morph</Text>
           </TouchableOpacity>
-          </TouchableOpacity>
+        </View>
       )
     }
 
     if (!image2) {
       return (
-        <TouchableOpacity style={styles.morphArea} >
+        <View style={styles.morphArea} >
           <TouchableOpacity style={styles.morphBtn}>
               <Text style={styles.morphTxt}>Upload the second image</Text>
           </TouchableOpacity>
-          </TouchableOpacity>
+        </View>
       )
     }
 
