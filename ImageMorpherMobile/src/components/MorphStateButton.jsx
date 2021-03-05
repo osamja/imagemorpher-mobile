@@ -107,13 +107,13 @@ export function MorphStateButton({
 
     if (isFailure) {
       return (
-        <TouchableOpacity style={styles.morphArea}> 
+        <View style={styles.morphArea}> 
           <TouchableOpacity onPress={() => setInitialMorphState()} style={styles.morphBtn}>
             <Text style={styles.morphTxt}>MORPH FAILED
               <Image source={require('../../test-images/reset-update.png')} style={styles.reset}></Image>
             </Text>
           </TouchableOpacity>
-      </TouchableOpacity>
+      </View>
       )
 
     }
