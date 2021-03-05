@@ -1,7 +1,6 @@
 import React, { useState} from 'react';
 import {  View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator} from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
-import {LinearGradient} from 'expo-linear-gradient';
 
 export function MorphStateButton({
     image1,
@@ -115,7 +114,6 @@ export function MorphStateButton({
           </TouchableOpacity>
       </View>
       )
-
     }
 
     if (!image1 && !image2) {

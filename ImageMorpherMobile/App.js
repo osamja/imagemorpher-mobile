@@ -1,7 +1,7 @@
 // https://docs.expo.io/versions/latest/sdk/imagepicker/
 
-import React, { useState, useEffect, Fragment } from 'react';
-import {  Text, Image, View, Platform, StyleSheet, TouchableOpacity, ActivityIndicator, Linking, Button } from 'react-native';
+import React, { useState, Fragment } from 'react';
+import {  Text, Image, View, StyleSheet, TouchableOpacity} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import {LinearGradient} from 'expo-linear-gradient';
 import { MorphStateButton } from './src/components/MorphStateButton';
