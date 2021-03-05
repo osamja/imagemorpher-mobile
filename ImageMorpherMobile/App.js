@@ -5,10 +5,20 @@ import {  Text, Image, View, StyleSheet, TouchableOpacity} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import {LinearGradient} from 'expo-linear-gradient';
 import { MorphStateButton } from './src/components/MorphStateButton';
+import { useFonts } from 'expo-font';
 
 export default function FaceMorpher() {
   const [image1, setImage1] = useState(null);
   const [image2, setImage2] = useState(null);
+
+  const [loaded] = useFonts({
+    Montserrat: require('./assets/fonts/Stick/Stick-Regular.ttf'),
+  });
+
+  if (!loaded) {
+    return null;
+  }
+
 
 
   const pickImage = async () => {
@@ -108,6 +118,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'white',
     fontWeight: 'bold',
+    fontFamily: 'Montserrat', 
+    fontSize: 30,
   },
   container: {
     marginTop: 50,
