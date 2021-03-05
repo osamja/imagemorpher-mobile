@@ -124,6 +124,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: 150,
     height: 150,
+    border: '2px solid yellow',
     borderRadius: 10,
   },
   reset: {
