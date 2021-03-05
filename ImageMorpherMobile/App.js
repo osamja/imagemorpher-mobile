@@ -48,6 +48,7 @@ export default function FaceMorpher() {
 
   const camera = <Image source={require('./test-images/camera.png')} style={styles.camera} />;
   const check_mark = <Image source={require('./test-images/success-green-check-mark.png')} style={styles.checkMark} />
+
   const defaultView = 
     <Fragment>
       <View style={styles.uploadArea} >

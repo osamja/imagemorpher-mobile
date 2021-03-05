@@ -1,6 +1,7 @@
 import React, { useState} from 'react';
 import {  View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator} from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
+import {LinearGradient} from 'expo-linear-gradient';
 
 export function MorphStateButton({
     image1,
@@ -116,12 +117,15 @@ export function MorphStateButton({
     if (!image1 || !image2) {
       return (
         <TouchableOpacity style={styles.morphArea} >
+          <LinearGradient
+          // Background Linear Gradient
+          colors={['#fbc2eb', '#a6c1ee']}
+          >
             <TouchableOpacity style={styles.morphBtn}>
-              <View>
                 Upload 2 images to morph
-              </View>
             </TouchableOpacity>
-        </TouchableOpacity>
+            </LinearGradient>
+          </TouchableOpacity>
       )
     }
 
@@ -153,6 +157,5 @@ export function MorphStateButton({
       border: "1px solid pink",
       borderRadius: 10,
       padding: 50,
-      backgroundColor: 'rgb(212, 212, 212)',
     },
   });
