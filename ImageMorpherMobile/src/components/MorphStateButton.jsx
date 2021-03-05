@@ -85,12 +85,14 @@ export function MorphStateButton({
 
     if (isLoading) {
       return (
-        <TouchableOpacity style={styles.morphArea}>
-          <Text style={styles.morphTxt}>
-            MORPHING IMAGES
-            <ActivityIndicator size="small"/>
-          </Text>
-        </TouchableOpacity>
+        <View style={styles.morphArea}>
+          <View style={styles.morphBtn}>
+            <Text style={styles.morphTxt}>
+              MORPHING IMAGES
+              <ActivityIndicator size="small"/>
+            </Text>
+          </View>
+        </View>
       )
     }
 
@@ -105,9 +107,12 @@ export function MorphStateButton({
 
     if (isFailure) {
       return (
-        <TouchableOpacity onPress={() => setInitialMorphState()} style={styles.morphArea}> 
-          <Text style={styles.morphTxt}>MORPH FAILED</Text>
-            <Image source={require('../../test-images/reset-update.png')} style={styles.reset}></Image>
+        <TouchableOpacity style={styles.morphArea}> 
+          <TouchableOpacity onPress={() => setInitialMorphState()} style={styles.morphBtn}>
+            <Text style={styles.morphTxt}>MORPH FAILED
+              <Image source={require('../../test-images/reset-update.png')} style={styles.reset}></Image>
+            </Text>
+          </TouchableOpacity>
       </TouchableOpacity>
       )
 
@@ -137,6 +142,10 @@ export function MorphStateButton({
   }
 
   const styles = StyleSheet.create({
+    reset: {
+      width: 30,
+      height: 30,
+    },
     morphArea: {
       bottom: 0,
       justifyContent: 'center',
@@ -152,6 +161,6 @@ export function MorphStateButton({
     morphTxt: {
       fontFamily: 'System',
       fontSize: 20,
-      color: 'white',
+      color: 'black',
     }
   });
