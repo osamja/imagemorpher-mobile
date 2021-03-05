@@ -118,7 +118,7 @@ export function MorphStateButton({
 
     }
 
-    if (!image1 || !image2) {
+    if (!image1 && !image2) {
       return (
         <TouchableOpacity style={styles.morphArea} >
           <TouchableOpacity style={styles.morphBtn}>
@@ -128,11 +128,21 @@ export function MorphStateButton({
       )
     }
 
+    if (!image2) {
+      return (
+        <TouchableOpacity style={styles.morphArea} >
+          <TouchableOpacity style={styles.morphBtn}>
+              <Text style={styles.morphTxt}>Upload the second image</Text>
+          </TouchableOpacity>
+          </TouchableOpacity>
+      )
+    }
+
     if (!morphResponse) {
       return (
         <View style={styles.morphArea}>
           <TouchableOpacity style={styles.morphBtn}  onPress={() => getMorph(image1, image2)}>
-            <Text style={styles.morphTxt}>MORPH</Text>
+            <Text style={styles.morphTxt}>Let's morph</Text>
           </TouchableOpacity>
         </View>
       )
