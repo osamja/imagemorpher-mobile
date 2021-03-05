@@ -1,8 +1,5 @@
-import React, { useState, useEffect, Fragment } from 'react';
-import {  Text, Image, View, Platform, StyleSheet, TouchableOpacity, ActivityIndicator, Linking, Button } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
-import * as WebBrowser from 'expo-web-browser';
-import {LinearGradient} from 'expo-linear-gradient'
+import React, { useState} from 'react';
+import {  Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator} from 'react-native';
 
 export function MorphStateButton({
     image1,
@@ -119,7 +116,7 @@ export function MorphStateButton({
       return (
         <TouchableOpacity style={styles.morphArea}>
             <TouchableOpacity style={styles.morphBtn}>
-              <Text>Morph after images uploaded</Text>
+              Upload 2 faces to morph
             </TouchableOpacity>
         </TouchableOpacity>
       )
@@ -139,54 +136,17 @@ export function MorphStateButton({
   }
 
   const styles = StyleSheet.create({
-    background: {
-      flex: 1,
-    },
-    title: {
-      marginTop: 30,
-      fontSize: 35,
-      textAlign: 'center',
-      color: 'white',
-    },
-    container: {
-      marginTop: 50,
-      flexDirection: 'column',
-      flex: 1,
-    },
-    uploadArea:  {
-      justifyContent: 'center',
-      alignItems: 'center',
-      flex: 1,
-    },
-    uploadBtn: {
-      flexDirection:'row', 
-      backgroundColor: 'white',
-      width: 200,
-      height: 200,
-    },
-    reset: {
-      width: 40,
-      height: 40,
-    },
-    camera: {
-      width: 75,
-      height: 50,
-    },
-    checkMark: {
-      width: 30,
-      height: 30,
-      marginLeft: 20,
-    },  
     morphArea: {
       bottom: 0,
       justifyContent: 'center',
       alignItems: 'center',
       flex: 1,
+      border: "1px solid rgb(212, 212, 212)"
     },
     morphBtn: {
       fontSize: 30,
       textAlign: 'center',
       color: 'white',
       fontFamily: 'System',
-    }
+    },
   });
