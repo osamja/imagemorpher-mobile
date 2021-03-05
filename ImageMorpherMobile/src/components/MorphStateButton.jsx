@@ -86,7 +86,7 @@ export function MorphStateButton({
     if (isLoading) {
       return (
         <TouchableOpacity style={styles.morphArea}>
-          <Text style={styles.morphBtn}>
+          <Text style={styles.morphTxt}>
             MORPHING IMAGES
             <ActivityIndicator size="small"/>
           </Text>
@@ -106,9 +106,8 @@ export function MorphStateButton({
     if (isFailure) {
       return (
         <TouchableOpacity onPress={() => setInitialMorphState()} style={styles.morphArea}> 
-          <Text style={styles.morphAreaTxt}>MORPH FAILED
+          <Text style={styles.morphTxt}>MORPH FAILED</Text>
             <Image source={require('../../test-images/reset-update.png')} style={styles.reset}></Image>
-          </Text>
       </TouchableOpacity>
       )
 
@@ -117,14 +116,9 @@ export function MorphStateButton({
     if (!image1 || !image2) {
       return (
         <TouchableOpacity style={styles.morphArea} >
-          <LinearGradient
-          // Background Linear Gradient
-          colors={['#fbc2eb', '#a6c1ee']}
-          >
-            <TouchableOpacity style={styles.morphBtn}>
-                Upload 2 images to morph
-            </TouchableOpacity>
-            </LinearGradient>
+          <TouchableOpacity style={styles.morphBtn}>
+              <Text style={styles.morphTxt}>Upload 2 images to morph</Text>
+          </TouchableOpacity>
           </TouchableOpacity>
       )
     }
@@ -133,7 +127,7 @@ export function MorphStateButton({
       return (
         <View style={styles.morphArea}>
           <TouchableOpacity style={styles.morphBtn}  onPress={() => getMorph(image1, image2)}>
-            Let's morph
+            <Text style={styles.morphTxt}>MORPH</Text>
           </TouchableOpacity>
         </View>
       )
@@ -148,14 +142,16 @@ export function MorphStateButton({
       justifyContent: 'center',
       alignItems: 'center',
       flex: 1,
-      border: "1px solid rgb(212, 212, 212)"
     },
     morphBtn: {
-      fontSize: 30,
-      color: 'white',
-      fontFamily: 'System',
-      border: "1px solid pink",
       borderRadius: 10,
-      padding: 50,
+      padding: 40,
+      borderRadius: 5,
+      borderWidth: 1, 
     },
+    morphTxt: {
+      fontFamily: 'System',
+      fontSize: 20,
+      color: 'white',
+    }
   });

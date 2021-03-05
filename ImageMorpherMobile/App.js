@@ -53,18 +53,28 @@ export default function FaceMorpher() {
     <Fragment>
       <View style={styles.uploadArea} >
         <TouchableOpacity onPress={pickImage}>
-          <View style={styles.uploadImgArea}>
-            {camera}
-            {image1 && check_mark}
-          </View>
+          <LinearGradient
+          // Background Linear Gradient
+          colors={['#fbc2eb', '#a6c1ee']}
+          >
+            <View style={styles.uploadImgArea}>
+              {camera}
+              {image1 && check_mark}
+            </View>
+          </LinearGradient>
         </TouchableOpacity>
       </View>
       <View style={styles.uploadArea} >
         <TouchableOpacity onPress={pickImage}>
-        <View style={styles.uploadImgArea}>
-          {camera}
-          {image2 && check_mark}
-        </View>
+          <LinearGradient
+            // Background Linear Gradient
+            colors={['#fbc2eb', '#a6c1ee']}
+          >
+          <View style={styles.uploadImgArea}>
+            {camera}
+            {image2 && check_mark}
+          </View>
+          </LinearGradient>
         </TouchableOpacity>
       </View>
     </Fragment>
@@ -112,10 +122,8 @@ const styles = StyleSheet.create({
   uploadImgArea: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: 200,
-    height: 200,
-    border: "1px solid pink",
-    backgroundColor: 'rgb(212, 212, 212)',
+    width: 150,
+    height: 150,
     borderRadius: 10,
   },
   reset: {
