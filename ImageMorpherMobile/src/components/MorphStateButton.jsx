@@ -1,5 +1,6 @@
 import React, { useState} from 'react';
-import {  Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator} from 'react-native';
+import {  View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator} from 'react-native';
+import * as WebBrowser from 'expo-web-browser';
 
 export function MorphStateButton({
     image1,
@@ -114,9 +115,11 @@ export function MorphStateButton({
 
     if (!image1 || !image2) {
       return (
-        <TouchableOpacity style={styles.morphArea}>
+        <TouchableOpacity style={styles.morphArea} >
             <TouchableOpacity style={styles.morphBtn}>
-              Upload 2 faces to morph
+              <View>
+                Upload 2 images to morph
+              </View>
             </TouchableOpacity>
         </TouchableOpacity>
       )
@@ -124,11 +127,11 @@ export function MorphStateButton({
 
     if (!morphResponse) {
       return (
-        <TouchableOpacity style={styles.morphArea}>
+        <View style={styles.morphArea}>
           <TouchableOpacity style={styles.morphBtn}  onPress={() => getMorph(image1, image2)}>
-            <Text>Let's morph</Text>
+            Let's morph
           </TouchableOpacity>
-        </TouchableOpacity>
+        </View>
       )
     }
 
@@ -145,8 +148,11 @@ export function MorphStateButton({
     },
     morphBtn: {
       fontSize: 30,
-      textAlign: 'center',
       color: 'white',
       fontFamily: 'System',
+      border: "1px solid pink",
+      borderRadius: 10,
+      padding: 50,
+      backgroundColor: 'rgb(212, 212, 212)',
     },
   });

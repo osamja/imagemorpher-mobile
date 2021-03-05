@@ -3,7 +3,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import {  Text, Image, View, Platform, StyleSheet, TouchableOpacity, ActivityIndicator, Linking, Button } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import * as WebBrowser from 'expo-web-browser';
 import {LinearGradient} from 'expo-linear-gradient';
 import { MorphStateButton } from './src/components/MorphStateButton';
 
@@ -114,7 +113,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: 200,
     height: 200,
-    backgroundColor: 'white',
+    border: "1px solid pink",
+    backgroundColor: 'rgb(212, 212, 212)',
+    borderRadius: 10,
   },
   reset: {
     width: 40,
@@ -129,16 +130,4 @@ const styles = StyleSheet.create({
     height: 30,
     marginLeft: 20,
   },  
-  morphArea: {
-    bottom: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
-  },
-  morphBtn: {
-    fontSize: 30,
-    textAlign: 'center',
-    color: 'white',
-    fontFamily: 'System',
-  }
 });
