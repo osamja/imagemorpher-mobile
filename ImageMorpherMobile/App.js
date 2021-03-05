@@ -52,15 +52,19 @@ export default function FaceMorpher() {
   const defaultView = 
     <Fragment>
       <View style={styles.uploadArea} >
-        <TouchableOpacity style={styles.uploadBtn} onPress={pickImage}>
-          {camera}
-          {image1 && check_mark}
+        <TouchableOpacity onPress={pickImage}>
+          <View style={styles.uploadImgArea}>
+            {camera}
+            {image1 && check_mark}
+          </View>
         </TouchableOpacity>
       </View>
       <View style={styles.uploadArea} >
-        <TouchableOpacity style={styles.uploadBtn} onPress={pickImage}>
+        <TouchableOpacity onPress={pickImage}>
+        <View style={styles.uploadImgArea}>
           {camera}
           {image2 && check_mark}
+        </View>
         </TouchableOpacity>
       </View>
     </Fragment>
@@ -93,6 +97,7 @@ const styles = StyleSheet.create({
     fontSize: 35,
     textAlign: 'center',
     color: 'white',
+    fontWeight: 'bold',
   },
   container: {
     marginTop: 50,
@@ -104,11 +109,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
   },
-  uploadBtn: {
-    flexDirection:'row', 
-    backgroundColor: 'white',
+  uploadImgArea: {
+    justifyContent: 'center',
+    alignItems: 'center',
     width: 200,
     height: 200,
+    backgroundColor: 'white',
   },
   reset: {
     width: 40,
@@ -123,4 +129,16 @@ const styles = StyleSheet.create({
     height: 30,
     marginLeft: 20,
   },  
+  morphArea: {
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+  },
+  morphBtn: {
+    fontSize: 30,
+    textAlign: 'center',
+    color: 'white',
+    fontFamily: 'System',
+  }
 });
