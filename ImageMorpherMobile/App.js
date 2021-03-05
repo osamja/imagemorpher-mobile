@@ -123,16 +123,4 @@ const styles = StyleSheet.create({
     height: 30,
     marginLeft: 20,
   },  
-  morphArea: {
-    bottom: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
-  },
-  morphBtn: {
-    fontSize: 30,
-    textAlign: 'center',
-    color: 'white',
-    fontFamily: 'System',
-  }
 });
