@@ -5,7 +5,8 @@ import * as WebBrowser from 'expo-web-browser';
 export function MorphStateButton({
     image1,
     image2,
-    setInitialImageState
+    setImage1,
+    setImage2,
 }) {
     const [isLoading, setIsLoading] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
@@ -13,7 +14,8 @@ export function MorphStateButton({
     const [morphResponse, setMorphResponse] = useState(null);
 
     function setInitialMorphState() {
-        setInitialImageState();
+        setImage1();
+        setImage2();
         setIsLoading(false);
         setIsSuccess(false);
         setIsFailure(false);
