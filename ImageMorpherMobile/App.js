@@ -58,8 +58,8 @@ export default function FaceMorpher() {
 
   const check_mark = <Image source={require('./test-images/success-green-check-mark.png')} style={styles.checkMark} />
   
-  const uploadBtn = <Image source={require('./test-images/avatar.svg')} style={styles.uploadBtn} />;
-  const isUploadedBtn = <Image source={require('./test-images/green-avatar.svg')} style={styles.uploadBtn} />;
+  const uploadBtn = <Image source={require('./test-images/avatar.png')} style={styles.uploadBtn} />;
+  const isUploadedBtn = <Image source={require('./test-images/avatar-green.png')} style={styles.uploadBtn} />;
 
   const defaultView = 
     <Fragment>
