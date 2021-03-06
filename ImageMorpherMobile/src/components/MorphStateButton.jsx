@@ -161,7 +161,6 @@ export function MorphStateButton({
       flex: 1,
     },
     morphBtn: {
-      border: '2px solid yellow',
       borderRadius: 10,
       borderWidth: 1, 
       backgroundColor: 'white',

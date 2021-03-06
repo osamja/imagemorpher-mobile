@@ -56,8 +56,10 @@ export default function FaceMorpher() {
     setImage2(null);
   }
 
-  const camera = <Image source={require('./test-images/avatar.svg')} style={styles.camera} />;
   const check_mark = <Image source={require('./test-images/success-green-check-mark.png')} style={styles.checkMark} />
+  
+  const uploadBtn = <Image source={require('./test-images/avatar.svg')} style={styles.uploadBtn} />;
+  const isUploadedBtn = <Image source={require('./test-images/green-avatar.svg')} style={styles.uploadBtn} />;
 
   const defaultView = 
     <Fragment>
@@ -70,8 +72,8 @@ export default function FaceMorpher() {
         style={styles.background}
         >
           <View style={styles.uploadImgArea}>
-            {camera}
-            {image1 && check_mark}
+            {!image1 && uploadBtn}
+            {image1 && isUploadedBtn}
           </View>
         </LinearGradient>
         </TouchableOpacity>
@@ -84,8 +86,8 @@ export default function FaceMorpher() {
         style={styles.background}
         >
           <View style={styles.uploadImgArea}>
-            {camera}
-            {image2 && check_mark}
+            {!image2 && uploadBtn}
+            {image2 && isUploadedBtn}
           </View>
         </LinearGradient>
         </TouchableOpacity>
@@ -139,16 +141,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: 150,
     height: 150,
-    border: '2px solid yellow',
     borderRadius: 10,
   },
   reset: {
     width: 40,
     height: 40,
   },
-  camera: {
-    width: 75,
-    height: 50,
+  uploadBtn: {
+    width: 100,
+    height: 75,
   },
   checkMark: {
     width: 30,
