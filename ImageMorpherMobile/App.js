@@ -56,25 +56,38 @@ export default function FaceMorpher() {
     setImage2(null);
   }
 
-  const camera = <Image source={require('./test-images/camera.png')} style={styles.camera} />;
+  const camera = <Image source={require('./test-images/avatar.svg')} style={styles.camera} />;
   const check_mark = <Image source={require('./test-images/success-green-check-mark.png')} style={styles.checkMark} />
 
   const defaultView = 
     <Fragment>
       <View style={styles.uploadArea} >
+
         <TouchableOpacity onPress={pickImage}>
+        <LinearGradient
+        // Background Linear Gradient
+        colors={['#e0c3fc', '#8ec5fc']}
+        style={styles.background}
+        >
           <View style={styles.uploadImgArea}>
             {camera}
             {image1 && check_mark}
           </View>
+        </LinearGradient>
         </TouchableOpacity>
       </View>
       <View style={styles.uploadArea} >
         <TouchableOpacity onPress={pickImage}>
+        <LinearGradient
+        // Background Linear Gradient
+        colors={['#e0c3fc', '#8ec5fc']}
+        style={styles.background}
+        >
           <View style={styles.uploadImgArea}>
             {camera}
             {image2 && check_mark}
           </View>
+        </LinearGradient>
         </TouchableOpacity>
       </View>
     </Fragment>
@@ -82,7 +95,7 @@ export default function FaceMorpher() {
   return (
       <LinearGradient
         // Background Linear Gradient
-        colors={['#30cfd0', '#330867']}
+        colors={['#e0c3fc', '#8ec5fc']}
         style={styles.background}
       >
         <Text style={styles.title}>Face Morpher</Text>
@@ -106,7 +119,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
     fontSize: 35,
     textAlign: 'center',
-    color: 'white',
+    color: 'black',
     fontWeight: 'bold',
     fontFamily: 'Montserrat', 
     fontSize: 30,
