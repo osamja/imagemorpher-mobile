@@ -19,6 +19,7 @@ export function ImageUploadButton({
     
         if (!result.cancelled) {
             if (image == null) {
+                // image picker on iphone works different than web browser
               if (result.base64) {
                 setImage(result.base64)
               } else {
@@ -27,6 +28,11 @@ export function ImageUploadButton({
             }
           }
       }
+
+    // const check_mark = <Image source={require('../../test-images/success-green-check-mark.png')} style={styles.checkMark} />
+    
+    const uploadBtn = <Image source={require('../../test-images/avatar.png')} style={styles.uploadBtn} />;
+    const isUploadedBtn = <Image source={require('../../test-images/avatar-green.png')} style={styles.uploadBtn} />;
 
     return (
         <View style={styles.uploadArea} >
@@ -51,6 +57,7 @@ export function ImageUploadButton({
       justifyContent: 'center',
       alignItems: 'center',
       flex: 1,
+      padding: 10
     },
     uploadImgArea: {
       justifyContent: 'center',
@@ -60,8 +67,9 @@ export function ImageUploadButton({
       borderRadius: 10,
     },
     uploadBtn: {
-      width: 100,
-      height: 75,
+      width: '90%',
+      height: '100%',
+      resizeMode: 'contain'
     },
     checkMark: {
       width: 30,
@@ -69,11 +77,6 @@ export function ImageUploadButton({
       marginLeft: 20,
     },  
   });
-
-  const check_mark = <Image source={require('../../test-images/success-green-check-mark.png')} style={styles.checkMark} />
-  
-  const uploadBtn = <Image source={require('../../test-images/avatar.png')} style={styles.uploadBtn} />;
-  const isUploadedBtn = <Image source={require('../../test-images/avatar-green.png')} style={styles.uploadBtn} />;
 
 
 
