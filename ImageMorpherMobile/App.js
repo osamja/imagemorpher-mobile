@@ -63,28 +63,18 @@ export default function FaceMorpher() {
     <Fragment>
       <View style={styles.uploadArea} >
         <TouchableOpacity onPress={pickImage}>
-          <LinearGradient
-          // Background Linear Gradient
-          colors={['#fbc2eb', '#a6c1ee']}
-          >
-            <View style={styles.uploadImgArea}>
-              {camera}
-              {image1 && check_mark}
-            </View>
-          </LinearGradient>
+          <View style={styles.uploadImgArea}>
+            {camera}
+            {image1 && check_mark}
+          </View>
         </TouchableOpacity>
       </View>
       <View style={styles.uploadArea} >
         <TouchableOpacity onPress={pickImage}>
-          <LinearGradient
-            // Background Linear Gradient
-            colors={['#fbc2eb', '#a6c1ee']}
-          >
           <View style={styles.uploadImgArea}>
             {camera}
             {image2 && check_mark}
           </View>
-          </LinearGradient>
         </TouchableOpacity>
       </View>
     </Fragment>
@@ -92,7 +82,7 @@ export default function FaceMorpher() {
   return (
       <LinearGradient
         // Background Linear Gradient
-        colors={['#fbc2eb', '#a6c1ee']}
+        colors={['#30cfd0', '#330867']}
         style={styles.background}
       >
         <Text style={styles.title}>Face Morpher</Text>

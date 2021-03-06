@@ -87,7 +87,7 @@ export function MorphStateButton({
         <View style={styles.morphArea}>
           <View style={styles.morphBtn}>
             <Text style={styles.morphTxt}>
-              MORPHING IMAGES
+              Morphing Images
               <ActivityIndicator size="small"/>
             </Text>
           </View>
@@ -108,7 +108,7 @@ export function MorphStateButton({
       return (
         <View style={styles.morphArea}> 
           <TouchableOpacity onPress={() => setInitialMorphState()} style={styles.morphBtn}>
-            <Text style={styles.morphTxt}>MORPH FAILED
+            <Text style={styles.morphTxt}>Morph Failed
               <Image source={require('../../test-images/reset-update.png')} style={styles.reset}></Image>
             </Text>
           </TouchableOpacity>
@@ -163,8 +163,12 @@ export function MorphStateButton({
     morphBtn: {
       border: '2px solid yellow',
       borderRadius: 10,
-      padding: 40,
       borderWidth: 1, 
+      backgroundColor: 'white',
+      width: 300,
+      height: 50,
+      justifyContent: 'center',
+      alignItems: 'center',
     },
     morphTxt: {
       fontFamily: 'System',
