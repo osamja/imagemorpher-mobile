@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { Fragment, useState} from 'react';
 import {  View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator} from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
 
@@ -14,7 +14,7 @@ export function MorphStateButton({
     const [morphResponse, setMorphResponse] = useState(null);
 
     function setInitialMorphState() {
-        setImage1();
+        setImage1();  
         setImage2();
         setIsLoading(false);
         setIsSuccess(false);
@@ -23,7 +23,6 @@ export function MorphStateButton({
     }
 
     function getMorphedImg() {
-        setInitialMorphState()
         WebBrowser.openBrowserAsync(morphResponse.toString())
     }
 
@@ -98,12 +97,20 @@ export function MorphStateButton({
     }
 
     if (isSuccess && morphResponse) {
-        getMorphedImg();
-        return (
-        <TouchableOpacity onPress={() => setInitialMorphState()} style={styles.morphArea}>
+      getMorphedImg()
+
+      return (
+        <Fragment>
+          <TouchableOpacity onPress={() => getMorphedImg()} style={styles.morphArea}>
+            <Text style={styles.morphTxt}>
+              Get Morphed Image
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => setInitialMorphState()} style={styles.morphArea}>
             <Image source={require('../../test-images/reset-update.png')} style={styles.reset}></Image>
-        </TouchableOpacity>
-        ) 
+          </TouchableOpacity>
+        </Fragment>
+      ) 
     }
 
     if (isFailure) {
