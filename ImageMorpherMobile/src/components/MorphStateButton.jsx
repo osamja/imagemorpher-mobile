@@ -101,14 +101,19 @@ export function MorphStateButton({
 
       return (
         <Fragment>
-          <TouchableOpacity onPress={() => getMorphedImg()} style={styles.morphArea}>
-            <Text style={styles.morphTxt}>
-              Get Morphed Image
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => setInitialMorphState()} style={styles.morphArea}>
-            <Image source={require('../../test-images/reset-update.png')} style={styles.reset}></Image>
-          </TouchableOpacity>
+          <View style={styles.morphArea}>
+            <View style={styles.morphBtn}>
+              <TouchableOpacity onPress={() => getMorphedImg()} style={styles.morphArea}>
+                <Text style={styles.morphTxt}>
+                  Get Morphed Image
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <TouchableOpacity onPress={() => setInitialMorphState()} style={styles.morphArea}>
+                <Image source={require('../../test-images/reset-update.png')} style={styles.reset}></Image>
+            </TouchableOpacity>
+          </View>
+
         </Fragment>
       ) 
     }
