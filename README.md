@@ -30,9 +30,6 @@ MVP
 Before going live
  - Reenable cors and turn debug to false
 
-Zuby TODO
-
-Sammy TODO
- - update morpher to accept base 64 images
-https://matthewdaly.co.uk/blog/2015/07/04/handling-images-as-base64-strings-with-django-rest-framework/
+* Building the app
+* https://github.com/osamja/imagemorpher-mobile/issues/25
 
