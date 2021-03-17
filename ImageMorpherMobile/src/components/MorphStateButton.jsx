@@ -110,7 +110,7 @@ export function MorphStateButton({
               </TouchableOpacity>
             </View>
             <TouchableOpacity onPress={() => setInitialMorphState()} style={styles.morphArea}>
-                <Image source={require('../../test-images/reset-update.png')} style={styles.reset}></Image>
+                <Image source={require('../../assets/reset-update.png')} style={styles.reset}></Image>
             </TouchableOpacity>
           </View>
 
@@ -123,7 +123,7 @@ export function MorphStateButton({
         <View style={styles.morphArea}> 
           <TouchableOpacity onPress={() => setInitialMorphState()} style={styles.morphBtn}>
             <Text style={styles.morphTxt}>Morph Failed
-              <Image source={require('../../test-images/reset-update.png')} style={styles.reset}></Image>
+              <Image source={require('../../assets/reset-update.png')} style={styles.reset}></Image>
             </Text>
           </TouchableOpacity>
       </View>

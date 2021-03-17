@@ -29,10 +29,10 @@ export function ImageUploadButton({
           }
       }
 
-    // const check_mark = <Image source={require('../../test-images/success-green-check-mark.png')} style={styles.checkMark} />
+    // const check_mark = <Image source={require('../../assets/success-green-check-mark.png')} style={styles.checkMark} />
     
-    const uploadBtn = <Image source={require('../../test-images/avatar.png')} style={styles.uploadBtn} />;
-    const isUploadedBtn = <Image source={require('../../test-images/avatar-green.png')} style={styles.uploadBtn} />;
+    const uploadBtn = <Image source={require('../../assets/avatar.png')} style={styles.uploadBtn} />;
+    const isUploadedBtn = <Image source={require('../../assets/avatar-green.png')} style={styles.uploadBtn} />;
 
     return (
         <View style={styles.uploadArea} >
