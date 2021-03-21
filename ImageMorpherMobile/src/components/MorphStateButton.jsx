@@ -2,6 +2,8 @@ import React, { Fragment, useState} from 'react';
 import {  View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator} from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
 
+import { morph_endpoint } from '../constants/index';
+
 export function MorphStateButton({
     image1,
     image2,
@@ -44,13 +46,13 @@ export function MorphStateButton({
             setMorphResponse(null);
             let response = await 
             fetch(
-                'http://sammyjaved.com:8090/morph', {
+              morph_endpoint, {
                 method: 'POST',
                 headers: {
                     'Authorization': 'ImageMorpherV1'
                 },
                 body: data,
-                } 
+              }
             )
             .then(res => {
                 try {

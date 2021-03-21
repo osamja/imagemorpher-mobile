@@ -1,0 +1,1 @@
+export const morph_endpoint = 'https://sammyjaved.com/morph'
