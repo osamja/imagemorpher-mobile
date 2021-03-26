@@ -178,8 +178,8 @@ export function MorphStateButton({
     },
     morphBtn: {
       borderRadius: 10,
-      borderWidth: 1, 
-      backgroundColor: 'white',
+      borderWidth: 2, 
+      backgroundColor: '#fbfbfb',
       width: 300,
       height: 50,
       justifyContent: 'center',

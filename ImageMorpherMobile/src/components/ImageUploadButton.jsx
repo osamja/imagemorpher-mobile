@@ -35,19 +35,13 @@ export function ImageUploadButton({
     const isUploadedBtn = <Image source={require('../../assets/avatar-green.png')} style={styles.uploadBtn} />;
 
     return (
-        <View style={styles.uploadArea} >
-            <TouchableOpacity onPress={pickImage}>
-                <LinearGradient
-                    // Background Linear Gradient
-                    colors={['#e0c3fc', '#8ec5fc']}
-                    style={styles.background}
-                >
-                    <View style={styles.uploadImgArea}>
-                        {!image && uploadBtn}
-                        {image && isUploadedBtn}
-                    </View>
-                </LinearGradient>
-            </TouchableOpacity>
+      <View style={styles.uploadArea} >
+        <TouchableOpacity onPress={pickImage}>
+            <View style={styles.uploadImgArea}>
+              {!image && uploadBtn}
+              {image && isUploadedBtn}
+            </View>
+          </TouchableOpacity>
       </View>
       );
   }
@@ -64,6 +58,9 @@ export function ImageUploadButton({
       alignItems: 'center',
       width: 150,
       height: 150,
+      backgroundColor: '#fbfbfb',
+      borderRadius: 20,
+      
     },
     uploadBtn: {
       width: '90%',
