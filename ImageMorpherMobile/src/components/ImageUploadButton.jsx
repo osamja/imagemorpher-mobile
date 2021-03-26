@@ -64,7 +64,6 @@ export function ImageUploadButton({
       alignItems: 'center',
       width: 150,
       height: 150,
-      borderRadius: 10,
     },
     uploadBtn: {
       width: '90%',

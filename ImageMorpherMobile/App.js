@@ -26,7 +26,7 @@ export default function FaceMorpher() {
         colors={['#e0c3fc', '#8ec5fc']}
         style={styles.background}
       >
-        <Text style={styles.title}>Face Morpher</Text>
+        <Text style={styles.title}>MyMorph</Text>
         <View style={styles.container}>
           <ImageUploadButton 
             image={image1}
