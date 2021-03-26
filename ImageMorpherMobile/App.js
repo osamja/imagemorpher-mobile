@@ -53,12 +53,11 @@ const styles = StyleSheet.create({
   },
   title: {
     marginTop: 30,
-    fontSize: 35,
+    fontSize: 40,
     textAlign: 'center',
-    color: 'black',
-    fontWeight: 'bold',
+    color: '#2b2b2b',
+    fontWeight: 'bolder',
     fontFamily: 'Montserrat', 
-    fontSize: 30,
   },
   container: {
     marginTop: 50,

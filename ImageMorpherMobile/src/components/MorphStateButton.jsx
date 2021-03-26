@@ -188,6 +188,7 @@ export function MorphStateButton({
     morphTxt: {
       fontFamily: 'System',
       fontSize: 20,
-      color: 'black',
+      color: '#2b2b2b',
+      fontWeight: 'bolder',
     }
   });
