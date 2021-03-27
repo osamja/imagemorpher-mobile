@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
     textAlign: 'center',
     color: '#2b2b2b',
-    fontWeight: 'bolder',
+    fontWeight: 'bold',
     fontFamily: 'Montserrat', 
   },
   container: {
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   reset: {
-    width: 40,
-    height: 40,
+    width: 50,
+    height: 50,
   }, 
 });
