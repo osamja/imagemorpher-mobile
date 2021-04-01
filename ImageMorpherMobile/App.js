@@ -25,8 +25,8 @@ export default function FaceMorpher() {
         // Background Linear Gradient
         colors={['#a1c4fd', '#c2e9fb']}
         style={styles.background}
-        start={0,0}
-        end={1,1}
+        // start={0,0}
+        // end={1,1}
       >
         <Text style={styles.title}>MyMorph</Text>
         <View style={styles.container}>

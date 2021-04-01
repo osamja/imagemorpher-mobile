@@ -56,8 +56,8 @@ export function ImageUploadButton({
     uploadImgArea: {
       justifyContent: 'center',
       alignItems: 'center',
-      width: 150,
-      height: 150,
+      width: 125,
+      height: 125,
       backgroundColor: '#fbfbfb',
       borderRadius: 20,
       
