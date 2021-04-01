@@ -189,6 +189,6 @@ export function MorphStateButton({
       fontFamily: 'System',
       fontSize: 20,
       color: '#2b2b2b',
-      fontWeight: 'bold',
+      fontWeight: 'bolder',
     }
   });
