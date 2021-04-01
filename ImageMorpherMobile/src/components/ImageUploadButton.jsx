@@ -65,7 +65,7 @@ export function ImageUploadButton({
     uploadBtn: {
       width: '90%',
       height: '100%',
-      resizeMode: 'contain'
+      resizeMode: 'contain',
     },
     checkMark: {
       width: 30,
