@@ -112,7 +112,7 @@ export function MorphStateButton({
               </TouchableOpacity>
             </View>
             <TouchableOpacity onPress={() => setInitialMorphState()} style={styles.morphArea}>
-                <Image source={require('../../assets/reset-update.png')} style={styles.reset}></Image>
+                <Image source={require('../../assets/redo-arrow.png')} style={styles.largeReset}></Image>
             </TouchableOpacity>
           </View>
 
@@ -125,7 +125,9 @@ export function MorphStateButton({
         <View style={styles.morphArea}> 
           <TouchableOpacity onPress={() => setInitialMorphState()} style={styles.morphBtn}>
             <Text style={styles.morphTxt}>Morph Failed
-              <Image source={require('../../assets/reset-update.png')} style={styles.reset}></Image>
+            <View style={{paddingLeft: 5}}>
+            <Image source={require('../../assets/redo-arrow.png')} style={styles.smallReset}></Image>
+            </View>
             </Text>
           </TouchableOpacity>
       </View>
@@ -166,9 +168,13 @@ export function MorphStateButton({
   }
 
   const styles = StyleSheet.create({
-    reset: {
-      width: 30,
-      height: 30,
+    smallReset: {
+      width: 20,
+      height: 20,
+    },
+    largeReset: {
+      width: 40,
+      height: 40,
     },
     morphArea: {
       bottom: 0,
@@ -178,16 +184,17 @@ export function MorphStateButton({
     },
     morphBtn: {
       borderRadius: 10,
-      borderWidth: 1, 
-      backgroundColor: 'white',
+      borderWidth: 2, 
+      backgroundColor: '#fbfbfb',
       width: 300,
       height: 50,
-      justifyContent: 'center',
       alignItems: 'center',
+      justifyContent: 'center',
     },
     morphTxt: {
       fontFamily: 'System',
-      fontSize: 20,
-      color: 'black',
+      fontSize: 18,
+      color: '#2b2b2b',
+      fontWeight: 'bold',
     }
   });
