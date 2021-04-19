@@ -10,7 +10,7 @@ import { useFonts } from 'expo-font';
 
 export default function FaceMorpher() {
   const [loaded] = useFonts({
-    Montserrat: require('./assets/fonts/Stick/Stick-Regular.ttf'),
+    Roboto: require('./assets/fonts/Roboto_Slab/RobotoSlab-VariableFont_wght.ttf'),
   });
 
   const [image1, setImage1] = useState(null);
@@ -28,7 +28,7 @@ export default function FaceMorpher() {
         start={[0,0]}
         end={[1,1]}
       >
-        <Text style={styles.title}>MyMorph</Text>
+        <Text style={styles.title}>Face Morpher</Text>
         <View style={styles.container}>
           <ImageUploadButton 
             image={image1}
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#2b2b2b',
     fontWeight: 'bold',
-    fontFamily: 'Montserrat', 
+    fontFamily: 'Roboto', 
   },
   container: {
     marginTop: 50,
