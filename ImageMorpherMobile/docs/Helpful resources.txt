@@ -1,0 +1,8 @@
+Helpful resources
+
+Screen size and devices
+https://stackoverflow.com/questions/52310183/what-is-app-store-screenshot-size-for-6-5-display
+
+Changing ios simulator device
+https://stackoverflow.com/questions/47709953/expo-change-default-ios-simulator
+
