@@ -1,0 +1,20 @@
+Users must upload two pictures for the morpher to function, the pictures uploaded explicitly by the user for the morpher are collected.
+
+The uploaded images are being collected because they serve as the input for the morpher.  The morpher takes in two images (faces uploaded by the user) and returns the morphed/blended picture as the output .  The image collection is necessary for core app functionality, there are no other planned uses of this data.
+
+This data will not be shared with any third parties, and the information will be stored on the backend server where the API call is being made (https://sammyjaved.com)
+
+
+- What face data is your app collecting?
+Users must upload two pictures for the morpher to function, the pictures uploaded explicitly by the user for the morpher are collected.
+
+- For what purposes are you collecting this information? Please provide a complete and clear explanation of all planned uses of this data.
+The uploaded images are being collected because they serve as the input for the morpher.  The morpher takes in two images (faces uploaded by the user) and returns the morphed/blended picture as the output .  The image collection is necessary for core app functionality, there are no other planned uses of this data.
+
+- Will the data be shared with any third parties? Where will this information be stored?
+This data will not be shared with any third parties, and the information will be stored on the backend server where the API call is being made (https://sammyjaved.com)
+
+- Which are the relevant sections of your privacy policy that explain collection, use, disclosure, sharing, and retention of face data?
+The 'Information we collect' section on https://sammyjaved.com/privacy
+
+- Please quote the specific text from your privacy policy concerning face data.
