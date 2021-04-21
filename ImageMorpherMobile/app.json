@@ -19,6 +19,7 @@
     ],
     "ios": {
       "bundleIdentifier": "com.sammyjaved.imagemorpher",
+      "googleServicesFile": "./assets/analytics/GoogleService-Info.plist",
       "supportsTablet": true
     },
     "android": {
