@@ -1,6 +1,7 @@
 import React, { Fragment, useState} from 'react';
 import {  View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator} from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
+import * as Analytics from 'expo-firebase-analytics';
 
 import { morph_endpoint } from '../constants/index';
 
@@ -25,6 +26,11 @@ export function MorphStateButton({
     }
 
     function getMorphedImg() {
+        Analytics.logEvent('ButtonTapped', {
+          name: 'GetMorph',
+          screen: 'main',
+          purpose: 'Begin the morph',
+        });
         WebBrowser.openBrowserAsync(morphResponse.toString())
     }
 
@@ -34,6 +40,12 @@ export function MorphStateButton({
         }
     
         try {
+            await Analytics.logEvent('ButtonTapped', {
+              name: 'StartMorph',
+              screen: 'main',
+              purpose: 'Start the morph',
+            });
+
             let data = new FormData();
             data.append('Image-1', image1);
             data.append('Image-2', image2);
@@ -44,6 +56,7 @@ export function MorphStateButton({
             setIsSuccess(false);
             setIsFailure(false);
             setMorphResponse(null);
+
             let response = await 
             fetch(
               morph_endpoint, {
@@ -56,19 +69,19 @@ export function MorphStateButton({
             )
             .then(res => {
                 try {
-                if (res.ok) {
-                    return res.json()
-                } else {
-                    throw new Error(res)
-                }
+                  if (res.ok) {
+                      return res.json()
+                  } else {
+                      throw new Error(res)
+                  }
                 }
                 catch (err) {
-                console.log(err.message)
-                setIsLoading(false);
-                setIsSuccess(false);
-                setIsFailure(true);
-                setMorphResponse(null);
-                throw err;
+                  console.log(err.message)
+                  setIsLoading(false);
+                  setIsSuccess(false);
+                  setIsFailure(true);
+                  setMorphResponse(null);
+                  throw err;
                 }
             })
             .then (resJson => {
@@ -77,11 +90,25 @@ export function MorphStateButton({
                 setIsSuccess(true);
                 setIsFailure(false);
                 setMorphResponse(resJson);
+
+                Analytics.logEvent('ButtonTapped', {
+                  name: 'MorphSuccess',
+                  screen: 'main',
+                  purpose: 'Morph was successful',
+                });
+
                 return resJson.data
             })
-            .catch(err => console.log(err))
+            .catch((error) => {
+              console.error(error);
+              Analytics.logEvent('ButtonTapped', {
+                name: 'MorphFailure',
+                screen: 'main',
+                purpose: error.message,
+              });
+            })
         } catch (error) {
-            console.error(error);
+          console.error(error);
         }
     }
 

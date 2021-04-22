@@ -2,12 +2,20 @@ import React, { useState} from 'react';
 import {  View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator} from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
 import * as ImagePicker from 'expo-image-picker';
+import * as Analytics from 'expo-firebase-analytics';
 
 export function ImageUploadButton({
     image,
     setImage
 }) {
     const pickImage = async () => {
+
+      await Analytics.logEvent('ButtonTapped', {
+        name: 'PickImage',
+        screen: 'main',
+        purpose: 'Image upload button',
+      });
+
         let result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ImagePicker.MediaTypeOptions.Images,
           allowsEditing: true,
