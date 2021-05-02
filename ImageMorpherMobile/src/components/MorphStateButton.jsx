@@ -49,7 +49,7 @@ export function MorphStateButton({
             let data = new FormData();
             data.append('Image-1', image1);
             data.append('Image-2', image2);
-            data.append('isSequence', 'True');
+            data.append('isSequence', 'False');
             data.append('stepSize', '20');
             // Correct
             setIsLoading(true);
