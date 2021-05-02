@@ -21,7 +21,7 @@ export function ImageUploadButton({
           allowsEditing: true,
           aspect: [4, 3],
           // Quality of compression: [0, 1]
-          quality: 0.2,
+          quality: 0.1,
           base64: true,
         });
     
