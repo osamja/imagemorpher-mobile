@@ -13,8 +13,8 @@ export default function FaceMorpher() {
     Roboto: require('./assets/fonts/Roboto_Slab/RobotoSlab-VariableFont_wght.ttf'),
   });
 
-  const [image1, setImage1] = useState(null);
-  const [image2, setImage2] = useState(null);
+  const [firstImageRef, setFirstImageRef] = useState(null);
+  const [secondImageRef, setSecondImageRef] = useState(null);
 
   if (!loaded) {
     return null;
@@ -31,18 +31,18 @@ export default function FaceMorpher() {
         <Text style={styles.title}>Face Morpher</Text>
         <View style={styles.container}>
           <ImageUploadButton 
-            image={image1}
-            setImage={setImage1}
+            imageRef={firstImageRef}
+            setImageRef={setFirstImageRef}
           />
           <ImageUploadButton
-            image={image2}
-            setImage={setImage2} 
+            imageRef={secondImageRef}
+            setImageRef={setSecondImageRef}
           />
           <MorphStateButton
-            image1={image1}
-            image2={image2}
-            setImage1={setImage1}
-            setImage2={setImage2}
+            firstImageRef={firstImageRef}
+            secondImageRef={secondImageRef}
+            setFirstImageRef={setFirstImageRef}
+            setSecondImageRef={setSecondImageRef}
           />
         </View>
     </LinearGradient>
