@@ -67,6 +67,11 @@ export function ImageUploadButton({
         return res.json()
       })
       .then(resJson => {
+        Analytics.logEvent('ButtonTapped', {
+          name: 'UploadSuccess',
+          screen: 'main',
+          purpose: 'Image upload was successful',
+        });
         // On success, hide the loading spinner
         setIsLoading(false);
         setIsSuccess(true);
@@ -76,6 +81,11 @@ export function ImageUploadButton({
       })
       .catch((errorResponse) => {
         errorResponse.json().then(errorMessage => {
+          Analytics.logEvent('ButtonTapped', {
+            name: 'UploadFailure',
+            screen: 'main',
+            purpose: 'Image upload failed',
+          });
           console.log(errorMessage)
           setIsLoading(false);
           setIsSuccess(false);
