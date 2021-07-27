@@ -5,16 +5,17 @@ import * as Analytics from 'expo-firebase-analytics'
 
 import { morph_endpoint } from '../constants/index'
 
-export function MorphStateButton ({
+export function MorphImageButton ({
   firstImageRef,
   secondImageRef,
+  morphImageResponse,
   setFirstImageRef,
-  setSecondImageRef
+  setSecondImageRef,
+  setMorphImageResponse
 }) {
   const [isLoading, setIsLoading] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const [isFailure, setIsFailure] = useState(false)
-  const [morphResponse, setMorphResponse] = useState(null)
 
   function setInitialMorphState () {
     setFirstImageRef(null)
@@ -22,7 +23,7 @@ export function MorphStateButton ({
     setIsLoading(false)
     setIsSuccess(false)
     setIsFailure(false)
-    setMorphResponse(null)
+    setMorphImageResponse(null)
   }
 
   function getMorphedImg () {
@@ -31,7 +32,7 @@ export function MorphStateButton ({
       screen: 'main',
       purpose: 'Begin the morph'
     })
-    WebBrowser.openBrowserAsync(morphResponse.toString())
+    WebBrowser.openBrowserAsync(morphImageResponse.toString())
   }
 
   async function getMorph (firstImageRef, secondImageRef) {
@@ -55,7 +56,7 @@ export function MorphStateButton ({
       setIsLoading(true)
       setIsSuccess(false)
       setIsFailure(false)
-      setMorphResponse(null)
+      setMorphImageResponse(null)
 
       const response = await
       fetch(
@@ -79,7 +80,7 @@ export function MorphStateButton ({
             setIsLoading(false)
             setIsSuccess(false)
             setIsFailure(true)
-            setMorphResponse(null)
+            setMorphImageResponse(null)
             throw err
           }
         })
@@ -88,7 +89,7 @@ export function MorphStateButton ({
           setIsLoading(false)
           setIsSuccess(true)
           setIsFailure(false)
-          setMorphResponse(resJson)
+          setMorphImageResponse(resJson)
 
           Analytics.logEvent('ButtonTapped', {
             name: 'MorphSuccess',
@@ -124,7 +125,7 @@ export function MorphStateButton ({
     )
   }
 
-  if (isSuccess && morphResponse) {
+  if (morphImageResponse) {
     getMorphedImg()
     return (
       <Fragment>
@@ -136,9 +137,6 @@ export function MorphStateButton ({
               </Text>
             </TouchableOpacity>
           </View>
-          <TouchableOpacity onPress={() => setInitialMorphState()} style={styles.morphArea}>
-              <Image source={require('../../assets/redo-arrow.png')} style={styles.largeReset}></Image>
-          </TouchableOpacity>
         </View>
 
       </Fragment>
@@ -209,7 +207,7 @@ export function MorphStateButton ({
     )
   }
 
-  if (!morphResponse) {
+  if (!morphImageResponse) {
     return (
       <View style={styles.morphArea}>
         <TouchableOpacity style={styles.morphBtn} onPress={() => getMorph(firstImageRef, secondImageRef)}>

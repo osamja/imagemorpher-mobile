@@ -1,10 +1,11 @@
 // https://docs.expo.io/versions/latest/sdk/imagepicker/
 
 import React, { useState } from 'react'
-import { Text, View, StyleSheet } from 'react-native'
+import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native'
 
 import { LinearGradient } from 'expo-linear-gradient'
-import { MorphStateButton } from './src/components/MorphStateButton'
+import { MorphImageButton } from './src/components/MorphImageButton'
+import { MorphSequenceButton } from './src/components/MorphSequenceButton'
 import { ImageUploadButton } from './src/components/ImageUploadButton'
 import { useFonts } from 'expo-font'
 
@@ -15,9 +16,53 @@ export default function FaceMorpher () {
 
   const [firstImageRef, setFirstImageRef] = useState(null)
   const [secondImageRef, setSecondImageRef] = useState(null)
+  const [morphImageResponse, setMorphImageResponse] = useState(null)
+
+  function setInitialMorphState () {
+    setFirstImageRef(null)
+    setSecondImageRef(null)
+    setMorphImageResponse(null)
+  }
 
   if (!loaded) {
     return null
+  }
+
+  // If halfway morph image was successful, allow user to generate morph sequence
+  if (morphImageResponse) {
+    return (
+      <LinearGradient
+        // Background Linear Gradient
+        colors={['#c2e9fb', '#a1c4fd']}
+        style={styles.background}
+        start={[0, 0]}
+        end={[1, 1]}
+      >
+        <Text style={styles.title}>Face Morpher</Text>
+        <View style={styles.container}>
+          <MorphImageButton
+            firstImageRef={firstImageRef}
+            secondImageRef={secondImageRef}
+            morphImageResponse={morphImageResponse}
+
+            setFirstImageRef={setFirstImageRef}
+            setSecondImageRef={setSecondImageRef}
+            setMorphImageResponse={setMorphImageResponse}
+          />
+        </View>
+        <View style={styles.container}>
+          <MorphSequenceButton
+            firstImageRef={firstImageRef}
+            secondImageRef={secondImageRef}
+          />
+        </View>
+        <View>
+          <TouchableOpacity onPress={() => setInitialMorphState()} style={styles.morphArea}>
+                <Image source={require('./assets/redo-arrow.png')} style={styles.reset}></Image>
+          </TouchableOpacity>
+        </View>
+    </LinearGradient>
+    )
   }
 
   return (
@@ -38,11 +83,14 @@ export default function FaceMorpher () {
             imageRef={secondImageRef}
             setImageRef={setSecondImageRef}
           />
-          <MorphStateButton
+          <MorphImageButton
             firstImageRef={firstImageRef}
             secondImageRef={secondImageRef}
+            morphImageResponse={morphImageResponse}
+
             setFirstImageRef={setFirstImageRef}
             setSecondImageRef={setSecondImageRef}
+            setMorphImageResponse={setMorphImageResponse}
           />
         </View>
     </LinearGradient>
@@ -51,6 +99,12 @@ export default function FaceMorpher () {
 
 const styles = StyleSheet.create({
   background: {
+    flex: 1
+  },
+  morphArea: {
+    bottom: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
     flex: 1
   },
   title: {
@@ -62,12 +116,14 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto'
   },
   container: {
-    marginTop: 50,
+    flex: 1,
     flexDirection: 'column',
-    flex: 1
+    // alignItems: 'center',
+    // justifyContent: 'center'
   },
   reset: {
     width: 40,
-    height: 40
+    height: 40,
+    margin: 25
   }
 })
