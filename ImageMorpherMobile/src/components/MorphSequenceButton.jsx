@@ -125,15 +125,14 @@ export function MorphSequenceButton ({
     return (
       <Fragment>
         <View style={styles.morphArea}>
-          <View style={styles.morphBtn}>
-            <TouchableOpacity onPress={() => getMorphedSequence()} style={styles.morphArea}>
-              <Text style={styles.morphTxt}>
-                View Morph Sequence
-              </Text>
+            <TouchableOpacity onPress={() => getMorphedSequence()}>
+              <View style={styles.morphBtn}>
+                <Text style={styles.morphTxt}>
+                  View Morph Sequence
+                </Text>
+              </View>
             </TouchableOpacity>
-          </View>
         </View>
-
       </Fragment>
     )
   }
@@ -149,56 +148,6 @@ export function MorphSequenceButton ({
           </Text>
         </TouchableOpacity>
     </View>
-    )
-  }
-
-  if (!firstImageRef && !secondImageRef) {
-    return (
-      <View style={styles.morphArea} >
-        <TouchableOpacity style={styles.morphBtn}>
-            <Text style={styles.morphTxt}>Upload two faces to morph</Text>
-        </TouchableOpacity>
-      </View>
-    )
-  }
-
-  if (firstImageRef instanceof Error) {
-    return (
-      <View style={styles.morphArea} >
-        <TouchableOpacity style={styles.morphBtn}>
-            <Text style={styles.morphTxt}>Re-Upload first image</Text>
-        </TouchableOpacity>
-      </View>
-    )
-  }
-
-  if (secondImageRef instanceof Error) {
-    return (
-      <View style={styles.morphArea} >
-        <TouchableOpacity style={styles.morphBtn}>
-            <Text style={styles.morphTxt}>Re-Upload second image</Text>
-        </TouchableOpacity>
-      </View>
-    )
-  }
-
-  if (firstImageRef && !secondImageRef) {
-    return (
-      <View style={styles.morphArea} >
-        <TouchableOpacity style={styles.morphBtn}>
-            <Text style={styles.morphTxt}>Upload the second face</Text>
-        </TouchableOpacity>
-      </View>
-    )
-  }
-
-  if (!firstImageRef && secondImageRef) {
-    return (
-      <View style={styles.morphArea} >
-        <TouchableOpacity style={styles.morphBtn}>
-            <Text style={styles.morphTxt}>Upload the first face</Text>
-        </TouchableOpacity>
-      </View>
     )
   }
 

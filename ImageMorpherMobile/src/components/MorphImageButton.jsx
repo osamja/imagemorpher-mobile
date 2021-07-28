@@ -130,13 +130,13 @@ export function MorphImageButton ({
     return (
       <Fragment>
         <View style={styles.morphArea}>
-          <View style={styles.morphBtn}>
-            <TouchableOpacity onPress={() => getMorphedImg()} style={styles.morphArea}>
-              <Text style={styles.morphTxt}>
-                View Again
-              </Text>
+            <TouchableOpacity onPress={() => getMorphedImg()}>
+              <View style={styles.morphBtn}>
+                <Text style={styles.morphTxt}>
+                  View Again
+                </Text>
+              </View>
             </TouchableOpacity>
-          </View>
         </View>
 
       </Fragment>
