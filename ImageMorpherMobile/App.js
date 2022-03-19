@@ -24,10 +24,6 @@ export default function FaceMorpher () {
     setMorphImageResponse(null)
   }
 
-  if (!loaded) {
-    return null
-  }
-
   // If halfway morph image was successful, allow user to generate morph sequence
   if (morphImageResponse) {
     return (
