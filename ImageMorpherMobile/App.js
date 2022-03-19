@@ -7,9 +7,10 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { MorphImageButton } from './src/components/MorphImageButton'
 import { MorphSequenceButton } from './src/components/MorphSequenceButton'
 import { ImageUploadButton } from './src/components/ImageUploadButton'
+import { UploadImagesView } from './src/components/UploadImagesView'
 import { useFonts } from 'expo-font'
 
-export default function FaceMorpher () {
+export default function App () {
   const [loaded] = useFonts({
     Roboto: require('./assets/fonts/Roboto_Slab/RobotoSlab-VariableFont_wght.ttf')
   })
@@ -60,6 +61,18 @@ export default function FaceMorpher () {
     </LinearGradient>
     )
   }
+
+  return (
+    <UploadImagesView
+      firstImageRef={firstImageRef}
+      secondImageRef={secondImageRef}
+      morphImageResponse={morphImageResponse}
+
+      setFirstImageRef={setFirstImageRef}
+      setSecondImageRef={setSecondImageRef}
+      setMorphImageResponse={setMorphImageResponse}
+    />
+  )
 
   return (
       <LinearGradient
