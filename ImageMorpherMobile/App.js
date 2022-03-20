@@ -4,27 +4,19 @@ import { Text, View, StyleSheet } from 'react-native'
 // UI library - React Native Paper
 import { Provider as PaperProvider } from 'react-native-paper'
 
+import { Title } from './src/components/Title'
 import { UploadImagesView }from './src/components/UploadImagesView'
 import { MorphResponseView } from './src/components/MorphResponseView'
+import { InfoMessage } from './src/components/InfoMessage'
 
 import { LinearGradient } from 'expo-linear-gradient'
-import { useFonts } from 'expo-font'
 
 export default function App () {
-
-  const [loaded] = useFonts({
-    Roboto: require('./assets/fonts/Roboto_Slab/RobotoSlab-VariableFont_wght.ttf')
-  })
 
   const [firstImageRef, setFirstImageRef] = useState(null)
   const [secondImageRef, setSecondImageRef] = useState(null)
   const [morphImageResponse, setMorphImageResponse] = useState(null)
-
-  function setInitialMorphState() {
-      setFirstImageRef(null)
-      setSecondImageRef(null)
-      setMorphImageResponse(null)
-  }
+  const [info, setInfo] = useState('Please upload two images to morph');
 
   const getView = () => {
     if (morphImageResponse) {
@@ -61,9 +53,13 @@ export default function App () {
         start={[0, 0]}
         end={[1, 1]}
       >
-        <Text style={styles.title}>Face Morpher</Text>
+        <Title />
         <View style={styles.view}>
           {getView()}
+          <InfoMessage 
+            firstImageRef={firstImageRef}
+            secondImageRef={secondImageRef}
+          />
         </View>
       </LinearGradient>
     </PaperProvider>
@@ -75,15 +71,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
-  title: {
-    marginTop: 70,
-    fontSize: 35 ,
-    color: 'whitesmoke',
-    fontFamily: 'Roboto'
-  },
   view: {
     marginTop: '20vh',
     flexDirection: 'column',
+    alignItems: 'center',
     justifyContent: 'center',
   },
 })

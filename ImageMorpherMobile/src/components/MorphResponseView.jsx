@@ -26,10 +26,10 @@ export function MorphResponseView({firstImageRef, setFirstImageRef, secondImageR
           />
         </View>
         <View style={styles.viewGifBtn}>
-        <MorphSequenceButton
-          firstImageRef={firstImageRef}
-          secondImageRef={secondImageRef}
-        />
+          <MorphSequenceButton
+            firstImageRef={firstImageRef}
+            secondImageRef={secondImageRef}
+          />
         </View>
         <TouchableOpacity onPress={() => setInitialMorphState()}>
           <Image source={require('./../../assets/redo-arrow.png')} style={styles.reset}></Image>

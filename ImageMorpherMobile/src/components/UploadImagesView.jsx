@@ -4,7 +4,7 @@ import { View, StyleSheet } from 'react-native'
 import { MorphImageButton } from './MorphImageButton'
 import { ImageUploadButton } from './ImageUploadButton'
 
-export function UploadImagesView ({firstImageRef, setFirstImageRef, secondImageRef, setSecondImageRef, morphImageResponse, setMorphImageResponse}) {
+export function UploadImagesView ({firstImageRef, setFirstImageRef, secondImageRef, setSecondImageRef, morphImageResponse, setMorphImageResponse, setInfo}) {
 
   return (
     <View>

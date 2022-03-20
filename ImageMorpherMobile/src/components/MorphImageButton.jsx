@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from 'react'
 import { View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native'
+import { Button } from 'react-native-paper';
 import * as WebBrowser from 'expo-web-browser'
 import * as Analytics from 'expo-firebase-analytics'
 
@@ -114,123 +115,44 @@ export function MorphImageButton ({
 
   if (isLoading) {
     return (
-      <View style={styles.morphArea}>
-        <View style={styles.morphBtn}>
-          <Text style={styles.morphTxt}>
-            Morphing Images
-            <ActivityIndicator size="small"/>
-          </Text>
-        </View>
-      </View>
+      <Button mode="outlined">
+        <ActivityIndicator size="small" />
+        Morphing 
+      </Button>
     )
   }
 
   if (morphImageResponse) {
-    getMorphedImg()
     return (
-      <Fragment>
-        <View style={styles.morphArea}>
-            <TouchableOpacity onPress={() => getMorphedImg()}>
-              <View style={styles.morphBtn}>
-                <Text style={styles.morphTxt}>
-                  View Again
-                </Text>
-              </View>
-            </TouchableOpacity>
-        </View>
-
-      </Fragment>
+      <View>
+        <Button mode="outlined" onPress={() => getMorphedImg()}>
+          View Image
+        </Button>
+        <Button mode="outlined" onPress={() => setInitialMorphState()}>
+          Restart
+        </Button>
+      </View>
     )
   }
 
   if (isFailure) {
     return (
-      <View style={styles.morphArea}>
-        <TouchableOpacity onPress={() => setInitialMorphState()} style={styles.morphBtn}>
-          <Text style={styles.morphTxt}>Morph Failed
-          <View style={{ paddingLeft: 5 }}>
-          <Image source={require('../../assets/redo-arrow.png')} style={styles.smallReset}></Image>
-          </View>
-          </Text>
-        </TouchableOpacity>
+      <Button mode="outlined" onPress={() => setInitialMorphState()}>
+        Restart
+      </Button>
+    )
+  }
+
+  return (
+    <View>
+      <Button onPress={() => getMorph(firstImageRef, secondImageRef)} mode="outlined"> 
+        Morph
+      </Button>
     </View>
-    )
-  }
-
-  if (!firstImageRef && !secondImageRef) {
-    return (
-      <View style={styles.morphArea} >
-        <TouchableOpacity style={styles.morphBtn}>
-            <Text style={styles.morphTxt}>Upload two faces to morph</Text>
-        </TouchableOpacity>
-      </View>
-    )
-  }
-
-  if (firstImageRef instanceof Error) {
-    return (
-      <View style={styles.morphArea} >
-        <TouchableOpacity style={styles.morphBtn}>
-            <Text style={styles.morphTxt}>Re-Upload first image</Text>
-        </TouchableOpacity>
-      </View>
-    )
-  }
-
-  if (secondImageRef instanceof Error) {
-    return (
-      <View style={styles.morphArea} >
-        <TouchableOpacity style={styles.morphBtn}>
-            <Text style={styles.morphTxt}>Re-Upload second image</Text>
-        </TouchableOpacity>
-      </View>
-    )
-  }
-
-  if (firstImageRef && !secondImageRef) {
-    return (
-      <View style={styles.morphArea} >
-        <TouchableOpacity style={styles.morphBtn}>
-            <Text style={styles.morphTxt}>Upload the second face</Text>
-        </TouchableOpacity>
-      </View>
-    )
-  }
-
-  if (!firstImageRef && secondImageRef) {
-    return (
-      <View style={styles.morphArea} >
-        <TouchableOpacity style={styles.morphBtn}>
-            <Text style={styles.morphTxt}>Upload the first face</Text>
-        </TouchableOpacity>
-      </View>
-    )
-  }
-
-  if (!morphImageResponse) {
-    return (
-      <View style={styles.morphArea}>
-        <TouchableOpacity style={styles.morphBtn} onPress={() => getMorph(firstImageRef, secondImageRef)}>
-          <Text style={styles.morphTxt}>Let's morph</Text>
-        </TouchableOpacity>
-      </View>
-    )
-  }
-
-  return (null)
+  )
 }
 
 const styles = StyleSheet.create({
-  smallReset: {
-    width: 20,
-    height: 20,
-    justifyContent: 'center',
-  },
-  largeReset: {
-    width: 40,
-    height: 40,
-    justifyContent: 'center',
-  },
   morphArea: {
     bottom: 0,
     justifyContent: 'center',

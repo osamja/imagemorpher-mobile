@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from 'react'
 import { View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native'
+import { Button } from 'react-native-paper'
 import * as WebBrowser from 'expo-web-browser'
 import * as Analytics from 'expo-firebase-analytics'
 
@@ -125,13 +126,13 @@ export function MorphSequenceButton ({
     return (
       <Fragment>
         <View style={styles.morphArea}>
-            <TouchableOpacity onPress={() => getMorphedSequence()}>
+            <Button mode="outlined" onPress={() => getMorphedSequence()}>
               <View style={styles.morphBtn}>
                 <Text style={styles.morphTxt}>
-                  View Morph Sequence
+                  View Morph Gif
                 </Text>
               </View>
-            </TouchableOpacity>
+            </Button>
         </View>
       </Fragment>
     )
