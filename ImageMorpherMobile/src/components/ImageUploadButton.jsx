@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native'
-import { LinearGradient } from 'expo-linear-gradient'
 import * as ImagePicker from 'expo-image-picker'
 import * as Analytics from 'expo-firebase-analytics'
+import { Button } from 'react-native-paper';
 
 import { morph_upload_endpoint } from '../constants/index'
 
@@ -10,6 +10,7 @@ export function ImageUploadButton ({
   imageRef,
   setImageRef
 }) {
+  
   const [isLoading, setIsLoading] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const [isFailure, setIsFailure] = useState(false)
@@ -35,7 +36,8 @@ export function ImageUploadButton ({
         // image picker on iphone works different than web browser
         if (result.base64) {
           uploadImage(result.base64)
-        } else {
+        } 
+        else {
           uploadImage(result.uri)
         }
       }
@@ -96,100 +98,32 @@ export function ImageUploadButton ({
       })
   }
 
-  const uploadBtn = <Image source={require('../../assets/avatar.png')} style={styles.uploadBtn} />
-  const uploadFailureButton = <Image source={require('../../assets/error-avatar.png')} style={styles.uploadBtn} />
-  const isUploadedBtn = <Image source={require('../../assets/avatar-green.png')} style={styles.uploadBtn} />
+  const uploadImgBtn = <Button icon="face-recognition" labelStyle={styles.btnArea} onPress={pickImage}></Button>
+  const uploadSuccessBtn = <Button icon="face-recognition" labelStyle={styles.btnArea} color="green" onPress={pickImage}></Button>
   const redoButton = <Image source={require('../../assets/redo-arrow.png')} style={styles.largeReset}></Image>
 
-  if (isLoading) {
-    return (
-      <View style={styles.uploadArea} >
-        <TouchableOpacity>
-          <View style={styles.uploadImgArea}>
-            <ActivityIndicator size="small"/>
-          </View>
-        </TouchableOpacity>
-      </View>
-    )
-  }
-
-  if (isSuccess && imageRef) {
-    return (
-      <View style={styles.uploadArea} >
-        <TouchableOpacity>
-          <View style={styles.uploadImgArea}>
-            {isUploadedBtn}
-          </View>
-        </TouchableOpacity>
-      </View>
-    )
-  }
-
-  if (isFailure) {
-    return (
-      <View style={styles.uploadArea} >
-        <TouchableOpacity onPress={pickImage}>
-          <View style={styles.failedUploadImgArea}>
-            <Text>{imageRef && imageRef.message}</Text>
-            {imageRef && redoButton}
-            {/* {uploadFailureButton} */}
-          </View>
-        </TouchableOpacity>
-      </View>
-    )
+  const getState = () => {
+    if (isLoading) {
+      return <ActivityIndicator size="large"/>
+    }
+    if (isSuccess && imageRef) {
+      return uploadSuccessBtn;
+    }
+    if (isFailure && imageRef) {
+      {imageRef && imageRef.message && redoButton}
+    }
+    return uploadImgBtn;
   }
 
   return (
-    <View style={styles.uploadArea} >
-      <TouchableOpacity onPress={pickImage}>
-          <View style={styles.uploadImgArea}>
-            {!imageRef && uploadBtn}
-            {imageRef && isUploadedBtn}
-          </View>
-        </TouchableOpacity>
+    <View style={styles.container}>
+      {getState()}
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  uploadArea: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 30,
-  },
-  uploadImgArea: {
-    alignItems: 'center',
-    width: 125,
-    height: 125,
-    backgroundColor: '#fbfbfb',
-    borderRadius: 20
-  },
-  uploadBtn: {
-    width: '90%',
-    height: '100%',
-    resizeMode: 'contain'
-  },
-  failMessage: {
-    color: 'white',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  failedUploadImgArea: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 125,
-    height: 125,
-    backgroundColor: 'red',
-    borderRadius: 20,
-    color: 'white'
-  },
-  checkMark: {
-    width: 30,
-    height: 30,
-    marginLeft: 20
-  },
-  largeReset: {
-    width: 40,
-    height: 40
+  btnArea: {
+    fontSize: 70,
   }
 })

@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
-import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native'
+import { Text, View, StyleSheet } from 'react-native'
+
+// UI library - React Native Paper
+import { Provider as PaperProvider } from 'react-native-paper';
 
 // views
 import { UploadImagesView }from './src/components/UploadImagesView'
@@ -45,36 +48,37 @@ export default function App () {
   }
 
   return (
-    <LinearGradient
-      colors={['#c2e9fb', '#a1c4fd']}
-      style={styles.background}
-      start={[0, 0]}
-      end={[1, 1]}
-    >
-      <Text style={styles.title}>Face Morpher</Text>
-        <View style={styles.container}>
-        {getView()}
-      </View>
-    </LinearGradient>
+    <PaperProvider>
+      <LinearGradient
+        colors={['#c2e9fb', '#a1c4fd']}
+        style={styles.background}
+        start={[0, 0]}
+        end={[1, 1]}
+      >
+        <Text style={styles.title}>Face Morpher</Text>
+        <View style={styles.view}>
+          {getView()}
+        </View>
+      </LinearGradient>
+    </PaperProvider>
   )
 }
 
 const styles = StyleSheet.create({
   background: {
-    flex: 1
-  },
-  container: {
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
     alignItems: 'center',
   },
   title: {
     marginTop: 70,
     fontSize: 35 ,
-    textAlign: 'center',
     color: '#2b2b2b',
     fontFamily: 'Roboto'
+  },
+  view: {
+    marginTop: '25vh',
+    flexDirection: 'column',
+    justifyContent: 'center',
   },
   reset: {
     width: 40,

@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native'
+import React from 'react'
+import { View, StyleSheet } from 'react-native'
 
 import { MorphImageButton } from './MorphImageButton'
 import { ImageUploadButton } from './ImageUploadButton'
@@ -18,7 +18,7 @@ export function UploadImagesView ({firstImageRef, setFirstImageRef, secondImageR
           setImageRef={setSecondImageRef}
         />
       </View>
-      <View>
+      <View style={styles.morphBtn}>
         <MorphImageButton
           firstImageRef={firstImageRef}
           secondImageRef={secondImageRef}
@@ -36,14 +36,14 @@ export function UploadImagesView ({firstImageRef, setFirstImageRef, secondImageR
 const styles = StyleSheet.create({
   uploadBtns: {
     flexDirection: 'row',
-    justifyContent: 'center',
   },
-  morphImgBtn: {
-    marginTop: 0,
+  morphBtn: {
+    marginTop: 100,
   },
   reset: {
     width: 40,
     height: 40,
-    margin: 25
+    margin: 25,
+    justifyContent: 'center',
   }
 })

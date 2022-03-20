@@ -1,50 +1,55 @@
-import React, { useState } from 'react'
-import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native'
+import React from 'react'
+import { View, StyleSheet, TouchableOpacity, Image } from 'react-native'
 
 import { MorphImageButton } from './MorphImageButton'
 import { MorphSequenceButton } from './MorphSequenceButton'
-import { ImageUploadButton } from './ImageUploadButton'
 
 export function MorphResponseView({firstImageRef, setFirstImageRef, secondImageRef, setSecondImageRef, morphImageResponse, setMorphImageResponse}) {
   
-    function setInitialMorphState () {
+  function setInitialMorphState () {
     setFirstImageRef(null)
     setSecondImageRef(null)
     setMorphImageResponse(null)
   }
 
     return (
-      <View style={styles.container}>
-        <MorphImageButton
-          firstImageRef={firstImageRef}
-          secondImageRef={secondImageRef}
-          morphImageResponse={morphImageResponse}
+      <View>
+        <View style={styles.viewMorphBtn}>
+          <MorphImageButton
+            firstImageRef={firstImageRef}
+            secondImageRef={secondImageRef}
+            morphImageResponse={morphImageResponse}
 
-          setFirstImageRef={setFirstImageRef}
-          setSecondImageRef={setSecondImageRef}
-          setMorphImageResponse={setMorphImageResponse}
-        />
+            setFirstImageRef={setFirstImageRef}
+            setSecondImageRef={setSecondImageRef}
+            setMorphImageResponse={setMorphImageResponse}
+          />
+        </View>
+        <View style={styles.viewGifBtn}>
         <MorphSequenceButton
           firstImageRef={firstImageRef}
           secondImageRef={secondImageRef}
         />
-        <TouchableOpacity onPress={() => setInitialMorphState()} style={styles.morphArea}>
+        </View>
+        <TouchableOpacity onPress={() => setInitialMorphState()}>
           <Image source={require('./../../assets/redo-arrow.png')} style={styles.reset}></Image>
         </TouchableOpacity>
       </View>
     )
 }
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create({ 
+  viewMorphBtn: {
+    marginTop: 50,
+  },
+  viewGifBtn: {
+    marginTop: 50,
+  },
   morphArea: {
     bottom: 50,
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1
-  },
-  container: {
-    flex: 1,
-    flexDirection: 'column',
   },
   reset: {
     width: 40,
