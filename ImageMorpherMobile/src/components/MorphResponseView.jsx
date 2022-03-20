@@ -29,11 +29,12 @@ export function MorphResponseView({firstImageRef, setFirstImageRef, secondImageR
           secondImageRef={secondImageRef}
         />
         <TouchableOpacity onPress={() => setInitialMorphState()} style={styles.morphArea}>
-              <Image source={require('./../../assets/redo-arrow.png')} style={styles.reset}></Image>
+          <Image source={require('./../../assets/redo-arrow.png')} style={styles.reset}></Image>
         </TouchableOpacity>
       </View>
     )
 }
+
 const styles = StyleSheet.create({
   morphArea: {
     bottom: 50,

@@ -6,9 +6,6 @@ import { UploadImagesView }from './src/components/UploadImagesView'
 import { MorphResponseView } from './src/components/MorphResponseView'
 
 import { LinearGradient } from 'expo-linear-gradient'
-import { MorphImageButton } from './src/components/MorphImageButton'
-import { MorphSequenceButton } from './src/components/MorphSequenceButton'
-import { ImageUploadButton } from './src/components/ImageUploadButton'
 import { useFonts } from 'expo-font'
 
 export default function App () {
@@ -55,7 +52,9 @@ export default function App () {
       end={[1, 1]}
     >
       <Text style={styles.title}>Face Morpher</Text>
-      {getView()}
+        <View style={styles.container}>
+        {getView()}
+      </View>
     </LinearGradient>
   )
 }
@@ -64,12 +63,17 @@ const styles = StyleSheet.create({
   background: {
     flex: 1
   },
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   title: {
-    marginTop: 30,
-    fontSize: 40,
+    marginTop: 70,
+    fontSize: 35 ,
     textAlign: 'center',
     color: '#2b2b2b',
-    fontWeight: 'bold',
     fontFamily: 'Roboto'
   },
   reset: {

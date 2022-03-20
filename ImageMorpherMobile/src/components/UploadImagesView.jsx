@@ -7,38 +7,39 @@ import { ImageUploadButton } from './ImageUploadButton'
 export function UploadImagesView ({firstImageRef, setFirstImageRef, secondImageRef, setSecondImageRef, morphImageResponse, setMorphImageResponse}) {
 
   return (
-    <View styles={styles.container}>
-      <ImageUploadButton
-        imageRef={firstImageRef}
-        setImageRef={setFirstImageRef}
-      />
-      <ImageUploadButton
-        imageRef={secondImageRef}
-        setImageRef={setSecondImageRef}
-      />
-      <MorphImageButton
-        firstImageRef={firstImageRef}
-        secondImageRef={secondImageRef}
-        morphImageResponse={morphImageResponse}
+    <View>
+      <View style={styles.uploadBtns}>
+        <ImageUploadButton
+          imageRef={firstImageRef}
+          setImageRef={setFirstImageRef}
+        />
+        <ImageUploadButton
+          imageRef={secondImageRef}
+          setImageRef={setSecondImageRef}
+        />
+      </View>
+      <View>
+        <MorphImageButton
+          firstImageRef={firstImageRef}
+          secondImageRef={secondImageRef}
+          morphImageResponse={morphImageResponse}
 
-        setFirstImageRef={setFirstImageRef}
-        setSecondImageRef={setSecondImageRef}
-        setMorphImageResponse={setMorphImageResponse}
-      />
+          setFirstImageRef={setFirstImageRef}
+          setSecondImageRef={setSecondImageRef}
+          setMorphImageResponse={setMorphImageResponse}
+        />
+      </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-  },
-  morphArea: {
-    bottom: 50,
+  uploadBtns: {
+    flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1
+  },
+  morphImgBtn: {
+    marginTop: 0,
   },
   reset: {
     width: 40,

@@ -155,11 +155,9 @@ const styles = StyleSheet.create({
   uploadArea: {
     justifyContent: 'center',
     alignItems: 'center',
-    flex: 1,
-    padding: 10
+    padding: 30,
   },
   uploadImgArea: {
-    justifyContent: 'center',
     alignItems: 'center',
     width: 125,
     height: 125,
