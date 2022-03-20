@@ -20,10 +20,10 @@ export function MorphImageButton ({
   function setInitialMorphState () {
     setFirstImageRef(null)
     setSecondImageRef(null)
+    setMorphImageResponse(null)
     setIsLoading(false)
     setIsSuccess(false)
     setIsFailure(false)
-    setMorphImageResponse(null)
   }
 
   function getMorphedImg () {
@@ -223,11 +223,13 @@ export function MorphImageButton ({
 const styles = StyleSheet.create({
   smallReset: {
     width: 20,
-    height: 20
+    height: 20,
+    justifyContent: 'center',
   },
   largeReset: {
     width: 40,
-    height: 40
+    height: 40,
+    justifyContent: 'center',
   },
   morphArea: {
     bottom: 0,

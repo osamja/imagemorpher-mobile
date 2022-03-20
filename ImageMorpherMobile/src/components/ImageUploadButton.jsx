@@ -98,21 +98,17 @@ export function ImageUploadButton ({
       })
   }
 
-  const uploadImgBtn = <Button icon="face-recognition" labelStyle={styles.btnArea} onPress={pickImage}></Button>
-  const uploadSuccessBtn = <Button icon="face-recognition" labelStyle={styles.btnArea} color="green" onPress={pickImage}></Button>
-  const redoButton = <Image source={require('../../assets/redo-arrow.png')} style={styles.largeReset}></Image>
-
   const getState = () => {
     if (isLoading) {
       return <ActivityIndicator size="large"/>
     }
     if (isSuccess && imageRef) {
-      return uploadSuccessBtn;
+      return <Button icon="face-recognition" labelStyle={styles.btnArea} color="green" onPress={pickImage}></Button>
     }
     if (isFailure && imageRef) {
-      {imageRef && imageRef.message && redoButton}
+      {imageRef && imageRef.message && <Image source={require('../../assets/redo-arrow.png')} style={styles.largeReset}></Image>}
     }
-    return uploadImgBtn;
+    return <Button icon="face-recognition" labelStyle={styles.btnArea} color="#e5a823" onPress={pickImage}></Button>
   }
 
   return (

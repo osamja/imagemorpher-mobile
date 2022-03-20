@@ -9,10 +9,12 @@ export function UploadImagesView ({firstImageRef, setFirstImageRef, secondImageR
   return (
     <View>
       <View style={styles.uploadBtns}>
-        <ImageUploadButton
-          imageRef={firstImageRef}
-          setImageRef={setFirstImageRef}
-        />
+        <View style={styles.firstBtn}>
+          <ImageUploadButton
+            imageRef={firstImageRef}
+            setImageRef={setFirstImageRef}
+          />
+        </View>
         <ImageUploadButton
           imageRef={secondImageRef}
           setImageRef={setSecondImageRef}
@@ -34,8 +36,12 @@ export function UploadImagesView ({firstImageRef, setFirstImageRef, secondImageR
 }
 
 const styles = StyleSheet.create({
+  firstBtn: {
+    marginRight: 60,
+  },
   uploadBtns: {
     flexDirection: 'row',
+    justifyContent: 'center',
   },
   morphBtn: {
     marginTop: 100,
