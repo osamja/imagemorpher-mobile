@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { View, StyleSheet, ActivityIndicator } from 'react-native'
 import * as ImagePicker from 'expo-image-picker'
 import * as Analytics from 'expo-firebase-analytics'
-import { Button } from 'react-native-paper';
+import { Button } from 'react-native-paper'
 
 import { morph_upload_endpoint } from '../../constants/index'
 
@@ -105,9 +105,8 @@ export function ImageUploadButton ({
     if (isSuccess && imageRef) {
       return <Button icon="face-recognition" labelStyle={styles.btnArea} color="lightgreen" onPress={pickImage}></Button>
     }
-    // if (isFailure && imageRef) {
-    //   {imageRef && imageRef.message && <Image source={require('../../assets/redo-arrow.png')} style={styles.largeReset}></Image>}
-    // }
+    if (isFailure && imageRef) {
+      {imageRef && imageRef.message && <Text>Morph Failed</Text>}
     return <Button icon="face-recognition" labelStyle={styles.btnArea} color="#e5a823" onPress={pickImage}></Button>
   }
 

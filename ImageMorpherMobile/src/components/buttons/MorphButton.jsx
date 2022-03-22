@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { StyleSheet, ActivityIndicator } from 'react-native'
-import { Button } from 'react-native-paper';
+import { Button } from 'react-native-paper'
 import * as WebBrowser from 'expo-web-browser'
 import * as Analytics from 'expo-firebase-analytics'
 
