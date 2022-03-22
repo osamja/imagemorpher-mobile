@@ -115,6 +115,7 @@ export function ImageUploadButton ({
       {getState()}
     </View>
   )
+  }
 }
 
 const styles = StyleSheet.create({
