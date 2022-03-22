@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Text, StyleSheet } from 'react-native'
 
 export function InfoMessage({firstImageRef, secondImageRef}) {

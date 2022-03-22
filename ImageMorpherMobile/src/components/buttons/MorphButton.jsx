@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, ActivityIndicator } from 'react-native'
+import { StyleSheet, ActivityIndicator } from 'react-native'
 import { Button } from 'react-native-paper';
 import * as WebBrowser from 'expo-web-browser'
 import * as Analytics from 'expo-firebase-analytics'
@@ -108,7 +108,7 @@ export function MorphButton({
 
   if (isLoading) {
     return (
-      <Button mode="outlined">
+      <Button mode='outlined'>
         <ActivityIndicator style={styles.spinner} size="small" />
         Creating {type}
       </Button>
@@ -118,7 +118,7 @@ export function MorphButton({
   if (morphResponse) {
     getMorphResponse()
     return (
-      <Button mode="outlined" onPress={() => getMorphResponse()}>
+      <Button mode='outlined' color='white' onPress={() => getMorphResponse()}>
         View {type}
       </Button>
     )
@@ -127,7 +127,7 @@ export function MorphButton({
   if (isFailure) {
     return (
       <Button 
-        mode="contained"
+        mode='contained'
       >
         Morph Sequence Failed
       </Button>
@@ -135,9 +135,14 @@ export function MorphButton({
   }
 
   return (
-    <Button onPress={() => getMorph(firstImageRef, secondImageRef)} mode="outlined"> 
+    <Button 
+     mode='outlined'
+     disabled={!firstImageRef || !secondImageRef}
+     color='#e5a823'
+     onPress={() => getMorph(firstImageRef, secondImageRef)} 
+    >
       Morph {type}
-  </Button>
+    </Button>
   )
 }
 

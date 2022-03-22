@@ -27,7 +27,7 @@ export function MorphResponseView({firstImageRef, setFirstImageRef, secondImageR
         />
       </View>
       <View style={styles.button}>
-        <Button mode="contained" onPress={() => setInitialMorphState()}>
+        <Button mode="contained" color='#FF4500' onPress={() => setInitialMorphState()}>
           Restart
         </Button>
       </View>
@@ -37,8 +37,8 @@ export function MorphResponseView({firstImageRef, setFirstImageRef, secondImageR
 
 const styles = StyleSheet.create({ 
   button: {
-    marginTop: 50,
-    marginBottom: 50,
+    marginTop: 40,
+    marginBottom: 40,
     width: 200,
   }
 })

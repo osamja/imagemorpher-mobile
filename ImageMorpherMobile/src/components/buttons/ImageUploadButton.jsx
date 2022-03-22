@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native'
+import { View, StyleSheet, ActivityIndicator } from 'react-native'
 import * as ImagePicker from 'expo-image-picker'
 import * as Analytics from 'expo-firebase-analytics'
 import { Button } from 'react-native-paper';
@@ -103,7 +103,7 @@ export function ImageUploadButton ({
       return <ActivityIndicator size="small"/>
     }
     if (isSuccess && imageRef) {
-      return <Button icon="face-recognition" labelStyle={styles.btnArea} color="green" onPress={pickImage}></Button>
+      return <Button icon="face-recognition" labelStyle={styles.btnArea} color="lightgreen" onPress={pickImage}></Button>
     }
     // if (isFailure && imageRef) {
     //   {imageRef && imageRef.message && <Image source={require('../../assets/redo-arrow.png')} style={styles.largeReset}></Image>}
