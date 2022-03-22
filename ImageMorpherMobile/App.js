@@ -1,34 +1,35 @@
 import React, { useState } from 'react'
-import { Text, View, StyleSheet } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 
 // UI library - React Native Paper
 import { Provider as PaperProvider } from 'react-native-paper'
-
 import { Title } from './src/components/Title'
-import { UploadImagesView }from './src/components/UploadImagesView'
-import { MorphResponseView } from './src/components/MorphResponseView'
+import { UploadImagesView }from './src/components/views/UploadImagesView'
+import { MorphResponseView } from './src/components/views/MorphResponseView'
 import { InfoMessage } from './src/components/InfoMessage'
-
 import { LinearGradient } from 'expo-linear-gradient'
 
 export default function App () {
 
   const [firstImageRef, setFirstImageRef] = useState(null)
   const [secondImageRef, setSecondImageRef] = useState(null)
-  const [morphImageResponse, setMorphImageResponse] = useState(null)
-  const [info, setInfo] = useState('Please upload two images to morph');
+  const [morphResponse, setMorphResponse] = useState(null)
+  const [isGif, setIsGif] = useState(false)
 
   const getView = () => {
-    if (morphImageResponse) {
+    if (morphResponse) {
       return (
         <MorphResponseView
           firstImageRef={firstImageRef}
           secondImageRef={secondImageRef}
-          morphImageResponse={morphImageResponse}
+          morphResponse={morphResponse}
     
           setFirstImageRef={setFirstImageRef}
           setSecondImageRef={setSecondImageRef}
-          setMorphImageResponse={setMorphImageResponse}
+          setMorphResponse={setMorphResponse}
+
+          isGif={isGif}
+          setIsGif={setIsGif}
       />
       )
     }
@@ -36,11 +37,14 @@ export default function App () {
       <UploadImagesView
         firstImageRef={firstImageRef}
         secondImageRef={secondImageRef}
-        morphImageResponse={morphImageResponse}
+        morphResponse={morphResponse}
   
         setFirstImageRef={setFirstImageRef}
         setSecondImageRef={setSecondImageRef}
-        setMorphImageResponse={setMorphImageResponse}
+        setMorphResponse={setMorphResponse}
+
+        isGif={isGif}
+        setIsGif={setIsGif}
       />
     )
   }

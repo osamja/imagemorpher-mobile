@@ -15,8 +15,4 @@ const styles = StyleSheet.create({
         fontSize: 35 ,
         color: 'whitesmoke',
     },
-    tinyLogo: {
-        width: 500,
-        height: 500,
-    }
 });

@@ -1,63 +1,54 @@
-import React, { Fragment, useState } from 'react'
-import { View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native'
+import React, { useState } from 'react'
+import { View, StyleSheet, ActivityIndicator } from 'react-native'
 import { Button } from 'react-native-paper';
 import * as WebBrowser from 'expo-web-browser'
 import * as Analytics from 'expo-firebase-analytics'
 
-import { morph_endpoint } from '../constants/index'
+import { morph_endpoint } from '../../constants/index'
 
-export function MorphImageButton ({
+export function MorphButton({
+  isGif,
   firstImageRef,
   secondImageRef,
-  morphImageResponse,
-  setFirstImageRef,
-  setSecondImageRef,
-  setMorphImageResponse
+  morphResponse,
+  setMorphResponse
 }) {
+    
   const [isLoading, setIsLoading] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const [isFailure, setIsFailure] = useState(false)
 
-  function setInitialMorphState () {
-    setFirstImageRef(null)
-    setSecondImageRef(null)
-    setMorphImageResponse(null)
-    setIsLoading(false)
-    setIsSuccess(false)
-    setIsFailure(false)
-  }
-
-  function getMorphedImg () {
+  function getMorphResponse() {
     Analytics.logEvent('ButtonTapped', {
-      name: 'GetMorph',
-      screen: 'main',
-      purpose: 'Begin the morph'
-    })
-    WebBrowser.openBrowserAsync(morphImageResponse.toString())
+        name: (isGif ? 'GetMorphSequence' : 'GetMorph'),
+        screen: 'main',
+        purpose: 'Begin the morph'
+      })
+      WebBrowser.openBrowserAsync(morphResponse.toString())
   }
 
   async function getMorph (firstImageRef, secondImageRef) {
     if (!firstImageRef || !secondImageRef) {
       return
     }
-
+   
     try {
       await Analytics.logEvent('ButtonTapped', {
-        name: 'StartMorph',
+        name: (isGif ? 'StartMorphSequence' : 'StartMorph'),
         screen: 'main',
-        purpose: 'Start the morph'
+        purpose: (isGif ? 'Start the morph sequence' : 'Start the morph'),
       })
 
       const data = new FormData()
       data.append('firstImageRef', firstImageRef)
       data.append('secondImageRef', secondImageRef)
-      data.append('isSequence', 'False')
+      data.append('isSequence', (isGif ? 'True' : 'False'))
       data.append('stepSize', '20')
       // Correct
       setIsLoading(true)
       setIsSuccess(false)
       setIsFailure(false)
-      setMorphImageResponse(null)
+      setMorphResponse(null)
 
       const response = await
       fetch(
@@ -81,7 +72,7 @@ export function MorphImageButton ({
             setIsLoading(false)
             setIsSuccess(false)
             setIsFailure(true)
-            setMorphImageResponse(null)
+            setMorphResponse(null)
             throw err
           }
         })
@@ -90,10 +81,10 @@ export function MorphImageButton ({
           setIsLoading(false)
           setIsSuccess(true)
           setIsFailure(false)
-          setMorphImageResponse(resJson)
+          setMorphResponse(resJson)
 
           Analytics.logEvent('ButtonTapped', {
-            name: 'MorphSuccess',
+            name: (isGif ? 'MorphSequenceSuccess' : 'MorphSuccess'),
             screen: 'main',
             purpose: 'Morph was successful'
           })
@@ -103,7 +94,7 @@ export function MorphImageButton ({
         .catch((error) => {
           console.error(error)
           Analytics.logEvent('ButtonTapped', {
-            name: 'MorphFailure',
+            name: (isGif ? 'MorphSequenceFailure' : 'MorphFailure'),
             screen: 'main',
             purpose: error.message
           })
@@ -113,65 +104,45 @@ export function MorphImageButton ({
     }
   }
 
+  const type = (isGif ? 'GIF' : 'Image')
+
   if (isLoading) {
     return (
       <Button mode="outlined">
-        <ActivityIndicator size="small" />
-        Morphing 
+        <ActivityIndicator style={styles.spinner} size="small" />
+        Creating {type}
       </Button>
     )
   }
 
-  if (morphImageResponse) {
+  if (morphResponse) {
+    getMorphResponse()
     return (
-      <View>
-        <Button mode="outlined" onPress={() => getMorphedImg()}>
-          View Image
-        </Button>
-        <Button mode="outlined" onPress={() => setInitialMorphState()}>
-          Restart
-        </Button>
-      </View>
+      <Button mode="outlined" onPress={() => getMorphResponse()}>
+        View {type}
+      </Button>
     )
   }
 
   if (isFailure) {
     return (
-      <Button mode="outlined" onPress={() => setInitialMorphState()}>
-        Restart
+      <Button 
+        mode="contained"
+      >
+        Morph Sequence Failed
       </Button>
     )
   }
 
   return (
-    <View>
-      <Button onPress={() => getMorph(firstImageRef, secondImageRef)} mode="outlined"> 
-        Morph
-      </Button>
-    </View>
+    <Button onPress={() => getMorph(firstImageRef, secondImageRef)} mode="outlined"> 
+      Morph {type}
+  </Button>
   )
 }
 
-const styles = StyleSheet.create({
-  morphArea: {
-    bottom: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1
-  },
-  morphBtn: {
-    borderRadius: 10,
-    borderWidth: 2,
-    backgroundColor: '#fbfbfb',
-    width: 300,
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  morphTxt: {
-    fontFamily: 'System',
-    fontSize: 18,
-    color: '#2b2b2b',
-    fontWeight: 'bold'
+const styles = StyleSheet.create({ 
+  spinner: {
+    paddingRight: 5,
   }
 })

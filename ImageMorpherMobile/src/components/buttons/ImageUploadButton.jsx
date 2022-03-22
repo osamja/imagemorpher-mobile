@@ -4,7 +4,7 @@ import * as ImagePicker from 'expo-image-picker'
 import * as Analytics from 'expo-firebase-analytics'
 import { Button } from 'react-native-paper';
 
-import { morph_upload_endpoint } from '../constants/index'
+import { morph_upload_endpoint } from '../../constants/index'
 
 export function ImageUploadButton ({
   imageRef,
@@ -100,14 +100,14 @@ export function ImageUploadButton ({
 
   const getState = () => {
     if (isLoading) {
-      return <ActivityIndicator size="large"/>
+      return <ActivityIndicator size="small"/>
     }
     if (isSuccess && imageRef) {
       return <Button icon="face-recognition" labelStyle={styles.btnArea} color="green" onPress={pickImage}></Button>
     }
-    if (isFailure && imageRef) {
-      {imageRef && imageRef.message && <Image source={require('../../assets/redo-arrow.png')} style={styles.largeReset}></Image>}
-    }
+    // if (isFailure && imageRef) {
+    //   {imageRef && imageRef.message && <Image source={require('../../assets/redo-arrow.png')} style={styles.largeReset}></Image>}
+    // }
     return <Button icon="face-recognition" labelStyle={styles.btnArea} color="#e5a823" onPress={pickImage}></Button>
   }
 
