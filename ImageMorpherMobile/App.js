@@ -57,7 +57,24 @@ export default function App () {
         start={[0, 0]}
         end={[1, 1]}
       >
-        <Title />
+        <View style={styles.tabs}>
+          <Button 
+            mode='outlined'
+            style={styles.tab}
+            color={'white'}
+            onPress={() => setIsGif(true)}
+          >
+            GIF
+          </Button>
+          <Button 
+            mode="outlined"
+            style={styles.tab}
+            color={'white'}
+            onPress={() => setIsGif(false)}
+          >
+            Image
+          </Button>
+        </View>
         <View style={styles.view}>
           {getView()}
         </View>
@@ -70,6 +87,15 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
     alignItems: 'center',
+  },
+  tabs: {
+    flexDirection: 'row',
+  },
+  tab: {
+    width: '50vw',
+    height: 60,
+    color: 'white',
+    justifyContent: 'center',
   },
   view: {
     marginTop: '20vh',
