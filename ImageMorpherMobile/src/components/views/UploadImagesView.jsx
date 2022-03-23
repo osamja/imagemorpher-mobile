@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   morphBtn: {
-    width: 200,
+    width: 300,
   },
   switch: {
     marginLeft: 20,

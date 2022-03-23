@@ -107,7 +107,10 @@ export function ImageUploadButton ({
     }
     if (isFailure && imageRef) {
       {imageRef && imageRef.message && <Text>Morph Failed</Text>}
-    return <Button icon="face-recognition" labelStyle={styles.btnArea} color="#e5a823" onPress={pickImage}></Button>
+    }
+    return (
+      <Button icon="face-recognition" labelStyle={styles.btnArea} color="#e5a823" onPress={pickImage}></Button>
+    )
   }
 
   return (
@@ -115,7 +118,6 @@ export function ImageUploadButton ({
       {getState()}
     </View>
   )
-  }
 }
 
 const styles = StyleSheet.create({

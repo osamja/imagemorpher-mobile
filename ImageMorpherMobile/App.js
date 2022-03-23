@@ -6,8 +6,8 @@ import { Provider as PaperProvider } from 'react-native-paper'
 import { Title } from './src/components/Title'
 import { UploadImagesView }from './src/components/views/UploadImagesView'
 import { MorphResponseView } from './src/components/views/MorphResponseView'
-import { InfoMessage } from './src/components/InfoMessage'
 import { LinearGradient } from 'expo-linear-gradient'
+import { Button } from 'react-native-paper'
 
 export default function App () {
 
@@ -60,10 +60,6 @@ export default function App () {
         <Title />
         <View style={styles.view}>
           {getView()}
-          <InfoMessage 
-            firstImageRef={firstImageRef}
-            secondImageRef={secondImageRef}
-          />
         </View>
       </LinearGradient>
     </PaperProvider>

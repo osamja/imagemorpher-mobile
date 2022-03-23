@@ -3,6 +3,8 @@ import { StyleSheet, ActivityIndicator } from 'react-native'
 import { Button } from 'react-native-paper'
 import * as WebBrowser from 'expo-web-browser'
 import * as Analytics from 'expo-firebase-analytics'
+import { View } from 'react-native-web'
+import { Text } from 'react-native-paper'
 
 import { morph_endpoint } from '../../constants/index'
 
@@ -17,6 +19,7 @@ export function MorphButton({
   const [isLoading, setIsLoading] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const [isFailure, setIsFailure] = useState(false)
+
 
   function getMorphResponse() {
     Analytics.logEvent('ButtonTapped', {
@@ -106,33 +109,58 @@ export function MorphButton({
 
   const type = (isGif ? 'GIF' : 'Image')
 
-  if (isLoading) {
-    return (
-      <Button mode='outlined'>
-        <ActivityIndicator style={styles.spinner} size="small" />
-        Creating {type}
-      </Button>
-    )
+  const getState = () => {
+    if (isLoading) {
+      return(
+        <View style={{flexDirection: 'row'}}>
+          <ActivityIndicator style={styles.spinner} size="small" />
+          <Text>Creating {type}</Text>
+        </View>
+      )
+    }
+    if (morphResponse) {
+      getMorphResponse()
+      return (
+          <View>
+            <Text>View {type}</Text>
+          </View>
+      )
+    }
+
+    if (isFailure) {
+      return (
+        <View>
+          <Text>Morph sequence failed</Text>
+        </View>
+      )
+    }
+
+    if (firstImageRef && !secondImageRef) {
+      return <Text>Upload the second image</Text>
+    }
+
+    if (!firstImageRef && secondImageRef) {
+      return <Text>Upload the first image</Text>
+    }
+
+    if (!firstImageRef && !secondImageRef) {
+      return <Text>Upload two images to morph</Text>
+    }
+    if (firstImageRef && secondImageRef) {
+      return <Text>Morph</Text>
+    }
   }
 
-  if (morphResponse) {
-    getMorphResponse()
-    return (
-      <Button mode='outlined' color='white' onPress={() => getMorphResponse()}>
-        View {type}
-      </Button>
-    )
-  }
-
-  if (isFailure) {
-    return (
-      <Button 
-        mode='contained'
-      >
-        Morph Sequence Failed
-      </Button>
-    )
-  }
+  return (
+    <Button 
+    mode='outlined'
+    color='white'
+    disabled={!firstImageRef || !secondImageRef}
+    onPress={() => getMorph(firstImageRef, secondImageRef)}
+    >
+      {getState()}
+    </Button>
+  )
 
   return (
     <Button 
