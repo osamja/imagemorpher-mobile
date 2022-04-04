@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { View, StyleSheet } from 'react-native'
+import { LinearGradient } from 'expo-linear-gradient'
+
+// views
+import { UploadImagesView }from './src/components/views/UploadImagesView'
+import { MorphResponseView } from './src/components/views/MorphResponseView'
 
 // UI library - React Native Paper
 import { Provider as PaperProvider } from 'react-native-paper'
-import { Title } from './src/components/Title'
-import { UploadImagesView }from './src/components/views/UploadImagesView'
-import { MorphResponseView } from './src/components/views/MorphResponseView'
-import { LinearGradient } from 'expo-linear-gradient'
 import { Button } from 'react-native-paper'
 
 export default function App () {
@@ -14,38 +15,40 @@ export default function App () {
   const [firstImageRef, setFirstImageRef] = useState(null)
   const [secondImageRef, setSecondImageRef] = useState(null)
   const [morphResponse, setMorphResponse] = useState(null)
-  const [isGif, setIsGif] = useState(false)
+  const [isGif, setIsGif] = useState(true)
 
   const getView = () => {
+      // If halfway morph image was successful, allow user to view image.
     if (morphResponse) {
       return (
         <MorphResponseView
-          firstImageRef={firstImageRef}
-          secondImageRef={secondImageRef}
-          morphResponse={morphResponse}
-    
-          setFirstImageRef={setFirstImageRef}
-          setSecondImageRef={setSecondImageRef}
-          setMorphResponse={setMorphResponse}
-
-          isGif={isGif}
-          setIsGif={setIsGif}
-      />
-      )
-    }
-    return (
-      <UploadImagesView
         firstImageRef={firstImageRef}
         secondImageRef={secondImageRef}
         morphResponse={morphResponse}
-  
+
         setFirstImageRef={setFirstImageRef}
         setSecondImageRef={setSecondImageRef}
         setMorphResponse={setMorphResponse}
 
         isGif={isGif}
         setIsGif={setIsGif}
-      />
+        />
+      )
+    }
+    // Homepage
+    return (
+      <UploadImagesView
+      firstImageRef={firstImageRef}
+      secondImageRef={secondImageRef}
+      morphResponse={morphResponse}
+
+      setFirstImageRef={setFirstImageRef}
+      setSecondImageRef={setSecondImageRef}
+      setMorphResponse={setMorphResponse}
+
+      isGif={isGif}
+      setIsGif={setIsGif}
+    />
     )
   }
 
@@ -59,17 +62,17 @@ export default function App () {
       >
         <View style={styles.tabs}>
           <Button 
-            mode='outlined'
+            mode={isGif ?  'contained' : 'outlined'}
             style={styles.tab}
-            color={'white'}
+            color={isGif ? '#FF4500' : 'white'}
             onPress={() => setIsGif(true)}
           >
             GIF
           </Button>
           <Button 
-            mode="outlined"
+            mode={isGif ? 'outlined' : 'contained'}
             style={styles.tab}
-            color={'white'}
+            color={isGif ? 'white' : '#FF4500'}
             onPress={() => setIsGif(false)}
           >
             Image
@@ -93,14 +96,10 @@ const styles = StyleSheet.create({
   },
   tab: {
     width: '50vw',
-    height: 60,
-    color: 'white',
+    height: 70,
     justifyContent: 'center',
   },
   view: {
-    marginTop: '20vh',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
+    marginTop: '25vh',
   },
 })

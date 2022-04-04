@@ -98,30 +98,26 @@ export function ImageUploadButton ({
       })
   }
 
-  const getState = () => {
-    if (isLoading) {
-      return <ActivityIndicator size="small"/>
-    }
-    if (isSuccess && imageRef) {
-      return <Button icon="face-recognition" labelStyle={styles.btnArea} color="lightgreen" onPress={pickImage}></Button>
-    }
-    if (isFailure && imageRef) {
-      {imageRef && imageRef.message && <Text>Morph Failed</Text>}
-    }
-    return (
-      <Button icon="face-recognition" labelStyle={styles.btnArea} color="#e5a823" onPress={pickImage}></Button>
-    )
+  if (isLoading) {
+    return <ActivityIndicator labelStyle={styles.loadingIcon} size="large" />
   }
-
+  if (isSuccess && imageRef) {
+    return <Button icon="face-recognition" labelStyle={styles.btnArea} color="lightgreen" onPress={pickImage}></Button>
+  }
+  if (isFailure) {
+    console.log("img upload failed")
+    {imageRef && imageRef.message && <Text>Morph Failed</Text>}
+  }
   return (
-    <View style={styles.container}>
-      {getState()}
-    </View>
+    <Button icon="face-recognition" labelStyle={styles.btnArea} color="#e5a823" onPress={pickImage}></Button>
   )
 }
 
 const styles = StyleSheet.create({
   btnArea: {
     fontSize: 70,
+  },
+  loadingIcon: {
+    marginTop: 20,
   }
 })

@@ -1,7 +1,8 @@
 import React from 'react'
 import { View, StyleSheet, TouchableOpacity, Image } from 'react-native'
 import { Button } from 'react-native-paper'
-import { MorphButton } from '../buttons/MorphButton'
+import * as WebBrowser from 'expo-web-browser'
+import * as Analytics from 'expo-firebase-analytics'
 
 export function MorphResponseView({firstImageRef, setFirstImageRef, secondImageRef, setSecondImageRef, morphResponse, setMorphResponse, isGif}) {
   
@@ -11,23 +12,24 @@ export function MorphResponseView({firstImageRef, setFirstImageRef, secondImageR
     setMorphResponse(null)
   }
 
+  function getMorphResponse() {
+    Analytics.logEvent('ButtonTapped', {
+        name: (isGif ? 'GetMorphSequence' : 'GetMorph'),
+        screen: 'main',
+        purpose: 'Begin the morph'
+      })
+      WebBrowser.openBrowserAsync(morphResponse.toString())
+  }
+
   return (
     <View style={styles.morphBtnArea}>
       <View style={styles.button}>
-        <MorphButton
-          isGif={isGif}
-          
-          firstImageRef={firstImageRef}
-          secondImageRef={secondImageRef}
-          morphResponse={morphResponse}
-    
-          setFirstImageRef={setFirstImageRef}
-          setSecondImageRef={setSecondImageRef}
-          setMorphResponse={setMorphResponse} 
-        />
+        <Button mode="outlined" color="white" onPress={() => getMorphResponse()}>
+          View {isGif ? 'GIF' : 'Image'}
+        </Button>
       </View>
       <View style={styles.button}>
-        <Button mode="contained" color='#FF4500' onPress={() => setInitialMorphState()}>
+        <Button mode="outlined" color='white' onPress={() => setInitialMorphState()}>
           Restart
         </Button>
       </View>

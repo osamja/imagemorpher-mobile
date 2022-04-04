@@ -130,24 +130,32 @@ export function MorphButton({
     if (isFailure) {
       return (
         <View>
-          <Text>Morph sequence failed</Text>
+          <Text>Morph sequence failed. Try again</Text>
         </View>
       )
-    }
-
-    if (firstImageRef && !secondImageRef) {
-      return <Text>Upload the second image</Text>
-    }
-
-    if (!firstImageRef && secondImageRef) {
-      return <Text>Upload the first image</Text>
     }
 
     if (!firstImageRef && !secondImageRef) {
       return <Text>Upload two images to morph</Text>
     }
+    if (firstImageRef instanceof Error) {
+      return (
+        <Text>Re-upload first image</Text>
+      )
+    }
+
+    if (secondImageRef instanceof Error) {
+      return (<Text>Re-upload second image</Text>)
+    }
+    if (!firstImageRef && secondImageRef) {
+      return <Text>Upload the first image</Text>
+    }
+
+    if (firstImageRef && !secondImageRef) {
+      return <Text>Upload the second image</Text>
+    }
     if (firstImageRef && secondImageRef) {
-      return <Text>Morph</Text>
+      return <Text>Morph {isGif ? 'GIF' : 'Image'}</Text>
     }
   }
 

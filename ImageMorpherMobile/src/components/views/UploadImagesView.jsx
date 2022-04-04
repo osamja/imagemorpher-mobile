@@ -2,7 +2,6 @@ import React from 'react'
 import { View, StyleSheet } from 'react-native'
 
 import { ImageUploadButton } from '../buttons/ImageUploadButton'
-import { Switch } from 'react-native-paper'
 import { MorphButton } from '../buttons/MorphButton'
 
 export function UploadImagesView ({firstImageRef, setFirstImageRef, secondImageRef, setSecondImageRef, morphResponse, setMorphResponse, isGif, setIsGif}) {
@@ -10,12 +9,10 @@ export function UploadImagesView ({firstImageRef, setFirstImageRef, secondImageR
   return (
     <View style={styles.container}>
       <View style={styles.uploadImgBtns}>
-        <View style={styles.firstUploadImgBtn}>
-          <ImageUploadButton
-            imageRef={firstImageRef}
-            setImageRef={setFirstImageRef}
-          />
-        </View>
+        <ImageUploadButton
+          imageRef={firstImageRef}
+          setImageRef={setFirstImageRef}
+        />
         <ImageUploadButton
           imageRef={secondImageRef}
           setImageRef={setSecondImageRef}
@@ -34,24 +31,18 @@ export function UploadImagesView ({firstImageRef, setFirstImageRef, secondImageR
             setMorphResponse={setMorphResponse} 
           />
         </View>
-        <Switch
-          style={styles.switch}
-          value={isGif}
-          onValueChange={() => setIsGif(!isGif)}
-        />
       </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  firstUploadImgBtn: {
-    marginRight: 60,
-    justifyContent: 'center',
+  container: {
     alignItems: 'center',
   },
   uploadImgBtns: {
     flexDirection: 'row',
+    paddingHorizontal: 20,
   },
   morphBtnArea: {
     marginTop: 100,
@@ -61,8 +52,5 @@ const styles = StyleSheet.create({
   },
   morphBtn: {
     width: 300,
-  },
-  switch: {
-    marginLeft: 20,
   },
 })
