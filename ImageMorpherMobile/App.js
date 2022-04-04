@@ -30,8 +30,8 @@ export default function App () {
         setSecondImageRef={setSecondImageRef}
         setMorphResponse={setMorphResponse}
 
-        isGif={isGif}
-        setIsGif={setIsGif}
+        sequenceName={isGif ? 'GetMorphSequence' : 'GetMorph'}
+        type={isGif ? 'GIF' : 'Image'}
         />
       )
     }
