@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { StyleSheet, ActivityIndicator } from 'react-native'
 import { Button } from 'react-native-paper'
-import * as WebBrowser from 'expo-web-browser'
 import * as Analytics from 'expo-firebase-analytics'
 import { View } from 'react-native-web'
 import { Text } from 'react-native-paper'
@@ -19,16 +18,6 @@ export function MorphButton({
   const [isLoading, setIsLoading] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const [isFailure, setIsFailure] = useState(false)
-
-
-  function getMorphResponse() {
-    Analytics.logEvent('ButtonTapped', {
-        name: (isGif ? 'GetMorphSequence' : 'GetMorph'),
-        screen: 'main',
-        purpose: 'Begin the morph'
-      })
-      WebBrowser.openBrowserAsync(morphResponse.toString())
-  }
 
   async function getMorph (firstImageRef, secondImageRef) {
     if (!firstImageRef || !secondImageRef) {
@@ -134,7 +123,6 @@ export function MorphButton({
         </View>
       )
     }
-
     if (!firstImageRef && !secondImageRef) {
       return <Text>Upload two images to morph</Text>
     }
@@ -143,14 +131,12 @@ export function MorphButton({
         <Text>Re-upload first image</Text>
       )
     }
-
     if (secondImageRef instanceof Error) {
       return (<Text>Re-upload second image</Text>)
     }
     if (!firstImageRef && secondImageRef) {
       return <Text>Upload the first image</Text>
     }
-
     if (firstImageRef && !secondImageRef) {
       return <Text>Upload the second image</Text>
     }
@@ -167,17 +153,6 @@ export function MorphButton({
     onPress={() => getMorph(firstImageRef, secondImageRef)}
     >
       {getState()}
-    </Button>
-  )
-
-  return (
-    <Button 
-     mode='outlined'
-     disabled={!firstImageRef || !secondImageRef}
-     color='#e5a823'
-     onPress={() => getMorph(firstImageRef, secondImageRef)} 
-    >
-      Morph {type}
     </Button>
   )
 }

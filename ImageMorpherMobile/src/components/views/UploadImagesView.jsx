@@ -1,18 +1,18 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
-
 import { ImageUploadButton } from '../buttons/ImageUploadButton'
 import { MorphButton } from '../buttons/MorphButton'
 
-export function UploadImagesView ({firstImageRef, setFirstImageRef, secondImageRef, setSecondImageRef, morphResponse, setMorphResponse, isGif, setIsGif}) {
+export function UploadImagesView ({firstImageRef, setFirstImageRef, secondImageRef, setSecondImageRef, morphResponse, setMorphResponse, isGif}) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.uploadImgBtns}>
+      <View style={styles.uploadImgArea}>
         <ImageUploadButton
           imageRef={firstImageRef}
           setImageRef={setFirstImageRef}
         />
+        <View style={styles.divider}></View>
         <ImageUploadButton
           imageRef={secondImageRef}
           setImageRef={setSecondImageRef}
@@ -21,7 +21,7 @@ export function UploadImagesView ({firstImageRef, setFirstImageRef, secondImageR
       <View style={styles.morphBtnArea}>
         <View style={styles.morphBtn}>
           <MorphButton
-            isGif={isGif}
+            style={styles.morphBtn}
             firstImageRef={firstImageRef}
             secondImageRef={secondImageRef}
             morphResponse={morphResponse}
@@ -29,6 +29,8 @@ export function UploadImagesView ({firstImageRef, setFirstImageRef, secondImageR
             setFirstImageRef={setFirstImageRef}
             setSecondImageRef={setSecondImageRef}
             setMorphResponse={setMorphResponse} 
+
+            isGif={isGif}
           />
         </View>
       </View>
@@ -40,15 +42,14 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
   },
-  uploadImgBtns: {
+  divider: {
+    width: 60,
+  },
+  uploadImgArea: {
     flexDirection: 'row',
-    paddingHorizontal: 20,
   },
   morphBtnArea: {
     marginTop: 100,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   morphBtn: {
     width: 300,

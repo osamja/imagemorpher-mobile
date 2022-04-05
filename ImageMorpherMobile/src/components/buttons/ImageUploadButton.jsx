@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { View, StyleSheet, ActivityIndicator } from 'react-native'
 import * as ImagePicker from 'expo-image-picker'
 import * as Analytics from 'expo-firebase-analytics'
-import { Button } from 'react-native-paper'
+import { Button, Text} from 'react-native-paper'
 
 import { morph_upload_endpoint } from '../../constants/index'
 
@@ -102,19 +102,24 @@ export function ImageUploadButton ({
     return <ActivityIndicator labelStyle={styles.loadingIcon} size="large" />
   }
   if (isSuccess && imageRef) {
-    return <Button icon="face-recognition" labelStyle={styles.btnArea} color="lightgreen" onPress={pickImage}></Button>
+    return <Button icon="face-recognition" labelStyle={styles.btnSize} color="lightgreen" onPress={pickImage}></Button>
   }
   if (isFailure) {
-    console.log("img upload failed")
-    {imageRef && imageRef.message && <Text>Morph Failed</Text>}
+    return (
+      <View>
+        <Button icon="face-recognition" labelStyle={styles.btnSize} color="red" onPress={pickImage}>
+        </Button>
+        {imageRef && <Text>{imageRef.message}</Text>}
+      </View>
+    )
   }
   return (
-    <Button icon="face-recognition" labelStyle={styles.btnArea} color="#e5a823" onPress={pickImage}></Button>
+    <Button icon="face-recognition" labelStyle={styles.btnSize} color="#e5a823" onPress={pickImage}></Button>
   )
 }
 
 const styles = StyleSheet.create({
-  btnArea: {
+  btnSize: {
     fontSize: 70,
   },
   loadingIcon: {

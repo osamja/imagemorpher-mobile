@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, StyleSheet, TouchableOpacity, Image } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import { Button } from 'react-native-paper'
 import * as WebBrowser from 'expo-web-browser'
 import * as Analytics from 'expo-firebase-analytics'
@@ -24,7 +24,7 @@ export function MorphResponseView({setFirstImageRef, setSecondImageRef, morphRes
   return (
     <View style={styles.morphBtnArea}>
       <View style={styles.button}>
-        <Button mode="outlined" color="white" onPress={() => getMorphResponse()}>
+        <Button mode="outlined" color="#e5a823" onPress={() => getMorphResponse()}>
           View Morph
         </Button>
       </View>
@@ -38,6 +38,9 @@ export function MorphResponseView({setFirstImageRef, setSecondImageRef, morphRes
 }
 
 const styles = StyleSheet.create({ 
+  morphBtnArea: {
+    alignItems: 'center',
+  },  
   button: {
     marginTop: 40,
     marginBottom: 40,

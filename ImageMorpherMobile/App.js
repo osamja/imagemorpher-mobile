@@ -30,7 +30,6 @@ export default function App () {
         setSecondImageRef={setSecondImageRef}
         setMorphResponse={setMorphResponse}
 
-        sequenceName={isGif ? 'GetMorphSequence' : 'GetMorph'}
         type={isGif ? 'GIF' : 'Image'}
         />
       )
@@ -63,17 +62,17 @@ export default function App () {
         <View style={styles.tabs}>
           <Button 
             mode={isGif ?  'contained' : 'outlined'}
-            style={styles.tab}
             color={isGif ? '#FF4500' : 'white'}
             onPress={() => setIsGif(true)}
+            style={styles.tab}
           >
             GIF
           </Button>
           <Button 
             mode={isGif ? 'outlined' : 'contained'}
-            style={styles.tab}
             color={isGif ? 'white' : '#FF4500'}
             onPress={() => setIsGif(false)}
+            style={styles.tab}
           >
             Image
           </Button>
@@ -89,14 +88,12 @@ export default function App () {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    alignItems: 'center',
   },
   tabs: {
     flexDirection: 'row',
   },
   tab: {
     width: '50vw',
-    height: 70,
     justifyContent: 'center',
   },
   view: {
