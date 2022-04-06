@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 import { View, StyleSheet } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 
-// views
+// Views
 import { UploadImagesView }from './src/components/views/UploadImagesView'
 import { MorphResponseView } from './src/components/views/MorphResponseView'
 
-// UI library - React Native Paper
+// UI library
 import { Provider as PaperProvider } from 'react-native-paper'
 import { Button } from 'react-native-paper'
 
@@ -18,7 +18,7 @@ export default function App () {
   const [isGif, setIsGif] = useState(true)
 
   const getView = () => {
-      // If halfway morph image was successful, allow user to view image.
+    // View after successful morph
     if (morphResponse) {
       return (
         <MorphResponseView
@@ -34,7 +34,7 @@ export default function App () {
         />
       )
     }
-    // Homepage
+    // Homepage view
     return (
       <UploadImagesView
       firstImageRef={firstImageRef}

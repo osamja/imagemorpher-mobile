@@ -107,9 +107,8 @@ export function ImageUploadButton ({
   if (isFailure) {
     return (
       <View>
-        <Button icon="face-recognition" labelStyle={styles.btnSize} color="red" onPress={pickImage}>
-        </Button>
-        {imageRef && <Text>{imageRef.message}</Text>}
+        <Button icon="face-recognition" labelStyle={styles.btnSize} color="red" onPress={pickImage}></Button>
+        {imageRef && <Text style={styles.errorMessage}>{imageRef.message}</Text>}
       </View>
     )
   }
@@ -124,5 +123,8 @@ const styles = StyleSheet.create({
   },
   loadingIcon: {
     marginTop: 20,
+  },
+  errorMessage: {
+    marginTop: 10,
   }
 })
