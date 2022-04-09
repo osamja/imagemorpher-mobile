@@ -29,8 +29,6 @@ export function UploadImagesView ({firstImageRef, setFirstImageRef, secondImageR
             setFirstImageRef={setFirstImageRef}
             setSecondImageRef={setSecondImageRef}
             setMorphResponse={setMorphResponse} 
-
-            isGif={isGif}
           />
         </View>
       </View>
@@ -43,13 +41,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   divider: {
-    width: 60,
+    height: 100,
   },
-  uploadImgArea: {
-    flexDirection: 'row',
-  },
+  // uploadImgArea: {
+  //   flexDirection: 'row',
+  // },
   morphBtnArea: {
-    marginTop: 100,
+    margin: 100,
   },
   morphBtn: {
     width: 300,
