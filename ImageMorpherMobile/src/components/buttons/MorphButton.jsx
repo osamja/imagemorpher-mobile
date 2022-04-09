@@ -8,11 +8,13 @@ import { Text } from 'react-native-paper'
 import { morph_endpoint } from '../../constants/index'
 
 export function MorphButton({
+  isGif,
   firstImageRef,
   secondImageRef,
   morphResponse,
   setMorphResponse
 }) {
+    
   const [isLoading, setIsLoading] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const [isFailure, setIsFailure] = useState(false)
@@ -24,15 +26,15 @@ export function MorphButton({
    
     try {
       await Analytics.logEvent('ButtonTapped', {
-        name: ('StartMorph'),
+        name: (isGif ? 'StartMorphSequence' : 'StartMorph'),
         screen: 'main',
-        purpose: ('Start the morph'),
+        purpose: (isGif ? 'Start the morph sequence' : 'Start the morph'),
       })
 
       const data = new FormData()
       data.append('firstImageRef', firstImageRef)
       data.append('secondImageRef', secondImageRef)
-      data.append('isSequence', ('True'))
+      data.append('isSequence', (isGif ? 'True' : 'False'))
       data.append('stepSize', '20')
       // Correct
       setIsLoading(true)
@@ -74,7 +76,7 @@ export function MorphButton({
           setMorphResponse(resJson)
 
           Analytics.logEvent('ButtonTapped', {
-            name: ('MorphSequenceSuccess'),
+            name: (isGif ? 'MorphSequenceSuccess' : 'MorphSuccess'),
             screen: 'main',
             purpose: 'Morph was successful'
           })
@@ -84,7 +86,7 @@ export function MorphButton({
         .catch((error) => {
           console.error(error)
           Analytics.logEvent('ButtonTapped', {
-            name: ('MorphSequenceFailure'),
+            name: (isGif ? 'MorphSequenceFailure' : 'MorphFailure'),
             screen: 'main',
             purpose: error.message
           })
@@ -94,51 +96,63 @@ export function MorphButton({
     }
   }
 
-  const getMorphButtonText = () => {
+  const type = (isGif ? 'GIF' : 'Image')
+
+  const getState = () => {
     if (isLoading) {
       return(
         <View style={{flexDirection: 'row'}}>
           <ActivityIndicator style={styles.spinner} size="small" />
-          <Text>Creating Morph</Text>
+          <Text>Creating {type}</Text>
         </View>
       )
     }
     if (morphResponse) {
       getMorphResponse()
-      return ('View Morph')
+      return (
+          <View>
+            <Text>View {type}</Text>
+          </View>
+      )
     }
 
     if (isFailure) {
-      return ('Morph sequence failed. Try again')
+      return (
+        <View>
+          <Text>Morph sequence failed. Try again</Text>
+        </View>
+      )
     }
     if (!firstImageRef && !secondImageRef) {
-      return ('Upload two images to morph')
+      return <Text>Upload two images to morph</Text>
     }
     if (firstImageRef instanceof Error) {
-      return ('Re-upload first image')
+      return (
+        <Text>Re-upload first image</Text>
+      )
     }
     if (secondImageRef instanceof Error) {
-      return 'Re-upload second image'
+      return (<Text>Re-upload second image</Text>)
     }
     if (!firstImageRef && secondImageRef) {
-      return 'Upload the first image'
+      return <Text>Upload the first image</Text>
     }
     if (firstImageRef && !secondImageRef) {
-      return 'Upload the second image'
+      return <Text>Upload the second image</Text>
     }
     if (firstImageRef && secondImageRef) {
-      return 'Morph'
+      return <Text>Morph {isGif ? 'GIF' : 'Image'}</Text>
     }
   }
 
   return (
     <Button 
-      mode='outlined'
-      labelStyle={{ color: "white" }}
-      disabled={!firstImageRef || !secondImageRef}
-      onPress={() => getMorph(firstImageRef, secondImageRef)}
+    mode='outlined'
+    color='white'
+    disabled={!firstImageRef || !secondImageRef}
+    onPress={() => getMorph(firstImageRef, secondImageRef)}
     >
-      {getMorphButtonText()}
+      {getState()}
     </Button>
   )
 }
