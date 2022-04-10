@@ -74,6 +74,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   view: {
-    marginTop: '10%',
+    marginTop: '30%',
   },
 })
