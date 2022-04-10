@@ -30,14 +30,14 @@ export default function App () {
     // View after successful morph
     if (morphResponse) {
       return (
-        <MorphResponseView
-        firstImageRef={firstImageRef}
-        secondImageRef={secondImageRef}
-        morphResponse={morphResponse}
+          <MorphResponseView
+          firstImageRef={firstImageRef}
+          secondImageRef={secondImageRef}
+          morphResponse={morphResponse}
 
-        setFirstImageRef={setFirstImageRef}
-        setSecondImageRef={setSecondImageRef}
-        setMorphResponse={setMorphResponse}
+          setFirstImageRef={setFirstImageRef}
+          setSecondImageRef={setSecondImageRef}
+          setMorphResponse={setMorphResponse}
         />
       )
     }
