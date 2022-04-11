@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { StyleSheet, ActivityIndicator } from 'react-native'
 import { Button } from 'react-native-paper'
 import * as Analytics from 'expo-firebase-analytics'
 import { View } from 'react-native-web'
@@ -13,6 +12,12 @@ export function MorphButton({
   morphResponse,
   setMorphResponse
 }) {
+
+
+  // for testing
+  // firstImageRef = "2022-04-10-17-31-29-969295-d98ca6dccb2f4113861168ee0e6e0c42.jpg";
+  // secondImageRef = "2022-04-10-17-31-47-544901-b38412bf90f942d0a31035bca93080e5.jpg";
+
   const [isLoading, setIsLoading] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const [isFailure, setIsFailure] = useState(false)
@@ -94,57 +99,108 @@ export function MorphButton({
     }
   }
 
-  const getMorphButtonText = () => {
+  const getMorphButton = () => {
     if (isLoading) {
-      return(
-        <View style={{flexDirection: 'row'}}>
-          <ActivityIndicator style={styles.spinner} size="small" />
-          <Text>Creating Morph</Text>
-        </View>
+      return (
+        <Button
+          mode='outlined'
+          labelStyle={{ color: "white" }}
+          disabled
+          loading
+        >
+          Loading..
+        </Button>
       )
-    }
-    if (morphResponse) {
-      getMorphResponse()
-      return ('View Morph')
     }
 
     if (isFailure) {
-      return ('Morph sequence failed. Try again')
+      return (
+        <Button
+          mode='outlined'
+          labelStyle={{ color: "white" }}
+          disabled
+        >
+          Morph Failed
+        </Button>
+      )
     }
+
     if (!firstImageRef && !secondImageRef) {
-      return ('Upload two images to morph')
+      return (
+        <Button
+          mode='outlined'
+          labelStyle={{ color: "white" }}
+          disabled
+        >
+          Upload two images to morph
+        </Button>
+      )
     }
+    
     if (firstImageRef instanceof Error) {
-      return ('Re-upload first image')
+      return (
+        <Button
+          mode='outlined'
+          labelStyle={{ color: "white" }}
+          disabled
+        >
+          Re-upload first image
+        </Button>
+      )
     }
     if (secondImageRef instanceof Error) {
-      return 'Re-upload second image'
+      return (
+        <Button
+          mode='outlined'
+          labelStyle={{ color: "white" }}
+          disabled
+        >
+          Re-upload second image
+        </Button>
+      )
+
     }
+
     if (!firstImageRef && secondImageRef) {
-      return 'Upload the first image'
+      return (
+        <Button
+          mode='outlined'
+          labelStyle={{ color: "white" }}
+          disabled
+        >
+          Upload the first image
+        </Button>
+      )
     }
+
     if (firstImageRef && !secondImageRef) {
-      return 'Upload the second image'
+      return (
+        <Button
+          mode='outlined'
+          labelStyle={{ color: "white" }}
+          disabled
+        >
+          Upload the second image
+        </Button>
+      )
     }
+
     if (firstImageRef && secondImageRef) {
-      return 'Morph'
+      return (
+        <Button
+          mode='outlined'
+          labelStyle={{ color: "white" }}
+          onPress={() => getMorph(firstImageRef, secondImageRef)}
+        >
+          Morph
+        </Button>
+      )
     }
   }
+
+  const morphButton = getMorphButton();
 
   return (
-    <Button 
-      mode='outlined'
-      labelStyle={{ color: "white" }}
-      disabled={!firstImageRef || !secondImageRef}
-      onPress={() => getMorph(firstImageRef, secondImageRef)}
-    >
-      {getMorphButtonText()}
-    </Button>
+    morphButton
   )
 }
-
-const styles = StyleSheet.create({ 
-  spinner: {
-    paddingRight: 5,
-  }
-})

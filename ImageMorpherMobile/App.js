@@ -30,14 +30,14 @@ export default function App () {
     // View after successful morph
     if (morphResponse) {
       return (
-        <MorphResponseView
-        firstImageRef={firstImageRef}
-        secondImageRef={secondImageRef}
-        morphResponse={morphResponse}
+          <MorphResponseView
+          firstImageRef={firstImageRef}
+          secondImageRef={secondImageRef}
+          morphResponse={morphResponse}
 
-        setFirstImageRef={setFirstImageRef}
-        setSecondImageRef={setSecondImageRef}
-        setMorphResponse={setMorphResponse}
+          setFirstImageRef={setFirstImageRef}
+          setSecondImageRef={setSecondImageRef}
+          setMorphResponse={setMorphResponse}
         />
       )
     }
@@ -74,6 +74,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   view: {
-    marginTop: '10%',
+    marginTop: '30%',
   },
 })

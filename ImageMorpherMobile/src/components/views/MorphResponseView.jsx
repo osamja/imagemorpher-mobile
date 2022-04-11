@@ -4,7 +4,14 @@ import { Button } from 'react-native-paper'
 import * as WebBrowser from 'expo-web-browser'
 import * as Analytics from 'expo-firebase-analytics'
 
-export function MorphResponseView({setFirstImageRef, setSecondImageRef, morphResponse, setMorphResponse, isGif}) {
+export function MorphResponseView({
+  setFirstImageRef,
+  setSecondImageRef,
+  setMorphResponse,
+  firstImageRef,
+  secondImageRef,
+  morphResponse,
+}) {
   
   function setInitialMorphState () {
     setFirstImageRef(null)
@@ -14,7 +21,7 @@ export function MorphResponseView({setFirstImageRef, setSecondImageRef, morphRes
 
   function getMorphResponse() {
     Analytics.logEvent('ButtonTapped', {
-        name: (isGif ? 'GetMorphSequence' : 'GetMorph'),
+        name: ('GetMorphSequence'),
         screen: 'main',
         purpose: 'Begin the morph'
       })

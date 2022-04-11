@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native'
 import { ImageUploadButton } from '../buttons/ImageUploadButton'
 import { MorphButton } from '../buttons/MorphButton'
 
-export function UploadImagesView ({firstImageRef, setFirstImageRef, secondImageRef, setSecondImageRef, morphResponse, setMorphResponse, isGif}) {
+export function UploadImagesView ({firstImageRef, setFirstImageRef, secondImageRef, setSecondImageRef, morphResponse, setMorphResponse}) {
 
   return (
     <View style={styles.container}>
