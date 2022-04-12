@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, ActivityIndicator } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import * as ImagePicker from 'expo-image-picker'
 import * as Analytics from 'expo-firebase-analytics'
 import { Button, Text} from 'react-native-paper'
@@ -99,8 +99,18 @@ export function ImageUploadButton ({
   }
 
   if (isLoading) {
-    return <ActivityIndicator labelStyle={styles.loadingIcon} size="large" />
+    return (
+      <Button
+        icon="face-recognition"
+        labelStyle={{ color: "white" }}
+        disabled
+        loading
+      >
+        Loading..
+      </Button>
+    )
   }
+
   if (isSuccess && imageRef) {
     return <Button icon="face-recognition" labelStyle={styles.btnSize} color="lightgreen" onPress={pickImage}></Button>
   }
@@ -125,6 +135,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   errorMessage: {
+    color: 'white',
     marginTop: 10,
   }
 })
