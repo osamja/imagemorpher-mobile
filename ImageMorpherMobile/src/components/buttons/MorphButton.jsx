@@ -104,7 +104,6 @@ export function MorphButton({
       return (
         <Button
           mode='outlined'
-          labelStyle={{ color: "white" }}
           disabled
           loading
         >
@@ -117,7 +116,6 @@ export function MorphButton({
       return (
         <Button
           mode='outlined'
-          labelStyle={{ color: "white" }}
           disabled
         >
           Morph Failed
@@ -129,7 +127,6 @@ export function MorphButton({
       return (
         <Button
           mode='outlined'
-          labelStyle={{ color: "white" }}
           disabled
         >
           Upload two images to morph
@@ -141,7 +138,6 @@ export function MorphButton({
       return (
         <Button
           mode='outlined'
-          labelStyle={{ color: "white" }}
           disabled
         >
           Re-upload first image
@@ -152,7 +148,6 @@ export function MorphButton({
       return (
         <Button
           mode='outlined'
-          labelStyle={{ color: "white" }}
           disabled
         >
           Re-upload second image
@@ -165,7 +160,6 @@ export function MorphButton({
       return (
         <Button
           mode='outlined'
-          labelStyle={{ color: "white" }}
           disabled
         >
           Upload the first image
@@ -177,7 +171,6 @@ export function MorphButton({
       return (
         <Button
           mode='outlined'
-          labelStyle={{ color: "white" }}
           disabled
         >
           Upload the second image
@@ -189,7 +182,6 @@ export function MorphButton({
       return (
         <Button
           mode='outlined'
-          labelStyle={{ color: "white" }}
           onPress={() => getMorph(firstImageRef, secondImageRef)}
         >
           Morph

@@ -57,14 +57,14 @@ export default function App () {
 
   return (
     <PaperProvider theme={theme}>
-      <LinearGradient
+      {/* <LinearGradient
         colors={['#000428', '#004e92']}
         style={styles.background}
-      >
+      > */}
         <View style={styles.view}>
           {getView()}
         </View>
-      </LinearGradient>
+      {/* </LinearGradient> */}
     </PaperProvider>
   )
 }

@@ -102,7 +102,6 @@ export function ImageUploadButton ({
     return (
       <Button
         icon="face-recognition"
-        labelStyle={{ color: "white" }}
         disabled
         loading
       >
@@ -135,7 +134,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   errorMessage: {
-    color: 'white',
     marginTop: 10,
   }
 })

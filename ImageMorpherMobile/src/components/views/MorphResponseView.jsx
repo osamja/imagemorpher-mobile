@@ -31,12 +31,12 @@ export function MorphResponseView({
   return (
     <View style={styles.morphBtnArea}>
       <View style={styles.button}>
-        <Button mode="outlined" color="#e5a823" onPress={() => getMorphResponse()}>
+        <Button mode="outlined" onPress={() => getMorphResponse()}>
           View Morph
         </Button>
       </View>
       <View style={styles.button}>
-        <Button mode="outlined" color='white' onPress={() => setInitialMorphState()}>
+        <Button mode="outlined" onPress={() => setInitialMorphState()}>
           Restart
         </Button>
       </View>
