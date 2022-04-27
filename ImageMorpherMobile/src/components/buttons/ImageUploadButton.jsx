@@ -111,7 +111,15 @@ export function ImageUploadButton ({
   }
 
   if (isSuccess && imageRef) {
-    return <Button icon="face-recognition" labelStyle={styles.btnSize} color="lightgreen" onPress={pickImage}></Button>
+    return (
+      <Button 
+        icon="face-recognition"
+        labelStyle={styles.btnSize}
+        color="lightgreen"
+        onPress={pickImage}
+      >
+      </Button>
+    )
   }
   if (isFailure) {
     return (
@@ -121,6 +129,7 @@ export function ImageUploadButton ({
       </View>
     )
   }
+
   return (
     <Button icon="face-recognition" labelStyle={styles.btnSize} color="#e5a823" onPress={pickImage}></Button>
   )
