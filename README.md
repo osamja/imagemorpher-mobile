@@ -16,4 +16,4 @@
 2. Can we squeeze both buttons into morph state button?
 ## Building the app
 * https://github.com/osamja/imagemorpher-mobile/issues/25
-
+* To build/deploy for web, run `expo build:web` then `cd web-build; vercel--prod`
