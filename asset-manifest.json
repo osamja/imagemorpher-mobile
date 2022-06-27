@@ -1,22 +1,22 @@
 {
   "files": {
-    "app.js": "/imagemorpher-mobile/ImageMorpherMobile/static/js/app.a2f503ff.chunk.js",
-    "app.js.map": "/imagemorpher-mobile/ImageMorpherMobile/static/js/app.a2f503ff.chunk.js.map",
-    "runtime~app.js": "/imagemorpher-mobile/ImageMorpherMobile/static/js/runtime~app.247b2370.js",
-    "runtime~app.js.map": "/imagemorpher-mobile/ImageMorpherMobile/static/js/runtime~app.247b2370.js.map",
-    "static/js/2.bfb39419.chunk.js": "/imagemorpher-mobile/ImageMorpherMobile/static/js/2.bfb39419.chunk.js",
-    "static/js/2.bfb39419.chunk.js.map": "/imagemorpher-mobile/ImageMorpherMobile/static/js/2.bfb39419.chunk.js.map",
-    "fonts/MaterialCommunityIcons.ttf": "/imagemorpher-mobile/ImageMorpherMobile/./fonts/MaterialCommunityIcons.ttf",
-    "favicon-16.png": "/imagemorpher-mobile/ImageMorpherMobile/favicon-16.png",
-    "favicon-32.png": "/imagemorpher-mobile/ImageMorpherMobile/favicon-32.png",
-    "favicon.ico": "/imagemorpher-mobile/ImageMorpherMobile/favicon.ico",
-    "index.html": "/imagemorpher-mobile/ImageMorpherMobile/index.html",
-    "manifest.json": "/imagemorpher-mobile/ImageMorpherMobile/manifest.json",
-    "serve.json": "/imagemorpher-mobile/ImageMorpherMobile/serve.json",
-    "static/js/2.bfb39419.chunk.js.LICENSE.txt": "/imagemorpher-mobile/ImageMorpherMobile/static/js/2.bfb39419.chunk.js.LICENSE.txt"
+    "app.js": "/imagemorpher-mobile/static/js/app.a2f503ff.chunk.js",
+    "app.js.map": "/imagemorpher-mobile/static/js/app.a2f503ff.chunk.js.map",
+    "runtime~app.js": "/imagemorpher-mobile/static/js/runtime~app.41128bc4.js",
+    "runtime~app.js.map": "/imagemorpher-mobile/static/js/runtime~app.41128bc4.js.map",
+    "static/js/2.bfb39419.chunk.js": "/imagemorpher-mobile/static/js/2.bfb39419.chunk.js",
+    "static/js/2.bfb39419.chunk.js.map": "/imagemorpher-mobile/static/js/2.bfb39419.chunk.js.map",
+    "fonts/MaterialCommunityIcons.ttf": "/imagemorpher-mobile/./fonts/MaterialCommunityIcons.ttf",
+    "favicon-16.png": "/imagemorpher-mobile/favicon-16.png",
+    "favicon-32.png": "/imagemorpher-mobile/favicon-32.png",
+    "favicon.ico": "/imagemorpher-mobile/favicon.ico",
+    "index.html": "/imagemorpher-mobile/index.html",
+    "manifest.json": "/imagemorpher-mobile/manifest.json",
+    "serve.json": "/imagemorpher-mobile/serve.json",
+    "static/js/2.bfb39419.chunk.js.LICENSE.txt": "/imagemorpher-mobile/static/js/2.bfb39419.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime~app.247b2370.js",
+    "static/js/runtime~app.41128bc4.js",
     "static/js/2.bfb39419.chunk.js",
     "static/js/app.a2f503ff.chunk.js"
   ]
