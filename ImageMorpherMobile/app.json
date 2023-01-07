@@ -6,6 +6,14 @@
     "version": "2.2.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow MyMorph to access your photos.  Used for image uploading and saving the morphed result."
+        }
+      ]
+    ],
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",

@@ -24,7 +24,12 @@ export default function App () {
 
   const [firstImageRef, setFirstImageRef] = useState(null)
   const [secondImageRef, setSecondImageRef] = useState(null)
-  const [morphResponse, setMorphResponse] = useState(null)
+  const [xxmorphResponse, setMorphResponse] = useState(null)
+
+  const tempMorphResponse = "https://sammyjaved.com/facemorphs/2023-01-06-07-22-47-506112-f80c2456f0f14b2fa5d95cc590fc5ec6.gif";
+
+  // DELETE!!!!!!!!!
+  const morphResponse = tempMorphResponse;
 
   const getView = () => {
     // View after successful morph
@@ -74,6 +79,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   view: {
-    marginTop: '30%',
+    marginTop: '50px',
   },
 })
