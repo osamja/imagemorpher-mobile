@@ -31,7 +31,7 @@ export function ImageUploadButton ({
       base64: true
     })
 
-    if (!result.cancelled) {
+    if (!result.canceled) {
       if (imageRef === null || (imageRef instanceof Error)) {
         // image picker on iphone works different than web browser
         if (result.base64) {
