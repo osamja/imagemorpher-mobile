@@ -4,7 +4,7 @@
 * This repo contains the UI for the mobile imagemorpher application.  It communicates with the ImageMorpher repo for the /morph REST API
 
 # Development
-* Run `expo start`
+* Run `expo start --tunnel`
 
 # User Workflow
 - Upload first face
