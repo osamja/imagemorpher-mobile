@@ -4,9 +4,14 @@ import { View, StyleSheet } from 'react-native'
 // Views
 import { UploadImagesView }from './src/components/views/UploadImagesView'
 import { MorphResponseView } from './src/components/views/MorphResponseView'
+import LoginScreen from './src/components/views/Login'
+
 
 // UI library
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper'
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 
 const theme = {
   ...DefaultTheme,
@@ -24,6 +29,10 @@ export default function App () {
   const [firstImageRef, setFirstImageRef] = useState(null)
   const [secondImageRef, setSecondImageRef] = useState(null)
   const [morphResponse, setMorphResponse] = useState(null)
+
+  
+
+  const Stack = createNativeStackNavigator();
 
   const getView = () => {
     // View after successful morph
@@ -53,6 +62,25 @@ export default function App () {
       />
     )
   }
+
+  
+  return (
+    <PaperProvider theme={theme}>
+        <View style={styles.view}>
+          {getView()}
+        </View>
+    </PaperProvider>
+  )
+
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Upload">
+        {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
+        <Stack.Screen name="Upload" component={UploadImagesView}>
+        </Stack.Screen>
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 
   return (
     <PaperProvider theme={theme}>
