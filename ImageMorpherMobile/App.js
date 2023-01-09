@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { View, StyleSheet } from 'react-native'
-import { LinearGradient } from 'expo-linear-gradient'
 
 // Views
 import { UploadImagesView }from './src/components/views/UploadImagesView'
