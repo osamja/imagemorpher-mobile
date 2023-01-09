@@ -10,7 +10,7 @@ import {
   createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
 } from "firebase/auth";
-import app from '../../../firebaseConfig'
+import app from '../../../../firebaseConfig'
 
 /**
  * 
@@ -22,8 +22,6 @@ import app from '../../../firebaseConfig'
  * 2. Is the link suppose to 
  */
 
-
-
 const storeEmail = async (value) => {
   try {
     await AsyncStorage.setItem('@email', value)
@@ -33,23 +31,9 @@ const storeEmail = async (value) => {
   }
 }
 
-const readEmail = async () => {
-	try {
-		const value = await AsyncStorage.getItem('@email');
-
-		if (value !== null) {
-			console.log('value: ', value)
-			return value;
-		}
-	} catch(e) {
-		console.error(e)
-	}
-}
-
-
-
 const LoginScreen = () => {
-	const [email, setEmail] = useState('sammyjaved@gmail.com')
+	const [email, setEmail] = useState('')
+	const [password, setPassword] = useState('')
 	const [emailSent, setEmailSent] = useState(false)
 
 	const navigation = useNavigation()
@@ -60,52 +44,48 @@ const LoginScreen = () => {
 		const unsubscribe = auth.onAuthStateChanged(user => {
 			if (user) {
 				console.log('We signed in!!')
-				navigation.replace("Upload")
+				navigation.replace("Home")
 			}
 		})
 
 		return unsubscribe
 	}, [])
 
-	const signInWithEmailAndPassword = () => {
-		signInWithEmailAndPassword = si(auth, email, password)
+	const signUserInWithEmailAndPassword = () => {
+		signInWithEmailAndPassword(auth, email, password)
 		.then((userCredential) => {
 			// Signed in 
 			const user = userCredential.user;
-			// ...
+			storeEmail(email)
 		})
 		.catch((error) => {
 			const errorCode = error.code;
 			const errorMessage = error.message;
+			console.log(errorMessage + errorCode)
 		});
 	}
 
-
-	console.log('Email: ', AsyncStorage.getItem('@email'))
-
-	if (emailSent) {
-		return (
-			<KeyboardAvoidingView
-				style={styles.container}
-				behavior="padding"
-			>
-				<View style={styles.inputContainer}>
-					<TextInput
-						// placeholder="Email"
-						placeholder="sammyjaved@gmail.com"
-						value="sammyjaved@gmail.com"
-						// value={email}
-						// onChangeText={text => setEmail(text)}
-						style={styles.input}
-					/>
-				</View>
-
-				<View style={styles.buttonContainer}>
-					<Text style={styles.buttonOutlineText}>Email Sent</Text>
-				</View>
-			</KeyboardAvoidingView>
-		)
+	const registerUserWithEmailAndPassword = () => {
+		createUserWithEmailAndPassword(auth, email, password)
+			.then((userCredential) => {
+				// Signed in 
+				const user = userCredential.user;
+				console.log(user)
+				// ...
+			})
+			.catch((error) => {
+				const errorCode = error.code;
+				const errorMessage = error.message;
+				console.log(errorCode + errorMessage)
+				// ..
+			});
 	}
+
+
+	// console.log('Email: ', AsyncStorage.getItem('@email'))
+
+	// TODO 78646: Setup textContentType so that password info can be autofilled from keychain
+	// https://reactnative.dev/docs/textinput#textcontenttype-ios
 
 	return (
 		<KeyboardAvoidingView
@@ -114,23 +94,35 @@ const LoginScreen = () => {
 		>
 			<View style={styles.inputContainer}>
 				<TextInput
-					// placeholder="sammyjaved@gmail.com"
-					// value="sammyjaved@gmail.com"
 					placeholder="Email"
 					value={email}
 					onChangeText={text => setEmail(text)}
 					style={styles.input}
 				/>
+				<TextInput
+					placeholder="Password"
+					secureTextEntry={true}
+					// value=""
+					value={password}
+					onChangeText={text => setPassword(text)}
+					style={styles.input}
+				/>
 			</View>
-
 
 			<View style={styles.buttonContainer}>
 				<TouchableOpacity
-					onPress={signInWithEmailAndPassword}
+					onPress={signUserInWithEmailAndPassword}
 					style={[styles.button, styles.buttonOutline]}
 				>
-					<Text style={styles.buttonOutlineText}>Login via Email</Text>
-					
+					<Text style={styles.buttonOutlineText}>Login</Text>
+				</TouchableOpacity>
+			</View>
+			<View style={styles.buttonContainer}>
+				<TouchableOpacity
+					onPress={registerUserWithEmailAndPassword}
+					style={[styles.button, styles.buttonOutline]}
+				>
+					<Text style={styles.buttonOutlineText}>Register</Text>
 				</TouchableOpacity>
 			</View>
 		</KeyboardAvoidingView>
