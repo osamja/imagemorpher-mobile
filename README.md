@@ -5,6 +5,7 @@
 
 # Development
 * Run `expo start --tunnel`
+* For web, we may have to use the IP address instead of localhost. i.e. `http://172.19.177.199:19006`
 
 # User Workflow
 - Upload first face
