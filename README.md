@@ -4,7 +4,7 @@
 * This repo contains the UI for the mobile imagemorpher application.  It communicates with the ImageMorpher repo for the /morph REST API
 
 # Development
-* Run `expo start --tunnel`
+* Run `npx expo start --tunnel`
 * For web, we may have to use the IP address instead of localhost. i.e. `http://172.19.177.199:19006`
 
 # User Workflow
