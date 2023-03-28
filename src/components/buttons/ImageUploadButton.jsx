@@ -14,6 +14,14 @@ export function ImageUploadButton ({
   const [isSuccess, setIsSuccess] = useState(false)
   const [isFailure, setIsFailure] = useState(false)
 
+  const isEligibleForUpload = (imageRef) => {
+    if (imageRef === null || (imageRef instanceof Error)) {
+      return true
+    } else {
+      return false
+    }
+  }
+
   const pickImage = async () => {
     await Analytics.logEvent('ButtonTapped', {
       name: 'PickImage',
@@ -30,15 +38,13 @@ export function ImageUploadButton ({
       base64: true
     })
 
-    if (!result.canceled) {
-      if (imageRef === null || (imageRef instanceof Error)) {
-        // image picker on iphone works different than web browser
-        if (result.base64) {
-          uploadImage(result.base64)
-        } 
-        else {
-          uploadImage(result.uri)
-        }
+    const asset = result.assets && result.assets[0];
+
+    if (isEligibleForUpload(imageRef)) {
+      if (asset.base64) {
+        uploadImage(asset.base64)
+      } else if (asset.uri) {
+        uploadImage(asset.uri)
       }
     }
   }
