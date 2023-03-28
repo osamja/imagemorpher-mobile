@@ -43,9 +43,9 @@ const styles = StyleSheet.create({
   divider: {
     height: 100,
   },
-  // uploadImgArea: {
-  //   flexDirection: 'row',
-  // },
+  uploadImgArea: {
+    flexDirection: 'row',
+  },
   morphBtnArea: {
     margin: 100,
   },
