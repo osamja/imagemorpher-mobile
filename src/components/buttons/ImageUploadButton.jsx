@@ -10,7 +10,6 @@ export function ImageUploadButton ({
   imageRef,
   setImageRef
 }) {
-  
   const [isLoading, setIsLoading] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const [isFailure, setIsFailure] = useState(false)
@@ -74,6 +73,7 @@ export function ImageUploadButton ({
           screen: 'main',
           purpose: 'Image upload was successful'
         })
+        console.log('Image upload was successful')
         // On success, hide the loading spinner
         setIsLoading(false)
         setIsSuccess(true)
@@ -88,6 +88,7 @@ export function ImageUploadButton ({
             screen: 'main',
             purpose: 'Image upload failed'
           })
+          console.log('Image upload failed')
           console.log(errorMessage)
           setIsLoading(false)
           setIsSuccess(false)
@@ -125,7 +126,7 @@ export function ImageUploadButton ({
     return (
       <View>
         <Button icon="face-recognition" labelStyle={styles.btnSize} color="red" onPress={pickImage}></Button>
-        {imageRef && <Text style={styles.errorMessage}>{imageRef.message}</Text>}
+        {imageRef && <Text style={styles.errorMessage}>Error: {imageRef.message}</Text>}
       </View>
     )
   }
@@ -137,12 +138,13 @@ export function ImageUploadButton ({
 
 const styles = StyleSheet.create({
   btnSize: {
-    fontSize: 70,
+    fontSize: 250,  // increase the font size to make the button bigger
   },
   loadingIcon: {
     marginTop: 20,
   },
   errorMessage: {
+    textAlign: 'center',
     marginTop: 10,
   }
 })

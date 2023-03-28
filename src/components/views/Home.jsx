@@ -2,9 +2,6 @@ import React, { useState } from 'react'
 import { View, StyleSheet } from 'react-native'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 
-import { ImageUploadButton } from '../buttons/ImageUploadButton'
-import { MorphButton } from '../buttons/MorphButton'
-
 // Views
 import { UploadImagesView }from './UploadImagesView'
 import { MorphResponseView } from './MorphResponseView'
@@ -55,7 +52,7 @@ export default function HomeScreen () {
           setMorphResponse={setMorphResponse}
         />
         <Tab.Navigator>
-          <Tab.Screen name="Morph" component={MorphView} />
+          <Tab.Screen name="Morph" component={MorphResponseView} />
           <Tab.Screen name="Settings" component={SettingsScreen} />
         </Tab.Navigator>
       </View>
@@ -77,5 +74,4 @@ export default function HomeScreen () {
         </PaperProvider>
       )
   }
-
 }

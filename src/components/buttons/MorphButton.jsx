@@ -129,7 +129,7 @@ export function MorphButton({
           mode='outlined'
           disabled
         >
-          Upload two images to morph
+          Upload first face to morph
         </Button>
       )
     }
