@@ -18,3 +18,6 @@
 ## Building the app
 * https://github.com/osamja/imagemorpher-mobile/issues/25
 * To build/deploy for web, run `expo build:web` then `cd web-build; vercel--prod`
+
+# TODO
+- [ ] Rewrite the backend API to be async.  Currently, the backend API is synchronous.  This is causing the UI to stay in the loading state when the user clicks the morph button and then minimizes the app because it terminates the network request that was in progress.  Apple terminates any network requests from apps once they are minimized for good reason.  We could add a background fetch call but it's ultimately just a hack.  We need to make the backend API async so that user can click the morph button and then minimize the app.  The backend API should then continue to run in the background and send a notification to the user when the morph is complete.  The user can then click the notification to open the app and view the morphed image.  Once this is done, the isSequence flag should be set to true in the morph request and the user should be able to click the morph button again to generate the morph sequence.
