@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, { useState, useRef } from 'react'
 import { StyleSheet, Text, View } from 'react-native';
 import Swiper from 'react-native-swiper';
 
@@ -7,7 +7,6 @@ import { ImageUploadButton } from './src/components/buttons/ImageUploadButton'
 import { MorphButton } from './src/components/buttons/MorphButton'
 
 export default function App() {
-
   const [firstImageRef, setFirstImageRef] = useState(null)
   const [secondImageRef, setSecondImageRef] = useState(null)
   const [morphResponse, setMorphResponse] = useState(null)

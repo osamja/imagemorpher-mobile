@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
-import { View, StyleSheet } from 'react-native'
+import React, { useState, useRef, useEffect } from 'react'
+import { View, Text } from 'react-native'
 import { Button } from 'react-native-paper'
 import * as WebBrowser from 'expo-web-browser'
 import { morph_endpoint } from '../../constants/index'
 import styled from 'styled-components/native'
+import * as Notifications from 'expo-notifications';
+import * as Device from 'expo-device';
 
 const StyledButton = styled(Button)`
   align-self: center;
@@ -22,6 +24,46 @@ const styles = {
   }
 }
 
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
+
+async function registerForPushNotificationsAsync() {
+  let token;
+
+  if (Platform.OS === 'android') {
+    await Notifications.setNotificationChannelAsync('default', {
+      name: 'default',
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: '#FF231F7C',
+    });
+  }
+
+  if (Device.isDevice) {
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      alert('Failed to get push token for push notification!');
+      return;
+    }
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+    // console.log('Push token: ')
+    // console.log(token);
+  } else {
+    alert('Must use physical device for Push Notifications');
+  }
+
+  return token;
+}
 
 export function MorphButton({
   firstImageRef,
@@ -36,9 +78,42 @@ export function MorphButton({
   // firstImageRef = "2022-04-10-17-31-29-969295-d98ca6dccb2f4113861168ee0e6e0c42.jpg";
   // secondImageRef = "2022-04-10-17-31-47-544901-b38412bf90f942d0a31035bca93080e5.jpg";
 
+  const [expoPushToken, setExpoPushToken] = useState('');
+  const [notification, setNotification] = useState(false);
+  const notificationListener = useRef();
+  const responseListener = useRef();
+
   const [isLoading, setIsLoading] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const [isFailure, setIsFailure] = useState(false)
+
+  useEffect(() => {
+    registerForPushNotificationsAsync().then((token) => setExpoPushToken(token));
+
+    notificationListener.current = Notifications.addNotificationReceivedListener((notification) => {
+      setNotification(notification);
+    });
+
+    return () => {
+      Notifications.removeNotificationSubscription(notificationListener.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
+      // Add any action you want to perform when the notification is tapped
+      // Clicking on the notification will open the browser to the morphed url
+      const url = response.notification.request.content.data.url;
+      if (url) {
+        setMorphResponse(url)
+        WebBrowser.openBrowserAsync(url);
+      }
+    });
+
+    return () => {
+      Notifications.removeNotificationSubscription(responseListener.current);
+    };
+  }, []);
 
   async function getMorphResponse() {
       WebBrowser.openBrowserAsync(morphResponse.toString())
@@ -65,6 +140,7 @@ export function MorphButton({
       data.append('secondImageRef', secondImageRef)
       data.append('isSequence', ('False'))  // See Readme TODO section for more info
       data.append('stepSize', '10')   // 5 looks incredible, 20 looks bad, isSequence must be set to True
+      data.append('expoPushToken', expoPushToken)
 
       // Correct
       setIsLoading(true)
@@ -209,6 +285,9 @@ export function MorphButton({
     }
 
     if (firstImageRef && secondImageRef && morphResponse) {
+
+      isMorphProcessing = morphResponse.toString().includes('Processing')
+
       return (
         <View>
           <StyledButton
@@ -218,12 +297,15 @@ export function MorphButton({
           >
             Restart
           </StyledButton>
-          <StyledButton
+          {!isMorphProcessing && <StyledButton
             mode='outlined'
             onPress={() => getMorphResponse()}
-          >
-            View Morph
-          </StyledButton>
+            >
+              Get Morph
+            </StyledButton>
+          }
+
+          {isMorphProcessing && <Text>We'll notify you when your morph is ready!</Text>}
         </View>
       )
     }
