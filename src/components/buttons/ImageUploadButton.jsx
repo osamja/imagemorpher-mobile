@@ -4,6 +4,7 @@ import * as ImagePicker from 'expo-image-picker'
 import { Button, Text, IconButton } from 'react-native-paper'
 import { morph_upload_endpoint } from '../../constants/index'
 import styled from 'styled-components/native'
+import * as FaceDetector from 'expo-face-detector';
 
 const styles = StyleSheet.create({
   btnSize: {
@@ -52,12 +53,16 @@ export function ImageUploadButton ({
     setIsSuccess(true)
   }
 
-  const isEligibleForUpload = (imageRef) => {
-    if (imageRef === null || (imageRef instanceof Error)) {
-      return true
-    } else {
-      return false
+  const isEligibleForUpload = async (imageRef) => {
+    const faces = await detectFacialFeatures(imageRef)
+
+    if (faces.length > 0) {
+      console.log('Faces detected')
+      return true;
     }
+
+    console.log('No faces detected')
+    return false;
   }
 
   const handleFailure = (error) => {
@@ -77,6 +82,18 @@ export function ImageUploadButton ({
     }
   }
 
+  const detectFacialFeatures = async (imageUri) => {
+    const options = {
+      mode: FaceDetector.FaceDetectorMode.accurate,
+      detectLandmarks: FaceDetector.FaceDetectorLandmarks.all,
+      runClassifications: FaceDetector.FaceDetectorClassifications.none,
+    };
+    console.log('imageUri: ' + imageUri)
+    const { faces } = await FaceDetector.detectFacesAsync(imageUri, options);
+    console.log(faces);
+    return faces;
+  };
+
   const pickImage = async () => {
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
@@ -93,21 +110,35 @@ export function ImageUploadButton ({
         throw new Error('No image selected');
       }
 
-      if (isEligibleForUpload(imageRef)) {
-        if (asset.base64) {
-          uploadImage(asset.base64);
-        } else if (asset.uri) {
-          uploadImage(asset.uri);
-        }
+      const faces = await detectFacialFeatures(asset.uri)
+
+      if (!faces.length) {
+        console.log('No Faces detected')
+        throw new Error('No Faces detected')
       }
+
+      const firstFace = faces[0]
+      console.log(firstFace)
+
+      if (asset.base64) {
+        await uploadImage(asset.base64, firstFace);
+      } else if (asset.uri) {
+        await uploadImage(asset.uri, firstFace);
+      }
+
     } catch (e) {
+      console.log('Error while picking image: ')
       console.log(e);
+      const errorObject = new Error(e.message)
+      setImageRef(errorObject)
+      handleFailure(errorObject)
     }
   }
 
-  const uploadImage = async (img) => {
+  const uploadImage = async (img, landmarks) => {
     const data = new FormData()
     data.append('firstImageRef', img)
+    data.append('landmarks', JSON.stringify(landmarks))
 
     setIsLoading(true)
     setIsSuccess(false)

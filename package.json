@@ -21,7 +21,8 @@
     "react-native-screens": "^3.18.2",
     "react-native-swiper": "^1.6.0",
     "react-native-web": "~0.18.7",
-    "styled-components": "^5.3.9"
+    "styled-components": "^5.3.9",
+    "expo-face-detector": "~12.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3"
