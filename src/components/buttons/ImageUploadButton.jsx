@@ -3,7 +3,6 @@ import { View, StyleSheet } from 'react-native'
 import * as ImagePicker from 'expo-image-picker'
 import { Button, Text, IconButton } from 'react-native-paper'
 import { morph_upload_endpoint } from '../../constants/index'
-import styled from 'styled-components/native'
 
 const styles = StyleSheet.create({
   btnSize: {
@@ -197,6 +196,3 @@ export function ImageUploadButton ({
     />
   )
 }
-  
-
-
