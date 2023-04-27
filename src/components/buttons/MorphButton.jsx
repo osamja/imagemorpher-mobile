@@ -16,7 +16,7 @@ const StyledButton = styled(Button)`
   border: 1px solid #f5f5f5;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   width: 80%;
-`
+`;
 
 const styles = {
   restartStyle : {
@@ -47,17 +47,31 @@ async function registerForPushNotificationsAsync() {
   if (Device.isDevice) {
     const { status: existingStatus } = await Notifications.getPermissionsAsync();
     let finalStatus = existingStatus;
+    
     if (existingStatus !== 'granted') {
-      const { status } = await Notifications.requestPermissionsAsync();
+      // Add presentationOptions with a custom message
+      const { status } = await Notifications.requestPermissionsAsync({
+        ios: {
+          allowAlert: true,
+          allowBadge: true,
+          allowSound: true,
+          allowAnnouncements: true,
+          provideAppNotificationSettings: true,
+          presentationOptions: ['alert', 'sound'],
+          customPrompt: {
+            title: 'Allow notifications',
+            message:
+              'We will notify you when your morph is ready. To receive these notifications, please grant permission.',
+          },
+        },
+      });
       finalStatus = status;
     }
     if (finalStatus !== 'granted') {
       alert('Failed to get push token for push notification!');
-      return;
+      return null;
     }
     token = (await Notifications.getExpoPushTokenAsync()).data;
-    // console.log('Push token: ')
-    // console.log(token);
   } else {
     alert('Must use physical device for Push Notifications');
   }
@@ -75,8 +89,8 @@ export function MorphButton({
   handleMorphResetButtonClick,
 }) {
   // for testing
-  // firstImageRef = "2022-04-10-17-31-29-969295-d98ca6dccb2f4113861168ee0e6e0c42.jpg";
-  // secondImageRef = "2022-04-10-17-31-47-544901-b38412bf90f942d0a31035bca93080e5.jpg";
+  // firstImageRef = "2023-04-27-00-00-33-702223-b1585a16bdd6452294419cc60dba26e2.jpg";
+  // secondImageRef = "2023-04-27-00-02-05-133157-4e9f775ae6ca41d59289abc1c46f8eff.jpg";
 
   const [expoPushToken, setExpoPushToken] = useState('');
   const [notification, setNotification] = useState(false);
@@ -88,35 +102,32 @@ export function MorphButton({
   const [isFailure, setIsFailure] = useState(false)
 
   useEffect(() => {
-    registerForPushNotificationsAsync().then((token) => setExpoPushToken(token));
-
     notificationListener.current = Notifications.addNotificationReceivedListener((notification) => {
       setNotification(notification);
     });
 
-    return () => {
-      Notifications.removeNotificationSubscription(notificationListener.current);
-    };
-  }, []);
-
-  useEffect(() => {
     responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
       // Add any action you want to perform when the notification is tapped
       // Clicking on the notification will open the browser to the morphed url
       const url = response.notification.request.content.data.url;
+
       if (url) {
-        setMorphResponse(url)
-        WebBrowser.openBrowserAsync(url);
+        WebBrowser.openBrowserAsync(url); // auto open morph when notification is clicked
       }
     });
 
     return () => {
+      Notifications.removeNotificationSubscription(notificationListener.current);
       Notifications.removeNotificationSubscription(responseListener.current);
     };
   }, []);
 
-  async function getMorphResponse() {
-      WebBrowser.openBrowserAsync(morphResponse.toString())
+  async function getMorphResponse(morphUri) {
+    if (!morphUri) {
+      return
+    }
+
+    WebBrowser.openBrowserAsync(morphUri);
   }
 
   function setInitialMorphState () {
@@ -133,63 +144,62 @@ export function MorphButton({
     if (!firstImageRef || !secondImageRef) {
       return
     }
-   
+
+    // Call registerForPushNotificationsAsync here
+    const pushToken = await registerForPushNotificationsAsync();
+
+    if (pushToken) {
+      setExpoPushToken(pushToken);
+    } else {
+      // If the user does not grant notification permissions, you can decide how to handle it (e.g., show an alert)
+      // set expo push token to a string indicating that the user did not grant permissions
+      console.log('User did not grant permissions for notifications')
+    }
+
     try {
-      const data = new FormData()
-      data.append('firstImageRef', firstImageRef)
-      data.append('secondImageRef', secondImageRef)
-      data.append('isSequence', ('False'))  // See Readme TODO section for more info
-      data.append('stepSize', '10')   // 5 looks incredible, 20 looks bad, isSequence must be set to True
-      data.append('expoPushToken', expoPushToken)
-
-      // Correct
-      setIsLoading(true)
-      setIsSuccess(false)
-      setIsFailure(false)
-      setMorphResponse(null)
-
-      const response = await
-      fetch(
-        morph_endpoint, {
-          method: 'POST',
-          headers: {
-            Authorization: 'ImageMorpherV1'
-          },
-          body: data
-        }
-      )
-        .then(res => {
-          try {
-            if (res.ok) {
-              return res.json()
-            } else {
-              throw new Error(res)
-            }
-          } catch (err) {
-            console.log(err.message)
-            setIsLoading(false)
-            setIsSuccess(false)
-            setIsFailure(true)
-            setMorphResponse(null)
-            throw err
-          }
-        })
-        .then(resJson => {
-          // On success, hide the loading spinner
-          setIsLoading(false)
-          setIsSuccess(true)
-          setIsFailure(false)
-          setMorphResponse(resJson)
-
-          return resJson.data
-        })
-        .catch((error) => {
-          console.error(error)
-        })
+      const data = new FormData();
+      data.append("firstImageRef", firstImageRef);
+      data.append("secondImageRef", secondImageRef);
+      data.append("isAsync", "True");
+      data.append("isSequence", "True"); // See Readme TODO section for more info
+      data.append("stepSize", "10"); // 5 looks incredible, 20 looks bad, isSequence must be set to True
+      data.append("expoPushToken", expoPushToken);
+    
+      setIsLoading(true);
+      setIsSuccess(false);
+      setIsFailure(false);
+      setMorphResponse(null);
+    
+      const response = await fetch(morph_endpoint, {
+        method: "POST",
+        headers: {
+          Authorization: "ImageMorpherV1",
+        },
+        body: data,
+      });
+    
+      if (response.ok) {
+        const resJson = await response.json();
+        console.log('resJson', resJson)
+        // On success, hide the loading spinner
+        setIsLoading(false);
+        setIsSuccess(true);
+        setIsFailure(false);
+        setMorphResponse(resJson);
+    
+        return resJson.data;
+      } else {
+        throw new Error(response);
+      }
     } catch (error) {
-      console.error(error)
+      console.error(error);
+      setIsLoading(false);
+      setIsSuccess(false);
+      setIsFailure(true);
+      setMorphResponse(null);
     }
   }
+  
 
   const getMorphButton = () => {
     if (isLoading) {
@@ -285,27 +295,29 @@ export function MorphButton({
     }
 
     if (firstImageRef && secondImageRef && morphResponse) {
-
-      isMorphProcessing = morphResponse.toString().includes('Processing')
+      morph_uri = morphResponse.morphUri;
 
       return (
         <View>
           <StyledButton
             mode='outlined'
             onPress={() => setInitialMorphState()}
+            labelStyle={{ color: 'red' }}
             style={styles.restartStyle}
           >
             Restart
           </StyledButton>
-          {!isMorphProcessing && <StyledButton
-            mode='outlined'
-            onPress={() => getMorphResponse()}
+          {
+            morph_uri &&
+            <><StyledButton
+              mode='outlined'
+              onPress={() => getMorphResponse(morph_uri)}
+              style={styles.restartStyle}
             >
-              Get Morph
-            </StyledButton>
+              Morph Link
+            </StyledButton><Text>We'll notify you when your morph is ready!</Text></>
           }
 
-          {isMorphProcessing && <Text>We'll notify you when your morph is ready!</Text>}
         </View>
       )
     }
