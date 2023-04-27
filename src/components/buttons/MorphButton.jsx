@@ -68,7 +68,6 @@ async function registerForPushNotificationsAsync() {
       finalStatus = status;
     }
     if (finalStatus !== 'granted') {
-      alert('Failed to get push token for push notification!');
       return null;
     }
     token = (await Notifications.getExpoPushTokenAsync()).data;
@@ -309,14 +308,16 @@ export function MorphButton({
           </StyledButton>
           {
             morph_uri &&
-            <><StyledButton
+            <StyledButton
               mode='outlined'
               onPress={() => getMorphResponse(morph_uri)}
               style={styles.restartStyle}
             >
               Morph Link
-            </StyledButton><Text>We'll notify you when your morph is ready!</Text></>
+            </StyledButton>
           }
+          {expoPushToken && <Text>We'll notify you when your morph is ready!</Text>}
+          {!expoPushToken && <Text>Your morph is processing and will be available at Morph Link in a couple minutes.</Text>}
 
         </View>
       )
