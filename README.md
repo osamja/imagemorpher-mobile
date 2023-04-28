@@ -63,5 +63,7 @@ To build/deploy for web, run `expo build:web` then `cd web-build; vercel--prod`
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-
-
+=======
+# Development
+* Run `npx expo start --tunnel`
+* For web, we may have to use the IP address instead of localhost. i.e. `http://172.19.177.199:19006`

@@ -1,2 +1,15 @@
-temp/
-.vscode/
+node_modules/**/*
+.expo/*
+npm-debug.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+builds/
+docs/marketing/**
+
+# macOS
+.DS_Store

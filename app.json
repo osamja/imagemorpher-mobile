@@ -3,9 +3,10 @@
     "name": "MyMorph",
     "slug": "ImageMorpherMobile",
     "description": "Morph two faces together",
-    "version": "2.0.0",
+    "version": "2.3.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "jsEngine": "hermes",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -19,7 +20,6 @@
     ],
     "ios": {
       "bundleIdentifier": "com.sammyjaved.imagemorpher",
-      "googleServicesFile": "./assets/analytics/GoogleService-Info.plist",
       "supportsTablet": true
     },
     "android": {
@@ -30,17 +30,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png",
-      "config": {
-        "firebase": {
-          "apiKey": "AIzaSyDGAVkVYF_sbdu2JEtPaGA3r4_7VwOgAkA",
-          "authDomain": "imagemorpher-mobile.firebaseapp.com",
-          "projectId": "imagemorpher-mobile",
-          "storageBucket": "imagemorpher-mobile.appspot.com",
-          "messagingSenderId": "1040911673649",
-          "appId": "1:1040911673649:web:6d9201cf6f69eb7e392810",
-          "measurementId": "G-CZ79HDFPPR"
-        }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "24c2031d-2ad9-49de-9882-0c118b825a80"
       }
-    }
+    },
+    "owner": "air217"
   }
 }
