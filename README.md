@@ -1,6 +1,8 @@
 # MyMorph
 
-MyMorph is a mobile application that allows users to morph two faces together using our Morph API. The application is built using React Native and ExpressJS, and is published on the App Store. You can download the app [here](https://apps.apple.com/us/app/mymorph/id1554421298).
+### [Open in the iOS App Store](https://apps.apple.com/us/app/mymorph/id1554421298)
+
+MyMorph is a iOS app that lets you morph two faces together using our Morph API.  
 
 ![Upload Button](./ImageMorpherMobile/assets/fun-screenshots/upload_btn_screenshot.webp)
 
@@ -42,6 +44,12 @@ npx expo start --tunnel
 
 For web, you may have to use the IP address instead of localhost. i.e. http://172.19.177.199:19006
 
+
+### [Building the iOS App](https://github.com/osamja/imagemorpher-mobile/issues/25)
+
+To build/deploy for web, run `expo build:web` then `cd web-build; vercel--prod`
+
+
 ## Usage
 
 1. Upload the first image of a face using the ImageUploadButton component.
@@ -50,10 +58,6 @@ For web, you may have to use the IP address instead of localhost. i.e. http://17
 4. Press the MorphButton component to morph the faces together.
 5. View the morphed result using the MorphResponseView component.
 6. Restart the process with new images using the Restart button.
-
-## Todo
-- [ ] Rewrite the backend API to be async.  Currently, the backend API is synchronous.  This is causing the UI to stay in the loading state when the user clicks the morph button and then minimizes the app because it terminates the network request that was in progress.  Apple terminates any network requests from apps once they are minimized for good reason.  We could add a background fetch call but it's ultimately just a hack.  We need to make the backend API async so that user can click the morph button and then minimize the app.  The backend API should then continue to run in the background and send a notification to the user when the morph is complete.  The user can then click the notification to open the app and view the morphed image.  Once this is done, the isSequence flag should be set to true in the morph request and the user should be able to click the morph button again to generate the morph sequence.
-
 
 ## License
 
