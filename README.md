@@ -1,10 +1,16 @@
 # MyMorph
 
+<<<<<<< HEAD
 ### [Open in the iOS App Store](https://apps.apple.com/us/app/mymorph/id1554421298)
 
 MyMorph is a iOS app that lets you morph two faces together using our Morph API.  
 
 ![Upload Button](./ImageMorpherMobile/assets/fun-screenshots/upload_btn_screenshot.webp)
+=======
+MyMorph is a mobile application that allows users to morph two faces together using our Morph API. The application is built using React Native and ExpressJS, and is published on the App Store. You can download the app [here](https://apps.apple.com/us/app/mymorph/id1554421298).
+
+![Upload Button](./assets/fun-screenshots/upload_btn_screenshot.webp)
+>>>>>>> f0531beb (rebase)
 
 ## Table of Contents
 
@@ -63,7 +69,3 @@ To build/deploy for web, run `expo build:web` then `cd web-build; vercel--prod`
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-=======
-# Development
-* Run `npx expo start --tunnel`
-* For web, we may have to use the IP address instead of localhost. i.e. `http://172.19.177.199:19006`
