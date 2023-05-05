@@ -160,6 +160,7 @@ export function MorphButton({
       data.append("firstImageRef", firstImageRef);
       data.append("secondImageRef", secondImageRef);
       data.append("isAsync", "True");
+      data.append("clientId", "ios-MyMorph-App");
       data.append("isSequence", "True"); // See Readme TODO section for more info
       data.append("stepSize", "10"); // 5 looks incredible, 20 looks bad, isSequence must be set to True
       data.append("expoPushToken", expoPushToken);
