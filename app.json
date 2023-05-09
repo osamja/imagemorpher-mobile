@@ -3,7 +3,7 @@
     "name": "MyMorph",
     "slug": "ImageMorpherMobile",
     "description": "Morph two faces together",
-    "version": "2.4.2",
+    "version": "2.5.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "jsEngine": "hermes",
