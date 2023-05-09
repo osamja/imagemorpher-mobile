@@ -2,7 +2,10 @@ import React, { useState, useRef, useEffect } from 'react'
 import { View, Text } from 'react-native'
 import { Button } from 'react-native-paper'
 import * as WebBrowser from 'expo-web-browser'
-import { morph_endpoint } from '../../constants/index'
+import {
+  morph_endpoint,
+  morph_status_endpoint,
+} from '../../constants/index'
 import styled from 'styled-components/native'
 import * as Notifications from 'expo-notifications';
 import * as Device from 'expo-device';
@@ -160,7 +163,7 @@ export function MorphButton({
       data.append("firstImageRef", firstImageRef);
       data.append("secondImageRef", secondImageRef);
       data.append("isAsync", "True");
-      data.append("clientId", "ios-MyMorph-App");
+      data.append("clientId", "ios-MyMorph");
       data.append("isSequence", "True"); // See Readme TODO section for more info
       data.append("stepSize", "10"); // 5 looks incredible, 20 looks bad, isSequence must be set to True
       data.append("expoPushToken", expoPushToken);
@@ -199,7 +202,6 @@ export function MorphButton({
       setMorphResponse(null);
     }
   }
-  
 
   const getMorphButton = () => {
     if (isLoading) {
@@ -296,6 +298,9 @@ export function MorphButton({
 
     if (firstImageRef && secondImageRef && morphResponse) {
       morph_uri = morphResponse.morphUri;
+      morph_id = morphResponse.morphId;
+
+      const morph_status_link = `${morph_status_endpoint}/${morph_id}`;
 
       return (
         <View>
@@ -311,15 +316,13 @@ export function MorphButton({
             morph_uri &&
             <StyledButton
               mode='outlined'
-              onPress={() => getMorphResponse(morph_uri)}
+              onPress={() => getMorphResponse(morph_status_link)}
               style={styles.restartStyle}
             >
-              Morph Link
+              Morph Status
             </StyledButton>
           }
           {expoPushToken && <Text>We'll notify you when your morph is ready!</Text>}
-          {!expoPushToken && <Text>Your morph is processing and will be available at Morph Link in a couple minutes.</Text>}
-
         </View>
       )
     }
