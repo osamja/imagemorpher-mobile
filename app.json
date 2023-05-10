@@ -3,10 +3,13 @@
     "name": "MyMorph",
     "slug": "ImageMorpherMobile",
     "description": "Morph two faces together",
-    "version": "2.5.0",
+    "version": "2.5.7",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "jsEngine": "hermes",
+    "plugins": [
+      "expo-apple-authentication"
+    ],
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
