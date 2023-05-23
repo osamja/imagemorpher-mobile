@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { View, StyleSheet } from 'react-native'
 import * as ImagePicker from 'expo-image-picker'
 import { Button, Text, IconButton } from 'react-native-paper'
+import * as SecureStore from 'expo-secure-store';
 import { morph_upload_endpoint } from '../../constants/index'
 
 const styles = StyleSheet.create({
@@ -108,19 +109,21 @@ export function ImageUploadButton ({
     const data = new FormData()
     data.append('firstImageRef', img)
 
+    const token = await SecureStore.getItemAsync('token');
+
     setIsLoading(true)
     setIsSuccess(false)
     setIsFailure(false)
 
-    fetch(
-      morph_upload_endpoint, {
-        method: 'POST',
-        headers: {
-          Authorization: 'ImageMorpherV1'
-        },
-        body: data
-      }
-    )
+    const reqOptions = {
+      method: 'POST',
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+      body: data
+    }
+
+    fetch(morph_upload_endpoint, reqOptions)
       .then(res => {
         if (!res.ok) {
           throw res
@@ -168,6 +171,7 @@ export function ImageUploadButton ({
       </Button>
     )
   }
+
   if (isFailure) {
     return (
       <View>

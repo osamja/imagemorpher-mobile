@@ -2,9 +2,10 @@ import React, { useState, useRef, useEffect } from 'react'
 import { View, Text } from 'react-native'
 import { Button } from 'react-native-paper'
 import * as WebBrowser from 'expo-web-browser'
+import * as SecureStore from 'expo-secure-store';
 import {
   morph_endpoint,
-  morph_status_endpoint,
+  morph_status_webpage,
 } from '../../constants/index'
 import styled from 'styled-components/native'
 import * as Notifications from 'expo-notifications';
@@ -160,6 +161,7 @@ export function MorphButton({
 
     try {
       const data = new FormData();
+      const token = await SecureStore.getItemAsync('token');
       data.append("firstImageRef", firstImageRef);
       data.append("secondImageRef", secondImageRef);
       data.append("isAsync", "True");
@@ -176,7 +178,7 @@ export function MorphButton({
       const response = await fetch(morph_endpoint, {
         method: "POST",
         headers: {
-          Authorization: "ImageMorpherV1",
+          Authorization: 'Bearer ' + token,
         },
         body: data,
       });
@@ -300,7 +302,7 @@ export function MorphButton({
       morph_uri = morphResponse.morphUri;
       morph_id = morphResponse.morphId;
 
-      const morph_status_link = `${morph_status_endpoint}/${morph_id}`;
+      const morph_status_link = `${morph_status_webpage}/${morph_id}`;
 
       return (
         <View>
