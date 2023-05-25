@@ -1,14 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  FlatList,
+  Button,
+} from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import * as WebBrowser from 'expo-web-browser'
 
 import {
   mymorphs_endpoint,
   morph_status_webpage,
+  morph_delete_account_endpoint,
 } from '../constants/index';
 
-const Profile = ({ navigation, onSignOut }) => {
+const Profile = ({ navigation }) => {
   const [morphHistory, setMorphHistory] = useState(null);
 
   
@@ -44,6 +52,10 @@ const Profile = ({ navigation, onSignOut }) => {
     }
   };
 
+  const navigateToManageAccount = () => {
+    navigation.navigate('ManageAccount');
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Morph History</Text>
@@ -57,9 +69,11 @@ const Profile = ({ navigation, onSignOut }) => {
           </TouchableOpacity>
         )}
       />
-      <TouchableOpacity style={styles.signOutButton} onPress={onSignOut}>
-        <Text style={styles.signOutButtonText}>Sign Out</Text>
-      </TouchableOpacity>
+
+      <Button
+        title="Manage Account"
+        onPress={navigateToManageAccount}
+      />
     </View>
   );
 };
@@ -81,6 +95,17 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     backgroundColor: '#ddd',
     borderRadius: 5,
+  },
+  manageAccountButton: {
+    marginTop: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    backgroundColor: 'blue',
+    borderRadius: 5,
+  },
+  manageAccountButtonText: {
+    color: 'white',
+    fontSize: 16,
   },
   signOutButton: {
     marginTop: 20,
