@@ -10,9 +10,11 @@ import {
   morph_user_endpoint,
   morph_exchange_authcode_endpoint,
 } from './src/constants/index';
+import { AuthContext } from './src/contexts/AuthContext';
 import Login from './src/screens/Login';
 import Morph from './src/screens/Morph';
 import Profile from './src/screens/Profile';
+import ManageAccount from './src/screens/ManageAccount';
 
 const Stack = createStackNavigator();
 
@@ -21,8 +23,8 @@ export default function App() {
 
   useEffect(() => {
     const checkToken = async () => {
-      // const access_token = ''
-      // await SecureStore.setItemAsync('token', access_token);   // uncomment this line to mock login with a valid token
+      // const access_token = ''      // uncomment this line to mock login with a token
+      // await SecureStore.setItemAsync('token', access_token);
       const token = await SecureStore.getItemAsync('token');
       if (token) {
         try {
@@ -87,21 +89,18 @@ export default function App() {
         await SecureStore.setItemAsync('token', id_token);
         setIsLoggedIn(true);
       } else {
+        alert('Apple SignIn Error: ' + response.status);
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       
     } catch (e) {
+      alert('Apple SignIn Error: ' + response.status);
       if (e.code === 'ERR_CANCELED') {
         console.log('User canceled the authentication');
       } else {
         console.error('Apple SignIn Error:', e);
       }
     }
-  };
-
-  const handleSignOut = async () => {
-    await SecureStore.deleteItemAsync('token');
-    setIsLoggedIn(false);
   };
 
   if (!isLoggedIn) {
@@ -112,22 +111,38 @@ export default function App() {
     );
   }
 
+  const StackScreen = isLoggedIn ? (
+    <Stack.Navigator>
+      <Stack.Screen name="Morph" options={{ headerShown: false }}>
+        {props => 
+          <Morph 
+            {...props} 
+            isLoggedIn={isLoggedIn}
+          />
+        }
+      </Stack.Screen>
+      <Stack.Screen name="Profile">
+        {props => <Profile {...props} />}
+      </Stack.Screen>
+      <Stack.Screen
+        name="ManageAccount"
+        component={ManageAccount} 
+        options={{ title: 'Manage Account' }}
+      />
+    </Stack.Navigator>
+  ) : (
+    <Stack.Navigator>
+      <Stack.Screen name="Login" component={Login} />
+    </Stack.Navigator>
+  );
+
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Morph" options={{ headerShown: false }}>
-          {props => 
-            <Morph 
-              {...props} 
-              isLoggedIn={isLoggedIn}
-            />
-          }
-        </Stack.Screen>
-        <Stack.Screen name="Profile">
-          {props => <Profile {...props} onSignOut={handleSignOut} />}
-        </Stack.Screen>
-      </Stack.Navigator>
-    </NavigationContainer>
+    <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
+      <NavigationContainer>
+        {StackScreen}
+      </NavigationContainer>
+    </AuthContext.Provider>
+
   );
 }
 
