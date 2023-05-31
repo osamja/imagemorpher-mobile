@@ -9,6 +9,9 @@ import { StyleSheet, View } from 'react-native';
 import {
   morph_user_endpoint,
   morph_exchange_authcode_endpoint,
+  morph_refresh_token_endpoint,
+  ID_TOKEN_KEY,
+  REFRESH_TOKEN_KEY
 } from './src/constants/index';
 import { AuthContext } from './src/contexts/AuthContext';
 import Login from './src/screens/Login';
@@ -23,29 +26,50 @@ export default function App() {
 
   useEffect(() => {
     const checkToken = async () => {
-      // const access_token = ''      // uncomment this line to mock login with a token
-      // await SecureStore.setItemAsync('token', access_token);
-      const token = await SecureStore.getItemAsync('token');
-      if (token) {
+      let mocked_id_token = '';
+      if (mocked_id_token) {    // Mocked id_token for dev testing purposes
+        await SecureStore.setItemAsync(ID_TOKEN_KEY, mocked_id_token);
+
+        let mocked_refresh_token = '';
+        await SecureStore.setItemAsync(REFRESH_TOKEN_KEY, mocked_refresh_token);
+        setIsLoggedIn(true);
+        return;
+      }
+
+      const idToken = await SecureStore.getItemAsync(ID_TOKEN_KEY);
+
+      if (idToken) {
         try {
           const response = await fetch(morph_user_endpoint, {
             headers: {
-              Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${idToken}`,
             },
           });
-
+    
           if (response.ok) {
             setIsLoggedIn(true);
+          } else if (response.status === 401) {
+            const refresh_token = await SecureStore.getItemAsync(REFRESH_TOKEN_KEY);
+            const new_id_token = await refreshToken(refresh_token);
+    
+            if (new_id_token) {
+              await SecureStore.setItemAsync(ID_TOKEN_KEY, new_id_token);
+              setIsLoggedIn(true);
+            } else {
+              await SecureStore.deleteItemAsync(ID_TOKEN_KEY);
+              await SecureStore.deleteItemAsync(REFRESH_TOKEN_KEY);
+              setIsLoggedIn(false);
+            }
           } else {
-            await SecureStore.deleteItemAsync('token');
+            await SecureStore.deleteItemAsync(ID_TOKEN_KEY);
             setIsLoggedIn(false);
           }
         } catch (error) {
-          await SecureStore.deleteItemAsync('token');
+          await SecureStore.deleteItemAsync(ID_TOKEN_KEY);
           setIsLoggedIn(false);
         }
       } else {
-        await SecureStore.deleteItemAsync('token');
+        await SecureStore.deleteItemAsync(ID_TOKEN_KEY);
         setIsLoggedIn(false);
       }
     };
@@ -84,9 +108,11 @@ export default function App() {
       });
   
       if (response.ok) {
-        const json = await response.json();
-        const id_token = json.id_token;
-        await SecureStore.setItemAsync('token', id_token);
+        const jwt = await response.json();
+        const id_token = jwt.id_token;
+        const refresh_token = jwt.refresh_token;
+        await SecureStore.setItemAsync(ID_TOKEN_KEY, id_token);
+        await SecureStore.setItemAsync(REFRESH_TOKEN_KEY, refresh_token);
         setIsLoggedIn(true);
       } else {
         alert('Apple SignIn Error: ' + response.status);
@@ -102,6 +128,32 @@ export default function App() {
       }
     }
   };
+  
+  const refreshToken = async (refresh_token) => {
+    try {
+      const response = await fetch(morph_refresh_token_endpoint, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          refresh_token: refresh_token,
+        }),
+      });
+  
+      if (response.ok) {
+        const jwt = await response.json();
+        const new_id_token = jwt.id_token;
+        return new_id_token;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.error('Failed to refresh token:', error);
+      return null;
+    }
+  };
 
   if (!isLoggedIn) {
     return (
@@ -114,7 +166,7 @@ export default function App() {
   const StackScreen = isLoggedIn ? (
     <Stack.Navigator>
       <Stack.Screen name="Morph" options={{ headerShown: false }}>
-        {props => 
+        {props =>
           <Morph 
             {...props} 
             isLoggedIn={isLoggedIn}
