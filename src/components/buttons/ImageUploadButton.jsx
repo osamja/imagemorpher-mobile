@@ -3,7 +3,10 @@ import { View, StyleSheet } from 'react-native'
 import * as ImagePicker from 'expo-image-picker'
 import { Button, Text, IconButton } from 'react-native-paper'
 import * as SecureStore from 'expo-secure-store';
-import { morph_upload_endpoint } from '../../constants/index'
+import {
+  morph_upload_endpoint,
+  ID_TOKEN_KEY,
+} from '../../constants/index'
 
 const styles = StyleSheet.create({
   btnSize: {
@@ -109,7 +112,7 @@ export function ImageUploadButton ({
     const data = new FormData()
     data.append('firstImageRef', img)
 
-    const token = await SecureStore.getItemAsync('token');
+    const token = await SecureStore.getItemAsync(ID_TOKEN_KEY);
 
     setIsLoading(true)
     setIsSuccess(false)

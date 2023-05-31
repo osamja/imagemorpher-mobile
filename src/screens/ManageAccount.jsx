@@ -4,6 +4,8 @@ import * as SecureStore from 'expo-secure-store';
 
 import {
     morph_delete_account_endpoint,
+    ID_TOKEN_KEY,
+    REFRESH_TOKEN_KEY
   } from '../constants/index';
 
 import { AuthContext } from '../contexts/AuthContext';
@@ -15,7 +17,8 @@ const ManageAccount = ({
   const { isLoggedIn, setIsLoggedIn } = React.useContext(AuthContext);
 
   const handleSignOut = async () => {
-    await SecureStore.deleteItemAsync('token');
+    await SecureStore.deleteItemAsync(ID_TOKEN_KEY);
+    await SecureStore.deleteItemAsync(REFRESH_TOKEN_KEY);
     setIsLoggedIn(false);
   };
 
@@ -32,7 +35,8 @@ const ManageAccount = ({
         {
           text: 'Yes, Delete My Account', 
           onPress: async () => {
-            const token = await SecureStore.getItemAsync('token');
+            const token = await SecureStore.getItemAsync(ID_TOKEN_KEY);
+            const refreshToken = await SecureStore.getItemAsync(REFRESH_TOKEN_KEY);
     
             setIsLoading(true);
             
@@ -41,6 +45,7 @@ const ManageAccount = ({
                 method: 'DELETE',
                 headers: {
                   Authorization: `Bearer ${token}`,
+                  'X-REFRESH-TOKEN': refreshToken,
                 },
               });
 

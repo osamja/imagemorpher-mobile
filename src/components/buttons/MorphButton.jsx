@@ -6,6 +6,7 @@ import * as SecureStore from 'expo-secure-store';
 import {
   morph_endpoint,
   morph_status_webpage,
+  ID_TOKEN_KEY,
 } from '../../constants/index'
 import styled from 'styled-components/native'
 import * as Notifications from 'expo-notifications';
@@ -161,7 +162,7 @@ export function MorphButton({
 
     try {
       const data = new FormData();
-      const token = await SecureStore.getItemAsync('token');
+      const token = await SecureStore.getItemAsync(ID_TOKEN_KEY);
       data.append("firstImageRef", firstImageRef);
       data.append("secondImageRef", secondImageRef);
       data.append("isAsync", "True");
