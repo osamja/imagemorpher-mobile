@@ -1,5 +1,8 @@
 # MyMorph
 
+### Deprecated
+This codebase is now open-source and available at https://github.com/osamja/mymorph-iOS
+
 ### [Open in the iOS App Store](https://apps.apple.com/us/app/mymorph/id1554421298)
 
 MyMorph is a iOS app that lets you morph two faces together using our Morph API.  
