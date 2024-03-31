@@ -1,13 +1,9 @@
 # MyMorph
 
-### Deprecated
-This codebase is now open-source and available at https://github.com/osamja/mymorph-iOS
+MyMorph is a react-native iOS app that lets you morph two faces together using a [Morph API](https://github.com/osamja/ImageMorpher).
 
-### [Open in the iOS App Store](https://apps.apple.com/us/app/mymorph/id1554421298)
-
-MyMorph is a iOS app that lets you morph two faces together using our Morph API.  
-
-![Upload Button](./ImageMorpherMobile/assets/fun-screenshots/upload_btn_screenshot.webp)
+<!-- Link to mymorph-iOS/assets/adaptive-icon.png -->
+<img src="assets/adaptive-icon.png" width="200" height="200" />
 
 ## Table of Contents
 
@@ -16,6 +12,9 @@ MyMorph is a iOS app that lets you morph two faces together using our Morph API.
 - [Usage](#usage)
 - [Development](#development)
 - [License](#license)
+
+## Architecture
+![MyMorph Architecture](docs/architecture.PNG) 
 
 ## Features
 
@@ -70,4 +69,3 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 # Development
 * Run `npx expo start --tunnel`
 * For web, we may have to use the IP address instead of localhost. i.e. `http://172.19.177.199:19006`
-
