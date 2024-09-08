@@ -1,7 +1,11 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as Crypto from 'expo-crypto';
-import * as SecureStore from 'expo-secure-store';
+import {
+  getToken,
+  storeToken,
+  deleteToken,
+} from './src/store/index'
 import * as AppleAuthentication from 'expo-apple-authentication';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
@@ -26,17 +30,7 @@ export default function App() {
 
   useEffect(() => {
     const checkToken = async () => {
-      let mocked_id_token = '';
-      if (mocked_id_token) {    // Mocked id_token for dev testing purposes
-        await SecureStore.setItemAsync(ID_TOKEN_KEY, mocked_id_token);
-
-        let mocked_refresh_token = '';
-        await SecureStore.setItemAsync(REFRESH_TOKEN_KEY, mocked_refresh_token);
-        setIsLoggedIn(true);
-        return;
-      }
-
-      const idToken = await SecureStore.getItemAsync(ID_TOKEN_KEY);
+      const idToken = await getToken(ID_TOKEN_KEY);
 
       if (idToken) {
         try {
@@ -45,31 +39,31 @@ export default function App() {
               Authorization: `Bearer ${idToken}`,
             },
           });
-    
+
           if (response.ok) {
             setIsLoggedIn(true);
           } else if (response.status === 401) {
-            const refresh_token = await SecureStore.getItemAsync(REFRESH_TOKEN_KEY);
+            const refresh_token = await getToken(REFRESH_TOKEN_KEY);
             const new_id_token = await refreshToken(refresh_token);
-    
+
             if (new_id_token) {
-              await SecureStore.setItemAsync(ID_TOKEN_KEY, new_id_token);
+              await storeToken(ID_TOKEN_KEY, new_id_token);
               setIsLoggedIn(true);
             } else {
-              await SecureStore.deleteItemAsync(ID_TOKEN_KEY);
-              await SecureStore.deleteItemAsync(REFRESH_TOKEN_KEY);
+              await deleteToken(ID_TOKEN_KEY);
+              await deleteToken(REFRESH_TOKEN_KEY);
               setIsLoggedIn(false);
             }
           } else {
-            await SecureStore.deleteItemAsync(ID_TOKEN_KEY);
+            await deleteToken(ID_TOKEN_KEY);
             setIsLoggedIn(false);
           }
         } catch (error) {
-          await SecureStore.deleteItemAsync(ID_TOKEN_KEY);
+          await deleteToken(ID_TOKEN_KEY);
           setIsLoggedIn(false);
         }
       } else {
-        await SecureStore.deleteItemAsync(ID_TOKEN_KEY);
+        await deleteToken(ID_TOKEN_KEY);
         setIsLoggedIn(false);
       }
     };
@@ -85,7 +79,7 @@ export default function App() {
         Crypto.CryptoDigestAlgorithm.SHA256,
         nonce
       );
-  
+
       const appleCredential = await AppleAuthentication.signInAsync({
         requestedScopes: [
           AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
@@ -94,7 +88,7 @@ export default function App() {
         state: csrf,
         nonce: hashedNonce,
       });
-  
+
       // Exchange authorization code for access token
       const response = await fetch(morph_exchange_authcode_endpoint, {
         method: 'POST',
@@ -106,19 +100,19 @@ export default function App() {
           authorizationCode: appleCredential.authorizationCode,
         }),
       });
-  
+
       if (response.ok) {
         const jwt = await response.json();
         const id_token = jwt.id_token;
         const refresh_token = jwt.refresh_token;
-        await SecureStore.setItemAsync(ID_TOKEN_KEY, id_token);
-        await SecureStore.setItemAsync(REFRESH_TOKEN_KEY, refresh_token);
+        await storeToken(ID_TOKEN_KEY, id_token);
+        await storeToken(REFRESH_TOKEN_KEY, refresh_token);
         setIsLoggedIn(true);
       } else {
         alert('Apple SignIn Error: ' + response.status);
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
+
     } catch (e) {
       alert('Apple SignIn Error: ' + response.status);
       if (e.code === 'ERR_CANCELED') {
@@ -128,7 +122,7 @@ export default function App() {
       }
     }
   };
-  
+
   const refreshToken = async (refresh_token) => {
     try {
       const response = await fetch(morph_refresh_token_endpoint, {
@@ -141,7 +135,7 @@ export default function App() {
           refresh_token: refresh_token,
         }),
       });
-  
+
       if (response.ok) {
         const jwt = await response.json();
         const new_id_token = jwt.id_token;
@@ -155,46 +149,25 @@ export default function App() {
     }
   };
 
-  if (!isLoggedIn) {
-    return (
-      <View style={styles.container}>
-        <Login onLogin={handleLogin} />
-      </View>
-    );
-  }
-
-  const StackScreen = isLoggedIn ? (
-    <Stack.Navigator>
-      <Stack.Screen name="Morph" options={{ headerShown: false }}>
-        {props =>
-          <Morph 
-            {...props} 
-            isLoggedIn={isLoggedIn}
-          />
-        }
-      </Stack.Screen>
-      <Stack.Screen name="Profile">
-        {props => <Profile {...props} />}
-      </Stack.Screen>
-      <Stack.Screen
-        name="ManageAccount"
-        component={ManageAccount} 
-        options={{ title: 'Manage Account' }}
-      />
-    </Stack.Navigator>
-  ) : (
-    <Stack.Navigator>
-      <Stack.Screen name="Login" component={Login} />
-    </Stack.Navigator>
-  );
-
   return (
     <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
       <NavigationContainer>
-        {StackScreen}
+        <Stack.Navigator>
+          <Stack.Screen name="Morph" options={{ headerShown: false }}>
+            {props => <Morph {...props} />}
+          </Stack.Screen>
+          <Stack.Screen name="Profile" component={Profile} />
+          <Stack.Screen
+            name="ManageAccount"
+            component={ManageAccount}
+            options={{ title: 'Manage Account' }}
+          />
+          <Stack.Screen name="Login">
+            {props => <Login {...props} onLogin={handleLogin} />}
+          </Stack.Screen>
+        </Stack.Navigator>
       </NavigationContainer>
     </AuthContext.Provider>
-
   );
 }
 

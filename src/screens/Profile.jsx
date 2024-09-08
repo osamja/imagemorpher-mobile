@@ -8,7 +8,7 @@ import {
   Button,
   ActivityIndicator,
 } from 'react-native';
-import * as SecureStore from 'expo-secure-store';
+import { getToken } from '../store';
 import * as WebBrowser from 'expo-web-browser'
 
 import {
@@ -23,24 +23,24 @@ const Profile = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  
+
   useEffect(() => {
     fetchMorphHistory();
   }, []);
 
-  const MorphHistoryList = ({isLoading, error, morphHistory}) => {
+  const MorphHistoryList = ({ isLoading, error, morphHistory }) => {
     if (isLoading) {
       return <ActivityIndicator size="large" color="#0000ff" />;
     }
-    
+
     if (error) {
       return <Text>{error}</Text>;
     }
-    
+
     if (morphHistory && morphHistory.length === 0) {
       return <Text>No morph history found</Text>;
     }
-    
+
     return (
       <FlatList
         data={morphHistory}
@@ -57,7 +57,7 @@ const Profile = ({ navigation }) => {
 
   const fetchMorphHistory = async () => {
     setIsLoading(true);
-    const token = await SecureStore.getItemAsync(ID_TOKEN_KEY);
+    const token = await getToken(ID_TOKEN_KEY);
     try {
       const response = await fetch(mymorphs_endpoint, {
         method: 'GET',
@@ -66,7 +66,7 @@ const Profile = ({ navigation }) => {
         },
       });
 
-      if(response.ok){
+      if (response.ok) {
         const json = await response.json();
         setMorphHistory(json['morph_ids']);
       } else {

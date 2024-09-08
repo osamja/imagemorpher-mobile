@@ -1,7 +1,12 @@
-// src/screens/Morph.js
 import React, { useState, useRef } from 'react';
 import { StyleSheet, View, TouchableOpacity, Image } from 'react-native';
-import Swiper from 'react-native-swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination } from 'swiper/modules';
+
+// Import Swiper and modules styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 // ... other imports ...
 import { ImageUploadButton } from '../components/buttons/ImageUploadButton';
@@ -20,11 +25,11 @@ export default function Morph({
   const swiperRef = useRef(null);
 
   const handleMorphResetButtonClick = () => {
-    swiperRef.current.scrollBy(-2);
+    swiperRef.current.slideTo(0); // Reset to the first slide
   };
 
   const handleSuccessfulImageUpload = () => {
-    swiperRef.current.scrollBy(1);
+    swiperRef.current.swiper.slideNext();
   };
 
   const renderProfileIcon = () => {
@@ -44,12 +49,18 @@ export default function Morph({
     <View style={styles.container}>
       {isLoggedIn && renderProfileIcon()}
       <Swiper
-          ref={swiperRef}
-          style={styles.wrapper}
-          showsButtons={false}
-          loop={false}
-        >
+        ref={swiperRef}
+        spaceBetween={50}
+        slidesPerView={1}
+        navigation={true}
+        pagination={{ clickable: true }}
+        modules={[Navigation, Pagination]}
+        onSlideChange={() => console.log('slide change')}
+        style={{ width: '100%', height: '100%' }}  // Ensure Swiper takes up full width and height
+      >
+        <SwiperSlide>
           <View style={styles.slide}>
+            {console.log('Slide 1 rendered')}
             <ImageUploadButton
               imageRef={firstImageRef}
               setImageRef={setFirstImageRef}
@@ -57,7 +68,10 @@ export default function Morph({
               handleSuccessfulImageUpload={handleSuccessfulImageUpload}
             />
           </View>
+        </SwiperSlide>
+        <SwiperSlide>
           <View style={styles.slide}>
+            {console.log('Slide 2 rendered')}
             <ImageUploadButton
               imageRef={secondImageRef}
               setImageRef={setSecondImageRef}
@@ -65,7 +79,10 @@ export default function Morph({
               handleSuccessfulImageUpload={handleSuccessfulImageUpload}
             />
           </View>
+        </SwiperSlide>
+        <SwiperSlide>
           <View style={styles.slide}>
+            {console.log('Slide 3 rendered')}
             <MorphButton
               firstImageRef={firstImageRef}
               secondImageRef={secondImageRef}
@@ -76,10 +93,12 @@ export default function Morph({
               handleMorphResetButtonClick={handleMorphResetButtonClick}
             />
           </View>
-        </Swiper>
+        </SwiperSlide>
+      </Swiper>
     </View>
   );
-};
+
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -88,17 +107,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  wrapper: {},
   slide: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#9DD6EB',
-  },
-  text: {
-    color: '#fff',
-    fontSize: 30,
-    fontWeight: 'bold',
   },
   profileIconContainer: {
     position: 'absolute',

@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { View, Text } from 'react-native'
 import { Button } from 'react-native-paper'
 import * as WebBrowser from 'expo-web-browser'
-import * as SecureStore from 'expo-secure-store';
+import { getToken } from '../../store'
 import {
   morph_endpoint,
   morph_status_webpage,
@@ -11,6 +11,7 @@ import {
 import styled from 'styled-components/native'
 import * as Notifications from 'expo-notifications';
 import * as Device from 'expo-device';
+import { Platform } from 'react-native';
 
 const StyledButton = styled(Button)`
   align-self: center;
@@ -24,7 +25,7 @@ const StyledButton = styled(Button)`
 `;
 
 const styles = {
-  restartStyle : {
+  restartStyle: {
     marginBottom: 100,
   }
 }
@@ -52,7 +53,7 @@ async function registerForPushNotificationsAsync() {
   if (Device.isDevice) {
     const { status: existingStatus } = await Notifications.getPermissionsAsync();
     let finalStatus = existingStatus;
-    
+
     if (existingStatus !== 'granted') {
       // Add presentationOptions with a custom message
       const { status } = await Notifications.requestPermissionsAsync({
@@ -134,7 +135,7 @@ export function MorphButton({
     WebBrowser.openBrowserAsync(morphUri);
   }
 
-  function setInitialMorphState () {
+  function setInitialMorphState() {
     setFirstImageRef(null)
     setSecondImageRef(null)
     setMorphResponse(null)
@@ -144,13 +145,14 @@ export function MorphButton({
     handleMorphResetButtonClick()
   }
 
-  async function getMorph (firstImageRef, secondImageRef) {
+  async function getMorph(firstImageRef, secondImageRef) {
     if (!firstImageRef || !secondImageRef) {
       return
     }
 
     // Call registerForPushNotificationsAsync here
-    const pushToken = await registerForPushNotificationsAsync();
+    const pushToken = null;
+    // const pushToken = await registerForPushNotificationsAsync();
 
     if (pushToken) {
       setExpoPushToken(pushToken);
@@ -162,7 +164,7 @@ export function MorphButton({
 
     try {
       const data = new FormData();
-      const token = await SecureStore.getItemAsync(ID_TOKEN_KEY);
+      const token = await getToken(ID_TOKEN_KEY);
       data.append("firstImageRef", firstImageRef);
       data.append("secondImageRef", secondImageRef);
       data.append("isAsync", "True");
@@ -170,20 +172,20 @@ export function MorphButton({
       data.append("isSequence", "True"); // See Readme TODO section for more info
       data.append("stepSize", "10"); // 5 looks incredible, 20 looks bad, isSequence must be set to True
       data.append("expoPushToken", expoPushToken);
-    
+
       setIsLoading(true);
       setIsSuccess(false);
       setIsFailure(false);
       setMorphResponse(null);
-    
+
       const response = await fetch(morph_endpoint, {
         method: "POST",
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
+        // headers: {
+        //   Authorization: 'Bearer ' + token,
+        // },
         body: data,
       });
-    
+
       if (response.ok) {
         const resJson = await response.json();
         console.log('resJson', resJson)
@@ -192,7 +194,7 @@ export function MorphButton({
         setIsSuccess(true);
         setIsFailure(false);
         setMorphResponse(resJson);
-    
+
         return resJson.data;
       } else {
         throw new Error(response);
@@ -250,7 +252,7 @@ export function MorphButton({
         </StyledButton>
       )
     }
-    
+
     if (firstImageRef instanceof Error) {
       return (
         <StyledButton
@@ -300,10 +302,11 @@ export function MorphButton({
     }
 
     if (firstImageRef && secondImageRef && morphResponse) {
-      morph_uri = morphResponse.morphUri;
-      morph_id = morphResponse.morphId;
+      const morph_uri = morphResponse.morphUri;
+      const morph_id = morphResponse.morphId;
 
-      const morph_status_link = `${morph_status_webpage}/${morph_id}`;
+      // const morph_status_link = `${morph_status_webpage}/${morph_id}`;
+      const morph_status_link = morph_uri;
 
       return (
         <View>

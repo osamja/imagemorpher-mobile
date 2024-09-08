@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { View, StyleSheet } from 'react-native'
 import * as ImagePicker from 'expo-image-picker'
 import { Button, Text, IconButton } from 'react-native-paper'
-import * as SecureStore from 'expo-secure-store';
+import { getToken } from '../../store/index'
 import {
   morph_upload_endpoint,
   ID_TOKEN_KEY,
@@ -37,7 +37,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export function ImageUploadButton ({
+
+
+export function ImageUploadButton({
   imageRef,
   setImageRef,
   handleSuccessfulImageUpload,
@@ -111,8 +113,10 @@ export function ImageUploadButton ({
   const uploadImage = async (img) => {
     const data = new FormData()
     data.append('firstImageRef', img)
+    // set the content type to multipart/form-data
+    data.append('Content-Type', 'multipart/form-data')
 
-    const token = await SecureStore.getItemAsync(ID_TOKEN_KEY);
+    const token = await getToken(ID_TOKEN_KEY);
 
     setIsLoading(true)
     setIsSuccess(false)
@@ -120,9 +124,9 @@ export function ImageUploadButton ({
 
     const reqOptions = {
       method: 'POST',
-      headers: {
-        Authorization: 'Bearer ' + token,
-      },
+      // headers: {
+      //   // Authorization: 'Bearer ' + token,
+      // },
       body: data
     }
 
@@ -165,7 +169,7 @@ export function ImageUploadButton ({
 
   if (isSuccess && imageRef && !(imageRef instanceof Error)) {
     return (
-      <Button 
+      <Button
         icon="face-recognition"
         labelStyle={styles.btnSize}
         // Use a green color to indicate success that contrasts well with the background color

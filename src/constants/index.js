@@ -1,6 +1,6 @@
 // Dev endpoints
 // export const morph_endpoint = 'https://dev.pyaar.ai/morph';
-// export const morph_upload_endpoint = 'https://dev.pyaar.ai/morph/upload';
+// export const morph_upload_endpoint = 'http://173.255.217.39:8001/morph/upload';
 // export const morph_status_endpoint = 'https://dev.pyaar.ai/morph/status';
 // export const morph_status_webpage = 'https://dev.pyaar.ai/mymorph';
 // export const mymorphs_endpoint = 'https://dev.pyaar.ai/morph/mymorphs';
@@ -13,7 +13,7 @@
 export const morph_endpoint = 'https://pyaar.ai/morph'
 export const morph_upload_endpoint = 'https://pyaar.ai/morph/upload'
 export const morph_status_endpoint = 'https://pyaar.ai/morph/status';
-export const morph_status_webpage = 'https://pyaar.ai/mymorph';
+export const morph_status_webpage = 'https://pyaar.ai/facemorphs';
 export const mymorphs_endpoint = 'https://pyaar.ai/morph/mymorphs';
 export const morph_user_endpoint = 'https://pyaar.ai/morph/user_data';
 export const morph_exchange_authcode_endpoint = 'https://pyaar.ai/morph/exchange_auth_code';

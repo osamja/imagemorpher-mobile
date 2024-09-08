@@ -1,31 +1,32 @@
 import React, { useState } from 'react';
 import { View, Text, Button, Alert } from 'react-native';
-import * as SecureStore from 'expo-secure-store';
+import { getToken, deleteToken } from '../store';
 
 import {
-    morph_delete_account_endpoint,
-    ID_TOKEN_KEY,
-    REFRESH_TOKEN_KEY
-  } from '../constants/index';
+  morph_delete_account_endpoint,
+  ID_TOKEN_KEY,
+  REFRESH_TOKEN_KEY
+} from '../constants/index';
 
 import { AuthContext } from '../contexts/AuthContext';
 
 const ManageAccount = ({
-    navigation,
+  navigation,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const { isLoggedIn, setIsLoggedIn } = React.useContext(AuthContext);
 
   const handleSignOut = async () => {
-    await SecureStore.deleteItemAsync(ID_TOKEN_KEY);
-    await SecureStore.deleteItemAsync(REFRESH_TOKEN_KEY);
-    setIsLoggedIn(false);
+    await deleteToken(ID_TOKEN_KEY);
+    await deleteToken(REFRESH_TOKEN_KEY);
+    await
+      setIsLoggedIn(false);
   };
 
   const handleDeleteAccount = async () => {
     Alert.alert(
-      'Confirm Deletion', 
-      'Are you sure you want to delete your account? This action is irreversible and all your data will be lost.', 
+      'Confirm Deletion',
+      'Are you sure you want to delete your account? This action is irreversible and all your data will be lost.',
       [
         {
           text: 'Cancel',
@@ -33,13 +34,13 @@ const ManageAccount = ({
           style: 'cancel',
         },
         {
-          text: 'Yes, Delete My Account', 
+          text: 'Yes, Delete My Account',
           onPress: async () => {
-            const token = await SecureStore.getItemAsync(ID_TOKEN_KEY);
-            const refreshToken = await SecureStore.getItemAsync(REFRESH_TOKEN_KEY);
-    
+            const token = await getToken(ID_TOKEN_KEY);
+            const refreshToken = await getToken(REFRESH_TOKEN_KEY);
+
             setIsLoading(true);
-            
+
             try {
               const response = await fetch(morph_delete_account_endpoint, {
                 method: 'DELETE',
@@ -64,7 +65,7 @@ const ManageAccount = ({
           }
         },
       ],
-      {cancelable: false},
+      { cancelable: false },
     );
   };
 
