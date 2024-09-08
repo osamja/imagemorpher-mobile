@@ -1,44 +1,80 @@
-import React, { useState, useRef } from 'react';
-import { StyleSheet, View, TouchableOpacity, Image } from 'react-native';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination } from 'swiper/modules';
+import React, { useState } from 'react';
+import { StyleSheet, View, TouchableOpacity, Image, Dimensions } from 'react-native';
+import { PanGestureHandler } from 'react-native-gesture-handler';
+import Animated, { useSharedValue, useAnimatedStyle, useAnimatedGestureHandler, withSpring, runOnJS, clamp } from 'react-native-reanimated';
 
-// Import Swiper and modules styles
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-
-// ... other imports ...
+// Other imports
 import { ImageUploadButton } from '../components/buttons/ImageUploadButton';
 import { MorphButton } from '../components/buttons/MorphButton';
 
 import profileIcon from '../../assets/profile-icon.png';
 
-export default function Morph({
-  navigation,
-  isLoggedIn,
-}) {
+const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
+
+export default function Morph({ navigation, isLoggedIn }) {
+  const [activeSlide, setActiveSlide] = useState(0); // Track the current slide
   const [firstImageRef, setFirstImageRef] = useState(null);
   const [secondImageRef, setSecondImageRef] = useState(null);
   const [morphResponse, setMorphResponse] = useState(null);
 
-  const swiperRef = useRef(null);
+  const translateX = useSharedValue(0);
+
+  const maxTranslateX = -screenWidth * 2; // For 3 slides (0, 1, 2)
+
+  const gestureHandler = useAnimatedGestureHandler({
+    onStart: (_, ctx) => {
+      ctx.startX = translateX.value;
+    },
+    onActive: (event, ctx) => {
+      translateX.value = clamp(ctx.startX + event.translationX, maxTranslateX, 0); // Prevent overflow
+    },
+    onEnd: (event) => {
+      const threshold = screenWidth / 10; // Trigger slide change more easily
+      const velocityThreshold = 800; // Detect fast swipes
+
+      let nextSlide = activeSlide;
+
+      // Fast swipe detection
+      if (event.velocityX > velocityThreshold) {
+        nextSlide = Math.max(0, activeSlide - 1); // Swipe to the previous slide
+      } else if (event.velocityX < -velocityThreshold) {
+        nextSlide = Math.min(2, activeSlide + 1); // Swipe to the next slide
+      } else {
+        // If swipe is not fast, check the position and move to the closest slide
+        if (translateX.value > -screenWidth * activeSlide + threshold) {
+          nextSlide = Math.max(0, activeSlide - 1); // Move to the previous slide
+        } else if (translateX.value < -screenWidth * activeSlide - threshold) {
+          nextSlide = Math.min(2, activeSlide + 1); // Move to the next slide
+        }
+      }
+
+      // Snap to the closest slide
+      translateX.value = withSpring(-screenWidth * nextSlide, { damping: 15, stiffness: 90 });
+      runOnJS(setActiveSlide)(nextSlide);
+    },
+  });
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateX: translateX.value }],
+    };
+  });
 
   const handleMorphResetButtonClick = () => {
-    swiperRef.current.slideTo(0); // Reset to the first slide
+    translateX.value = withSpring(0, { damping: 15, stiffness: 90 }); // Reset to the first slide
+    setActiveSlide(0);
   };
 
   const handleSuccessfulImageUpload = () => {
-    swiperRef.current.swiper.slideNext();
+    translateX.value = withSpring(-screenWidth, { damping: 15, stiffness: 90 }); // Move to next slide
+    setActiveSlide(1);
   };
 
   const renderProfileIcon = () => {
     return (
       <TouchableOpacity
         style={styles.profileIconContainer}
-        onPress={() => {
-          navigation.navigate('Profile');
-        }}
+        onPress={() => navigation.navigate('Profile')}
       >
         <Image source={profileIcon} style={styles.profileIcon} />
       </TouchableOpacity>
@@ -48,41 +84,23 @@ export default function Morph({
   return (
     <View style={styles.container}>
       {isLoggedIn && renderProfileIcon()}
-      <Swiper
-        ref={swiperRef}
-        spaceBetween={50}
-        slidesPerView={1}
-        navigation={true}
-        pagination={{ clickable: true }}
-        modules={[Navigation, Pagination]}
-        onSlideChange={() => console.log('slide change')}
-        style={{ width: '100%', height: '100%' }}  // Ensure Swiper takes up full width and height
-      >
-        <SwiperSlide>
+      <PanGestureHandler onGestureEvent={gestureHandler}>
+        <Animated.View style={[styles.swiperContainer, animatedStyle]}>
           <View style={styles.slide}>
-            {console.log('Slide 1 rendered')}
             <ImageUploadButton
               imageRef={firstImageRef}
               setImageRef={setFirstImageRef}
-              swiperRef={swiperRef}
               handleSuccessfulImageUpload={handleSuccessfulImageUpload}
             />
           </View>
-        </SwiperSlide>
-        <SwiperSlide>
           <View style={styles.slide}>
-            {console.log('Slide 2 rendered')}
             <ImageUploadButton
               imageRef={secondImageRef}
               setImageRef={setSecondImageRef}
-              swiperRef={swiperRef}
               handleSuccessfulImageUpload={handleSuccessfulImageUpload}
             />
           </View>
-        </SwiperSlide>
-        <SwiperSlide>
           <View style={styles.slide}>
-            {console.log('Slide 3 rendered')}
             <MorphButton
               firstImageRef={firstImageRef}
               secondImageRef={secondImageRef}
@@ -93,34 +111,38 @@ export default function Morph({
               handleMorphResetButtonClick={handleMorphResetButtonClick}
             />
           </View>
-        </SwiperSlide>
-      </Swiper>
+        </Animated.View>
+      </PanGestureHandler>
     </View>
   );
-
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
+  swiperContainer: {
+    flexDirection: 'row',
+    width: screenWidth * 3, // Enough space for 3 slides
+    height: screenHeight, // Full height of the screen
+    overflow: 'hidden', // Hide overflow to prevent seeing partial slides
+  },
   slide: {
-    flex: 1,
+    width: screenWidth, // Each slide takes up the full width
+    height: screenHeight, // Full height for each slide
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#9DD6EB',
   },
   profileIconContainer: {
     position: 'absolute',
-    top: 50, // Adjust this value to move the icon up or down
-    right: 20, // Adjust this value to move the icon left or right
+    top: 50,
+    right: 20,
     zIndex: 1,
   },
   profileIcon: {
-    width: 40, // Adjust this value to resize the icon
-    height: 40, // Adjust this value to resize the icon
+    width: 40,
+    height: 40,
   },
 });
