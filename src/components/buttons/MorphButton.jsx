@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Button, IconButton } from 'react-native-paper';
+import { Button, IconButton, ActivityIndicator } from 'react-native-paper';
 import * as WebBrowser from 'expo-web-browser';
 import { getToken } from '../../store';
 import {
@@ -50,9 +50,12 @@ export function MorphButton({
   const [isSuccess, setIsSuccess] = useState(false);
   const [isFailure, setIsFailure] = useState(false);
   const [morphStatus, setMorphStatus] = useState('pending'); // New state for morph status
+  const [isFetchingStatus, setIsFetchingStatus] = useState(false); // To disable refresh during status fetch
 
   async function fetchMorphStatus(morphId) {
     if (!morphId) return;
+
+    setIsFetchingStatus(true);
 
     try {
       const response = await fetch(`${morph_status_endpoint}/${morphId}`);
@@ -68,6 +71,8 @@ export function MorphButton({
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsFetchingStatus(false);
     }
   }
 
@@ -234,8 +239,10 @@ export function MorphButton({
             <IconButton
               icon="refresh"
               mode="contained"
+              disabled={isFetchingStatus}
               onPress={() => fetchMorphStatus(morph_id)} // Refresh button to fetch the latest status
             />
+            {isFetchingStatus && <ActivityIndicator animating={true} size="small" />}
           </View>
         </View>
       );

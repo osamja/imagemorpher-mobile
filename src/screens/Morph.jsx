@@ -70,6 +70,11 @@ export default function Morph({ navigation, isLoggedIn }) {
     setActiveSlide(1);
   };
 
+  const handleSuccessfulSecondUpload = () => {
+    translateX.value = withSpring(-screenWidth * 2, { damping: 15, stiffness: 90 }); // Move to morph screen after second upload
+    setActiveSlide(2);
+  };
+
   const renderProfileIcon = () => {
     return (
       <TouchableOpacity
@@ -97,7 +102,7 @@ export default function Morph({ navigation, isLoggedIn }) {
             <ImageUploadButton
               imageRef={secondImageRef}
               setImageRef={setSecondImageRef}
-              handleSuccessfulImageUpload={handleSuccessfulImageUpload}
+              handleSuccessfulImageUpload={handleSuccessfulSecondUpload} // Trigger navigation after second upload
             />
           </View>
           <View style={styles.slide}>
