@@ -37,7 +37,7 @@ const Login = ({ onLogin }) => {
           buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
           cornerRadius={5}
           style={styles.appleAuthButton}
-          onPress={onLogin}
+          onPress={onLogin} // Ensure this calls onLogin when pressed
         />
       </View>
     </LinearGradient>
@@ -47,20 +47,20 @@ const Login = ({ onLogin }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center', // Center the content vertically
     alignItems: 'center',
     width: Dimensions.get('window').width,
   },
   logo: {
-    width: 500,
-    height: 500,
-    marginBottom: 30,
+    width: 300, // Adjusted size to fit better on the screen
+    height: 300,
+    marginBottom: 20,
   },
   title: {
     fontSize: 48,
     fontWeight: 'bold',
     color: 'white',
-    marginTop: 100,
-    marginBottom: 30,
+    marginBottom: 20, // Adjust margin to move title closer to the logo
     textShadowColor: 'rgba(0, 0, 0, 0.75)',
     textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 10,
@@ -70,9 +70,7 @@ const styles = StyleSheet.create({
     height: 45,
   },
   buttonContainer: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    marginBottom: 50,
+    marginTop: 30, // Move the button higher
   },
 });
 

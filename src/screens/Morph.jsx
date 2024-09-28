@@ -88,7 +88,7 @@ export default function Morph({ navigation, isLoggedIn }) {
 
   return (
     <View style={styles.container}>
-      {isLoggedIn && renderProfileIcon()}
+      {renderProfileIcon()}
       <PanGestureHandler onGestureEvent={gestureHandler}>
         <Animated.View style={[styles.swiperContainer, animatedStyle]}>
           <View style={styles.slide}>

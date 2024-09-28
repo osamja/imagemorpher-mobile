@@ -114,14 +114,15 @@ export default function App() {
       }
 
     } catch (e) {
-      alert('Apple SignIn Error: ' + response.status);
       if (e.code === 'ERR_CANCELED') {
         console.log('User canceled the authentication');
       } else {
         console.error('Apple SignIn Error:', e);
+        alert('Apple SignIn Error: Please try again later.');
       }
     }
   };
+
 
   const refreshToken = async (refresh_token) => {
     try {

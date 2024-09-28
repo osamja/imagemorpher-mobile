@@ -8,8 +8,9 @@ import {
   Button,
   ActivityIndicator,
 } from 'react-native';
-import { getToken } from '../store';
-import * as WebBrowser from 'expo-web-browser'
+import { getToken, storeToken, deleteToken } from '../store';
+import * as WebBrowser from 'expo-web-browser';
+import Login from './Login'; // Import Login component
 
 import {
   mymorphs_endpoint,
@@ -22,31 +23,40 @@ const Profile = ({ navigation }) => {
   const [morphHistory, setMorphHistory] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login status
+  const [token, setTokenState] = useState(null); // Store the token
 
   useEffect(() => {
-    fetchMorphHistory();
+    checkLoginStatus();
   }, []);
 
+  const checkLoginStatus = async () => {
+    const token = await getToken(ID_TOKEN_KEY);
+    if (token) {
+      setIsLoggedIn(true);
+      setTokenState(token);
+      fetchMorphHistory(token); // Fetch history if logged in
+    } else {
+      setIsLoggedIn(false);
+    }
+  };
+
   const MorphHistoryList = ({ isLoading, error, morphHistory }) => {
-    if (isLoading) {
-      return <ActivityIndicator size="large" color="#0000ff" />;
-    }
-
-    if (error) {
-      return <Text>{error}</Text>;
-    }
-
-    if (morphHistory && morphHistory.length === 0) {
-      return <Text>No morph history found</Text>;
-    }
-
-    return (
+    return isLoading ? (
+      <ActivityIndicator size="large" color="#0000ff" />
+    ) : error ? (
+      <Text>{error}</Text>
+    ) : morphHistory && morphHistory.length === 0 ? (
+      <Text>No morph history found</Text>
+    ) : (
       <FlatList
         data={morphHistory}
         keyExtractor={(item) => item.toString()}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.historyItem} onPress={() => openURL(`${morph_status_webpage}/${item}`)}>
+          <TouchableOpacity
+            style={styles.historyItem}
+            onPress={() => openURL(`${morph_status_webpage}/${item}`)}
+          >
             <Text>UUID: {item}</Text>
             <Text>Click to View Status</Text>
           </TouchableOpacity>
@@ -55,9 +65,8 @@ const Profile = ({ navigation }) => {
     );
   };
 
-  const fetchMorphHistory = async () => {
+  const fetchMorphHistory = async (token) => {
     setIsLoading(true);
-    const token = await getToken(ID_TOKEN_KEY);
     try {
       const response = await fetch(mymorphs_endpoint, {
         method: 'GET',
@@ -85,9 +94,25 @@ const Profile = ({ navigation }) => {
     }
   };
 
+  const handleLogin = async (token) => {
+    // Store token using storeToken instead of setToken
+    await storeToken(ID_TOKEN_KEY, token);
+    setIsLoggedIn(true);
+    setTokenState(token);
+    fetchMorphHistory(token);
+  };
+
   const navigateToManageAccount = () => {
     navigation.navigate('ManageAccount');
   };
+
+  if (!isLoggedIn) {
+    return (
+      <View style={styles.container}>
+        <Login onLogin={handleLogin} />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -98,10 +123,7 @@ const Profile = ({ navigation }) => {
         morphHistory={morphHistory}
       />
 
-      <Button
-        title="Manage Account"
-        onPress={navigateToManageAccount}
-      />
+      <Button title="Manage Account" onPress={navigateToManageAccount} />
     </View>
   );
 };
@@ -111,7 +133,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 10,
   },
   title: {
     fontSize: 24,
@@ -125,7 +146,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   morphHistoryList: {
-    marginBottom: 20, // add space under the morph history list
+    marginBottom: 20,
   },
   manageAccountButton: {
     marginTop: 20,
