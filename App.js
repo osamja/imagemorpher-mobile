@@ -151,7 +151,7 @@ export default function App() {
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
+    <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, handleLogin }}>
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name="Morph" options={{ headerShown: false }}>

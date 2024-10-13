@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   View,
   Text,
@@ -10,7 +10,8 @@ import {
 } from 'react-native';
 import { getToken, storeToken, deleteToken } from '../store';
 import * as WebBrowser from 'expo-web-browser';
-import Login from './Login'; // Import Login component
+import Login from './Login';
+import { AuthContext } from '../contexts/AuthContext'; // Import AuthContext
 
 import {
   mymorphs_endpoint,
@@ -23,21 +24,18 @@ const Profile = ({ navigation }) => {
   const [morphHistory, setMorphHistory] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login status
-  const [token, setTokenState] = useState(null); // Store the token
+  const { isLoggedIn, handleLogin } = useContext(AuthContext); // Use AuthContext to get login state and handleLogin
 
   useEffect(() => {
     checkLoginStatus();
   }, []);
 
   const checkLoginStatus = async () => {
-    const token = await getToken(ID_TOKEN_KEY);
-    if (token) {
-      setIsLoggedIn(true);
-      setTokenState(token);
-      fetchMorphHistory(token); // Fetch history if logged in
-    } else {
-      setIsLoggedIn(false);
+    if (isLoggedIn) {
+      const token = await getToken(ID_TOKEN_KEY);
+      if (token) {
+        fetchMorphHistory(token);
+      }
     }
   };
 
@@ -92,14 +90,6 @@ const Profile = ({ navigation }) => {
     if (url) {
       WebBrowser.openBrowserAsync(url);
     }
-  };
-
-  const handleLogin = async (token) => {
-    // Store token using storeToken instead of setToken
-    await storeToken(ID_TOKEN_KEY, token);
-    setIsLoggedIn(true);
-    setTokenState(token);
-    fetchMorphHistory(token);
   };
 
   const navigateToManageAccount = () => {
