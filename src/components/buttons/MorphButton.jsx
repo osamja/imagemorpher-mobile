@@ -109,6 +109,9 @@ export function MorphButton({
 
       const response = await fetch(morph_endpoint, {
         method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         body: data,
       });
 

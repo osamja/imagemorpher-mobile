@@ -24,12 +24,23 @@ import Profile from './src/screens/Profile';
 import ManageAccount from './src/screens/ManageAccount';
 
 const Stack = createStackNavigator();
+const isLoginMocked = false;
+const mocked_id_token = 'mocked_id_token';
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const checkToken = async () => {
+
+      if (isLoginMocked) {    // Mocked id_token for dev testing purposes
+        await SecureStore.setItemAsync(ID_TOKEN_KEY, mocked_id_token);
+        let mocked_refresh_token = '';
+        await SecureStore.setItemAsync(REFRESH_TOKEN_KEY, mocked_refresh_token);
+        setIsLoggedIn(true);
+        return;
+      }
+
       const idToken = await getToken(ID_TOKEN_KEY);
 
       if (idToken) {
