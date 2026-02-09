@@ -7,7 +7,10 @@ import {
   morph_endpoint,
   morph_status_endpoint,
   ID_TOKEN_KEY,
+  QUALITY_PRESETS,
+  SPEED_PRESETS,
 } from '../../constants/index';
+import { QualityPicker } from '../QualityPicker';
 import styled from 'styled-components/native';
 
 const StyledButton = styled(Button)`
@@ -45,6 +48,8 @@ export function MorphButton({
   setSecondImageRef,
   setMorphResponse,
   handleMorphResetButtonClick,
+  morphSettings,
+  setMorphSettings,
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -100,7 +105,10 @@ export function MorphButton({
       data.append("isAsync", "True");
       data.append("clientId", "ios-MyMorph");
       data.append("isSequence", "True");
-      data.append("stepSize", "10");
+      const qualityPreset = QUALITY_PRESETS.find((p) => p.label === morphSettings.quality);
+      const speedPreset = SPEED_PRESETS.find((p) => p.label === morphSettings.speed);
+      data.append("stepSize", String(qualityPreset.stepSize));
+      data.append("duration", String(speedPreset.duration));
 
       setIsLoading(true);
       setIsSuccess(false);
@@ -253,12 +261,18 @@ export function MorphButton({
 
     if (firstImageRef && secondImageRef) {
       return (
-        <StyledButton
-          mode="outlined"
-          onPress={() => getMorph(firstImageRef, secondImageRef)}
-        >
-          Morph
-        </StyledButton>
+        <View>
+          <QualityPicker
+            morphSettings={morphSettings}
+            setMorphSettings={setMorphSettings}
+          />
+          <StyledButton
+            mode="outlined"
+            onPress={() => getMorph(firstImageRef, secondImageRef)}
+          >
+            Morph
+          </StyledButton>
+        </View>
       );
     }
   };

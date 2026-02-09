@@ -22,3 +22,20 @@ export const morph_refresh_token_endpoint = 'https://pyaar.ai/morph/refresh_toke
 
 export const ID_TOKEN_KEY = 'id_token';
 export const REFRESH_TOKEN_KEY = 'refresh_token';
+
+export const QUALITY_PRESETS = [
+  { label: 'Fast', stepSize: 20 },
+  { label: 'Standard', stepSize: 10 },
+  { label: 'Smooth', stepSize: 5 },
+];
+
+export const SPEED_PRESETS = [
+  { label: 'Slow', duration: 400 },
+  { label: 'Normal', duration: 250 },
+  { label: 'Fast', duration: 125 },
+];
+
+export const DEFAULT_MORPH_SETTINGS = {
+  quality: 'Standard',
+  speed: 'Normal',
+};

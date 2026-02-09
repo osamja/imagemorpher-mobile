@@ -6,6 +6,7 @@ import Animated, { useSharedValue, useAnimatedStyle, useAnimatedGestureHandler, 
 // Other imports
 import { ImageUploadButton } from '../components/buttons/ImageUploadButton';
 import { MorphButton } from '../components/buttons/MorphButton';
+import { DEFAULT_MORPH_SETTINGS } from '../constants/index';
 
 import profileIcon from '../../assets/profile-icon.png';
 
@@ -16,6 +17,7 @@ export default function Morph({ navigation, isLoggedIn }) {
   const [firstImageRef, setFirstImageRef] = useState(null);
   const [secondImageRef, setSecondImageRef] = useState(null);
   const [morphResponse, setMorphResponse] = useState(null);
+  const [morphSettings, setMorphSettings] = useState(DEFAULT_MORPH_SETTINGS);
 
   const translateX = useSharedValue(0);
 
@@ -114,6 +116,8 @@ export default function Morph({ navigation, isLoggedIn }) {
               setSecondImageRef={setSecondImageRef}
               setMorphResponse={setMorphResponse}
               handleMorphResetButtonClick={handleMorphResetButtonClick}
+              morphSettings={morphSettings}
+              setMorphSettings={setMorphSettings}
             />
           </View>
         </Animated.View>
