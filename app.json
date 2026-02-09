@@ -9,15 +9,19 @@
     "icon": "./assets/icon.png",
     "jsEngine": "hermes",
     "plugins": [
-      "expo-apple-authentication"
+      "expo-apple-authentication",
+      "expo-updates"
     ],
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "background": "linear-gradient(#e0c3fc, #8ec5fc)"
     },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "url": "https://u.expo.dev/24c2031d-2ad9-49de-9882-0c118b825a80"
     },
     "assetBundlePatterns": [
       "**/*"
