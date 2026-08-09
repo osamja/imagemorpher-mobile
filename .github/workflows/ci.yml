@@ -21,6 +21,8 @@ jobs:
 
       - name: Run ESLint
         run: npx eslint . --ext .js,.jsx
+        env:
+          ESLINT_USE_FLAT_CONFIG: false
 
   eas-build:
     needs: lint
