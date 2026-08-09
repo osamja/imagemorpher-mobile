@@ -20,9 +20,7 @@ jobs:
         run: npm ci
 
       - name: Run ESLint
-        run: npx eslint . --ext .js,.jsx
-        env:
-          ESLINT_USE_FLAT_CONFIG: false
+        run: npx eslint@8 . --ext .js,.jsx
 
   eas-build:
     needs: lint
