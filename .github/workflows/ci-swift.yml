@@ -1,0 +1,34 @@
+name: CI Swift
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'native/**'
+  pull_request:
+    branches: [master]
+    paths:
+      - 'native/**'
+
+jobs:
+  test:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '15.4'
+
+      - name: Run MorpherCore tests
+        run: swift test
+        working-directory: native/MorpherCore
+
+      - name: Run app tests
+        run: >
+          xcodebuild test
+          -project ImageMorpher.xcodeproj
+          -scheme ImageMorpher
+          -destination 'platform=iOS Simulator,name=iPhone 15'
+          CODE_SIGNING_ALLOWED=NO
+        working-directory: native
