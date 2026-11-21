@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     height: screenHeight, // Full height for each slide
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#9DD6EB',
+    backgroundColor: '#E8F5E9',
   },
   profileIconContainer: {
     position: 'absolute',

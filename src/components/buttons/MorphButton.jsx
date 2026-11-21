@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { Button, IconButton, ActivityIndicator } from 'react-native-paper';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, StyleSheet, ScrollView, Image, Alert } from 'react-native';
+import { Button, IconButton, ActivityIndicator, ProgressBar } from 'react-native-paper';
 import * as WebBrowser from 'expo-web-browser';
 import { getToken } from '../../store';
 import {
@@ -31,6 +31,32 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: 10,
   },
+  progressContainer: {
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  progressBar: {
+    width: '80%',
+    height: 6,
+    borderRadius: 3,
+  },
+  progressText: {
+    fontSize: 12,
+    marginTop: 4,
+    color: '#666',
+  },
+  intermediateContainer: {
+    maxHeight: 100,
+    marginBottom: 10,
+    paddingHorizontal: 10,
+  },
+  intermediateImage: {
+    width: 80,
+    height: 80,
+    borderRadius: 6,
+    marginRight: 8,
+    backgroundColor: '#eee',
+  },
   restartStyle: {
     marginBottom: 100,
   },
@@ -55,7 +81,10 @@ export function MorphButton({
   const [isSuccess, setIsSuccess] = useState(false);
   const [isFailure, setIsFailure] = useState(false);
   const [morphStatus, setMorphStatus] = useState('pending'); // New state for morph status
+  const [morphProgress, setMorphProgress] = useState(0); // Progress 0-100
+  const [intermediateImages, setIntermediateImages] = useState([]); // Intermediate frame URLs
   const [isFetchingStatus, setIsFetchingStatus] = useState(false); // To disable refresh during status fetch
+  const pollingRef = useRef(null);
 
   async function fetchMorphStatus(morphId) {
     if (!morphId) return;
@@ -68,8 +97,21 @@ export function MorphButton({
 
       if (response.ok) {
         setMorphStatus(statusData.status);
-        if (statusData.status === 'complete') {
-          WebBrowser.openBrowserAsync(statusData.morphUri);
+        if (statusData.progress != null) {
+          setMorphProgress(statusData.progress);
+        }
+        if (statusData.intermediateImages) {
+          setIntermediateImages(statusData.intermediateImages);
+        }
+        if (statusData.status === 'complete' || statusData.status === 'completed') {
+          clearInterval(pollingRef.current);
+          pollingRef.current = null;
+          try {
+            await WebBrowser.openBrowserAsync(statusData.morphUri);
+          } catch (browserError) {
+            console.error('Failed to open browser:', browserError);
+            Alert.alert('Error', 'Failed to open morph result. Please try again.');
+          }
         }
       } else {
         throw new Error('Failed to fetch morph status');
@@ -81,11 +123,29 @@ export function MorphButton({
     }
   }
 
+  // Auto-poll morph status every 3 seconds while processing
+  useEffect(() => {
+    const morphId = morphResponse?.morphId;
+    if (!morphId) return;
+    fetchMorphStatus(morphId);
+    pollingRef.current = setInterval(() => {
+      fetchMorphStatus(morphId);
+    }, 3000);
+    return () => {
+      if (pollingRef.current) {
+        clearInterval(pollingRef.current);
+        pollingRef.current = null;
+      }
+    };
+  }, [morphResponse?.morphId]);
+
   function setInitialMorphState() {
     setFirstImageRef(null);
     setSecondImageRef(null);
     setMorphResponse(null);
     setMorphStatus('pending');
+    setMorphProgress(0);
+    setIntermediateImages([]);
     setIsFailure(false);
     setIsSuccess(false);
     setIsLoading(false);
@@ -246,7 +306,7 @@ export function MorphButton({
             Restart
           </StyledButton>
           <View style={styles.statusContainer}>
-            <Text style={styles.statusText}>Morph Status: {morphStatus}</Text>
+            <Text style={styles.statusText}>Status: {morphStatus}</Text>
             <IconButton
               icon="refresh"
               mode="contained"
@@ -255,6 +315,19 @@ export function MorphButton({
             />
             {isFetchingStatus && <ActivityIndicator animating={true} size="small" />}
           </View>
+          {morphStatus === 'processing' && (
+            <View style={styles.progressContainer}>
+              <ProgressBar progress={morphProgress / 100} style={styles.progressBar} />
+              <Text style={styles.progressText}>{morphProgress}%</Text>
+            </View>
+          )}
+          {intermediateImages.length > 0 && (
+            <ScrollView horizontal style={styles.intermediateContainer} showsHorizontalScrollIndicator={false}>
+              {intermediateImages.map((url, index) => (
+                <Image key={index} source={{ uri: url }} style={styles.intermediateImage} />
+              ))}
+            </ScrollView>
+          )}
         </View>
       );
     }
